@@ -1,0 +1,21 @@
+.sidenav-container {
+  width: 98%;
+  height: 300px;
+  margin-left: 1%;
+}
+
+.sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.sidenav {
+  padding: 10px;
+  width: 15%;
+  background-color: rgb(244, 247, 252);
+  border-color: rgb(250, 252, 254);
+
+}

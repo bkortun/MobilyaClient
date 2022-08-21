@@ -9,7 +9,7 @@ export class SidebarComponent implements OnInit {
 
   constructor() { }
 
+  //todo sidenav ın açılıp kapanmasını sağlayan butonu toolbardaki menu tuşuna ata
   ngOnInit(): void {
   }
-
 }
