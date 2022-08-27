@@ -5,7 +5,7 @@ import { LayoutComponent } from './admin/layout/layout.component';
 
 const routes: Routes = [
   {path:"admin",component:LayoutComponent,children:[
-    {path:"",component:DashboardComponent},
+    {path:"",component:DashboardComponent},//ana sayfa niteliğinde olduğu için doğrudan componenti veriyoruz
     {path:"products",loadChildren:()=>import("./admin/components/products/products.module").then(module=>module.ProductsModule)}
   ]
 }];
