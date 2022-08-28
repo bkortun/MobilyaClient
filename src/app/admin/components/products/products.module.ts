@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ProductsComponent } from './products.component';
 import { RouterModule } from '@angular/router';
 import {MatTableModule} from '@angular/material/table';
+import { CreateComponent } from './create/create.component';
 
 
 
 @NgModule({
   declarations: [
-    ProductsComponent
+    ProductsComponent,
+    CreateComponent
   ],
   imports: [
     CommonModule,
