@@ -1,104 +1,41 @@
 <router-outlet>
 </router-outlet>
 
-<!DOCTYPE html>
-<html lang="tr/TR">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS -->
-    <link rel="stylesheet" href="/src/styles.css"/>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
-    <!-- CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="img/favicon.ico">
-    <title>Emir Mobilya</title>
-</head>
-<body>
-  
-    <!-- Navbar Start -->
-    <div class="wrapper">
-        <nav>
-          <input type="checkbox" id="show-search">
-          <input type="checkbox" id="show-menu">
-          <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
-          <div class="content">
-          <div class="logo"><a href="#">Emir Mobilya</a></div>
-            <ul class="links">
-              <li><a href="#index.html">Anasayfa</a></li>
-              <li><a href="#hakkimda.html">Hakkımızda</a></li>
-              <li>
-                <a href="#" class="desktop-link">Oturma Grupları</a>
-                <input type="checkbox" id="show-features">
-                <label for="show-features"></label>
-                <ul>
-                  <li><a href="#">Drop Menu 1</a></li>
-                  <li><a href="#">Drop Menu 2</a></li>
-                  <li><a href="#">Drop Menu 3</a></li>
-                  <li><a href="#">Drop Menu 4</a></li>
-                </ul>
-              </li>
-              <li>
-                <a href="#" class="desktop-link">Ürünlerimiz</a>
-                <input type="checkbox" id="show-services">
-                <label for="show-services">Ürünlerimiz</label>
-                <ul>
-                  <li><a href="#">Yataklar</a></li>
-                  <li><a href="#">Sehpa Takımları</a></li>
-                  <li><a href="#">Masa-Sandalye Takımları</a></li>
-                  <li>
-                    <a href="#" class="desktop-link">Daha Fazla</a>
-                    <input type="checkbox" id="show-items">
-                    <label for="show-items">More Items</label>
-                    <ul>
-                      <li><a href="#">Sub Menu 1</a></li>
-                      <li><a href="#">Sub Menu 2</a></li>
-                      <li><a href="#">Sub Menu 3</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li><a href="#">Bizimle İletişime Geçin</a></li>
-            </ul>
-          </div>
-          <label for="show-search" class="search-icon"><i class="fas fa-search"></i></label>
-          <form action="#" class="search-box">
-            <input type="text" placeholder="Lütfen aramak istediğiniz ürünü birkaç kelimeyle açıklayın." required>
-            <button type="submit" class="go-icon"><i class="fas fa-long-arrow-alt-right"></i></button>
-          </form>
-        </nav>
-      </div>
-      <!-- Navbar End -->
-      <!-- Card Start -->
-      <div class="card">
-        <div class="contentBx">
-            <div class="content">
-                <h2>Emir Efendioğlu<br><span>İşletme Sahibi</span></h2>
-                <div class="imgBx">
-                    <img src="img/mee.jpeg">
-                </div>
-                <button>0555 555 55 55</button>
-            </div>
-        </div>
-        <div class="toggle">
-            <span></span>
-        </div>
-      </div>
-    
-      <script>
-        let card = document.querySelector('.card');
-        let cardtoggle = document.querySelector('.toggle');
-        cardtoggle.onclik = function(){
-            card.classList.toggle('active')
-        }
-      </script>
-      <!-- Card End -->
+<ngx-spinner size="medium" name="pulse" type="ball-pulse"></ngx-spinner>
+<ngx-spinner size="medium" name="climbing"type="ball-climbing-dot"></ngx-spinner>
+<!--
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-</body>
-</html>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav> -->

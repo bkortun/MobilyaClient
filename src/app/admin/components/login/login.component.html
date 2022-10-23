@@ -1,0 +1,10 @@
+<div class="main">
+  <div class="form-box">
+    <h1 class="form-title">Admin Giriş</h1>
+    <div class="input-group">
+      <input #txtEmail type="text" class="input-field" id="username" placeholder="E-posta adresini girin">
+      <input #txtPassword type="text" class="input-field" id="password" placeholder="Şifre adresini girin">
+      <small class="invalid-feedback">Bu alanı boş geçemezsiniz !</small>
+      <button type="submit" (click)="login(txtEmail.value,txtPassword.value)" class="submit-btn">Giriş Yap</button>
+    </div>
+  </div>
