@@ -7,34 +7,25 @@ import { HttpClientService } from '../http-client.service';
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private httpClientService: HttpClientService) {}
+  constructor(private httpClientService: HttpClientService) { }
 
   errorMessage: string;
 
-  async login(
-    email: string,
-    password: string,
-    callBackFunction: () => void,
-    errorCallBack: (error) => void
-  ): Promise<any> {
-    const observable: Observable<any | Token> = this.httpClientService
-      .post<any | Token>(
-        {
-          controller: 'auth',
-          action: 'login',
-        },
-        { email, password }
-      )
-      .pipe(
-        catchError((error) => {
-          if (error.error instanceof ErrorEvent) {
-            this.errorMessage = `Error: ${error.error.message}`;
-          } else {
-            this.errorMessage = `Error: ${error.message}`;
-          }
-          return of([]);
-        })
-      );
+  async login(email: string, password: string, callBackFunction: () => void, errorCallBack: (error) => void): Promise<any> {
+    const observable: Observable<any | Token> = this.httpClientService.post<any | Token>(
+      {
+        controller: 'auth',
+        action: 'login',
+      },
+      { email, password }
+    ).pipe(catchError((error) => {
+      if (error.error instanceof ErrorEvent) {
+        this.errorMessage = `Error: ${error.error.message}`;
+      } else {
+        this.errorMessage = `Error: ${error.message}`;
+      }
+      return of([]);
+    }));
     const tokenResponse: Token = (await firstValueFrom(observable)) as Token;
     if (tokenResponse) {
       localStorage.setItem('token', tokenResponse.token);
