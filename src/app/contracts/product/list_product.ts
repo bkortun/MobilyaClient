@@ -1,8 +1,11 @@
+import { Product } from "./product";
+
 export class ListProduct {
-  id:string;
-  name:string;
-  price:number;
-  stock:number;
-  createdDate:Date;
-  updatedDate:Date;
+  items: Product[];
+  index: number;
+  size: number;
+  count: number;
+  pages: number;
+  hasPrevious: boolean;
+  hasNext: boolean;
 }

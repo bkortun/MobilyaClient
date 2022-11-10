@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -63,4 +63,3 @@ export class RequestParameters {
   fullEndPoint?: string
 
 }
-

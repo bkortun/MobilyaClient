@@ -24,4 +24,12 @@ export class ProductService {
     return addedProduct;
   }
 
+  async list(page:number=0, size:number=5,successCallBack?:()=>void,errorCallBack?:(error)=>void):Promise<ListProduct>{
+    const observable:Observable<ListProduct>=this.httpClientService.get({
+      controller:"products",
+      queryString:`page=${page}&pageSize=${size}`
+    })
+    return await firstValueFrom(observable) as ListProduct;
+  }
+
 }

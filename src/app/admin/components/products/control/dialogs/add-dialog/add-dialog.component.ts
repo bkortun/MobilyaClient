@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { AlertifyMessageType, AlertifyPosition, AlertifyService } from 'app/services/admin/alertify.service';
 import { ProductService } from 'app/services/common/modals/product.service';
 
@@ -11,7 +12,7 @@ import { ProductService } from 'app/services/common/modals/product.service';
 export class AddDialogComponent implements OnInit {
 
   productForm: FormGroup;
-  constructor(private formBuilder:FormBuilder,private productService:ProductService,private alertifyService:AlertifyService) { }
+  constructor(public dialogRef: MatDialogRef<AddDialogComponent>,private formBuilder:FormBuilder,private productService:ProductService,private alertifyService:AlertifyService) { }
 
   ngOnInit(): void {
     this.productForm=this.formBuilder.group({
@@ -31,7 +32,9 @@ export class AddDialogComponent implements OnInit {
         })
       })
     }
-
+    this.productForm.reset();
+    //When save button on clicked, dialog will close
+  this.dialogRef.close();
   }
 
 }

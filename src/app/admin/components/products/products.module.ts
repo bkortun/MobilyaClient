@@ -17,6 +17,7 @@ import { ListComponent } from './list/list.component';
 import { AddDialogComponent } from './control/dialogs/add-dialog/add-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatDialogModule,
     MatSelectModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatSortModule
   ]
 })
 export class ProductsModule { }
