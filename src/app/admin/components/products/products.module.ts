@@ -18,13 +18,17 @@ import { AddDialogComponent } from './control/dialogs/add-dialog/add-dialog.comp
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSortModule } from '@angular/material/sort';
+import { UpdateDialogComponent } from './control/dialogs/update-dialog/update-dialog.component';
+import { DeleteDialogComponent } from './control/dialogs/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
     ProductsComponent,
     ListComponent,
     ControlComponent,
-    AddDialogComponent
+    AddDialogComponent,
+    UpdateDialogComponent,
+    DeleteDialogComponent
   ],
   imports: [
     CommonModule,

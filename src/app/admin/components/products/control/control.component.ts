@@ -15,6 +15,7 @@ export class ControlComponent implements OnInit {
 
   }
 
+  //Todo ekleme yapıldıktan sonra listProduct yapılacak
   openDialog() {
     const dialogRef=this.dialog.open(AddDialogComponent, {
       width: "50%",

@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Ürün Ekle</h1>
+<h1 mat-dialog-title>Ürün Güncelle</h1>
 <form [formGroup]="productForm">
   <div mat-dialog-content>
     <mat-form-field appearance="fill">
@@ -26,5 +26,5 @@
 </form>
 <div mat-dialog-actions [align]="'end'">
   <button mat-raised-button color="warn" mat-dialog-close>Kapat</button>
-  <button mat-raised-button color="primary" (click)="addProduct()">Ekle</button>
+  <button mat-raised-button color="primary" (click)="updateProduct()">Güncelle</button>
 </div>
