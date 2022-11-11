@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class HttpClientService {
       url = requestParameter.fullEndPoint;
     } else {
       url = `${this.url(requestParameter)}${id ? `/${id}` : ""}${requestParameter.queryString ? `?${requestParameter.queryString}` : ""}`;
-      console.log(url);
+      //console.log(url);
     }
     return this.httpClient.get<T>(url, { headers: requestParameter.headers });
 
@@ -63,4 +63,3 @@ export class RequestParameters {
   fullEndPoint?: string
 
 }
-

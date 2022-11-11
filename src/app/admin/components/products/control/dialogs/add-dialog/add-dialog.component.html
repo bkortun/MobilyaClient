@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Ürün Ekle</h1>
+<form [formGroup]="productForm">
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Ürün Adı</mat-label>
+      <input formControlName="name" matInput placeholder="">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Ürün Kategori</mat-label>
+      <mat-select formControlName="category">
+        <mat-option value="Mobilya">Mobilya</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Ürün Fiyat</mat-label>
+      <input formControlName="price" type="number" matInput placeholder="">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Ürün Stok</mat-label>
+      <input formControlName="stock" type="number" matInput placeholder="">
+    </mat-form-field>
+  </div>
+</form>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-raised-button color="warn" mat-dialog-close>Kapat</button>
+  <button mat-raised-button color="primary" (click)="addProduct()">Ekle</button>
+</div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertifyMessageType, AlertifyPosition, AlertifyService } from 'app/services/admin/alertify.service';
 import { UserService } from 'app/services/common/modals/user.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { UserService } from 'app/services/common/modals/user.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userService: UserService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  constructor(private userService: UserService, private activatedRoute: ActivatedRoute, private router: Router,private alertifyService:AlertifyService) { }
 
   ngOnInit(): void {
   }
@@ -19,6 +20,12 @@ export class LoginComponent implements OnInit {
       this.activatedRoute.queryParams.subscribe(params=>{
           this.router.navigate(["/admin/"]);
     })
+  },(error)=>{
+    this.alertifyService.message(error,{
+      position:AlertifyPosition.BottomRight,
+      messageType:AlertifyMessageType.Error
+    })
+
   })
   }
 }

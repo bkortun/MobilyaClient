@@ -1,24 +1,34 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductsComponent } from './products.component';
 import { RouterModule } from '@angular/router';
+
 import {MatTableModule} from '@angular/material/table';
-import { CreateComponent } from './create/create.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import { ListComponent } from './list/list.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
 
-
-
+import { ProductsComponent } from './products.component';
+import { ControlComponent } from './control/control.component';
+import { ListComponent } from './list/list.component';
+import { AddDialogComponent } from './control/dialogs/add-dialog/add-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSortModule } from '@angular/material/sort';
+import { UpdateDialogComponent } from './control/dialogs/update-dialog/update-dialog.component';
+import { DeleteDialogComponent } from './control/dialogs/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
     ProductsComponent,
-    CreateComponent,
-    ListComponent
+    ListComponent,
+    ControlComponent,
+    AddDialogComponent,
+    UpdateDialogComponent,
+    DeleteDialogComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +39,12 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatButtonModule,
     MatTableModule,
     MatPaginatorModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatSortModule
   ]
 })
 export class ProductsModule { }
