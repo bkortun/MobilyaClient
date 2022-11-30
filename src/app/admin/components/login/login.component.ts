@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
       position:AlertifyPosition.BottomRight,
       messageType:AlertifyMessageType.Error
     })
-
   })
   }
 }
