@@ -1,1 +1,22 @@
-<p>register works!</p>
+<div class="container" style="margin-top: 15px;">
+  <h2>Kayıt Sayfası!</h2>
+  <form [formGroup]="registerForm">
+    <div class="form-floating mb-3">
+      <input type="text" formControlName="firstName" class="form-control" placeholder="İsim">
+      <label for="firstName">İsim</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" formControlName="lastName" class="form-control" placeholder="Soyad">
+      <label for="lastName">Soyad</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="email" formControlName="email" class="form-control" placeholder="deneme@deneme.com">
+      <label for="email">E-Posta</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="password" formControlName="password" class="form-control" placeholder="Şifre">
+      <label for="password">Şifre</label>
+    </div>
+  </form>
+  <button class="btn btn-success" style="margin-top: 10px;" (click)="register()">Üye ol</button>
+</div>
