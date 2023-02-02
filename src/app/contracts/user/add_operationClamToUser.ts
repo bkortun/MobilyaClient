@@ -1,4 +1,4 @@
-export class OperationClaimUser {
+export class AddedOperationClaimUser {
   email:string
   operationClaimName:string
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ListObject } from 'app/contracts/common/list_object';
-import { OperationClaimUser } from 'app/contracts/user/add_operationClamToUser';
+import { AddedOperationClaimUser } from 'app/contracts/user/add_operationClamToUser';
+import { RemovedOperationClaimUser } from 'app/contracts/user/remove_operationClaimFromUser';
 import { firstValueFrom, Observable } from 'rxjs';
 import { HttpClientService } from '../common/http-client.service';
 
@@ -31,12 +32,21 @@ export class AuthService {
      return await firstValueFrom(observable) as ListObject
    }
 
-   async addOperationClaimToUser(userInfo:OperationClaimUser):Promise<OperationClaimUser>{
-    const observable:Observable<OperationClaimUser>=this.httpClientService.post({
+   async addOperationClaimToUser(userInfo:AddedOperationClaimUser):Promise<AddedOperationClaimUser>{
+    const observable:Observable<AddedOperationClaimUser>=this.httpClientService.post({
       controller:"auth",
       action:"AddOperationClaimToUser"
     },userInfo)
-    const addedClaim=await firstValueFrom(observable) as OperationClaimUser
+    const addedClaim=await firstValueFrom(observable) as AddedOperationClaimUser
     return addedClaim
+   }
+
+   async removeOperationClaimFromUser(id:string):Promise<RemovedOperationClaimUser>{
+    const observable:Observable<RemovedOperationClaimUser>=this.httpClientService.delete({
+      controller:"auth",
+      action:"RemoveOperationClaimFromUser"
+    },id)
+    const removedClaim=await firstValueFrom(observable) as RemovedOperationClaimUser
+    return removedClaim
    }
 }

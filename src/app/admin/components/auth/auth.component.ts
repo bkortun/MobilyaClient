@@ -36,7 +36,7 @@ export class AuthComponent implements OnInit {
     this.isClicked=true
   }
 
-  public checkIt(claim:OperationClaim):boolean{
+  checkIt(claim:OperationClaim):boolean{
     for(let i=0;i<this.emailClaims.length;i++){
       if(this.emailClaims[i].name==claim.name)
         return true
@@ -50,8 +50,20 @@ export class AuthComponent implements OnInit {
   if(event.checked){
     await this.authService.addOperationClaimToUser({email:this.currentEmail,operationClaimName:claimName})
   }else{
-    console.log("rolü kaldır")
+    let id:string=this.findIdOfUserOperationClaim(claimName)
+    await this.authService.removeOperationClaimFromUser(id)
   }
+ }
+
+ private findIdOfUserOperationClaim(name:string):string{
+  for(let i=0;i<this.emailClaims.length;i++){
+    if(this.emailClaims[i].name==name)
+      return this.emailClaims[i].id
+  }
+  //Slide'ı kapalı-açık-kapalı durumunda kullanırsan patlıyor çünkü id'yi bulamıyor bulması için sayfanın yenilenmesi lazım
+  //buraya bir dialog konulup durum engellenebilir
+  //TODO burdaki duruma çözüm bul
+  return "emailClaims_bulunamadı"
  }
 
 }
