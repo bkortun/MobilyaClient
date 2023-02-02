@@ -1,0 +1,28 @@
+<mat-drawer-container class="inside-container">
+  <div class="container">
+    <div style="margin-top: 10px;" class="row">
+
+      <div class="col-md-5">
+        <mat-form-field class="input-width" style="margin-bottom: 15px;">
+          <mat-label>Kullanıcının e-posta adresi</mat-label>
+          <input matInput placeholder="ornek@deneme.com" #email>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <button mat-raised-button color="primary" (click)="getOperationClaimsByEmail(email.value)">Ara</button>
+      </div>
+
+      <div *ngIf="isClicked">
+        <h3>Kullanıcı Yetkileri</h3>
+          <div *ngFor="let claim of operationClaims" class="row">
+            <mat-slide-toggle name={{claim.name}} *ngIf="checkIt(claim)" checked="true" (change)="getStatus($event)"
+              style="margin-bottom: 5px;">{{claim.name}}</mat-slide-toggle>
+            <mat-slide-toggle name={{claim.name}} *ngIf="!checkIt(claim)" checked="false" (change)="getStatus($event)"
+              style="margin-bottom: 5px;">{{claim.name}}</mat-slide-toggle>
+          </div>
+
+      </div>
+
+    </div>
+  </div>
+</mat-drawer-container>

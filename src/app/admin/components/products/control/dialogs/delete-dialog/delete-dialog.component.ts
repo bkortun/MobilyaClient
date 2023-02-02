@@ -15,6 +15,7 @@ export class DeleteDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  //TODO Silinme animasyonu eklenecek
   deleteProduct() {
     this.productService.delete(this.deletedData.id,()=>{
       this.alertifyService.message("Ürün başarıyla silindi.",{

@@ -9,7 +9,9 @@ const routes: Routes = [
   {
     path: "admin", component: LayoutComponent, children: [
       { path: "", component: DashboardComponent },//ana sayfa niteliğinde olduğu için doğrudan componenti veriyoruz
-      { path: "products", loadChildren: () => import("./admin/components/products/products.module").then(module => module.ProductsModule) }
+      { path: "products", loadChildren: () => import("./admin/components/products/products.module").then(module => module.ProductsModule) },
+      { path: "auth", loadChildren: () => import("./admin/components/auth/auth.module").then(module => module.AuthModule) }
+
     ]
   },
   //deneme amaçlıdır

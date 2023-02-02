@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsComponent } from './products/products.component';
+import { ProductsModule } from './products/products.module';
+import { AuthModule } from './auth/auth.module';
 
 
 
@@ -8,7 +10,9 @@ import { ProductsComponent } from './products/products.component';
   declarations: [
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ProductsModule,
+    AuthModule
   ]
 })
 export class ComponentsModule { }
