@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ListObject } from 'app/contracts/common/list_object';
 import { OperationClaim } from 'app/contracts/user/operationClaim';
 import { OperationClaimWithEmail } from 'app/contracts/user/operationClaim_email';
@@ -14,6 +16,7 @@ export class AuthComponent implements OnInit {
   operationClaims:OperationClaim[]
   emailClaims:OperationClaimWithEmail[]
   isClicked=false
+  currentEmail:string=""
 
   constructor(private authService:AuthService) { }
 
@@ -27,12 +30,10 @@ export class AuthComponent implements OnInit {
   }
 
   async getOperationClaimsByEmail(email:string){
-    console.log(email)
+    this.currentEmail=email
     const claims:ListObject=await this.authService.listOperationClaimByUserEmail(email)
-    console.log(claims)
     this.emailClaims=claims.items
     this.isClicked=true
-    console.log(this.emailClaims)
   }
 
   public checkIt(claim:OperationClaim):boolean{
@@ -42,5 +43,15 @@ export class AuthComponent implements OnInit {
     }
     return false
   }
+
+
+ async getStatus(event:MatSlideToggleChange){
+  let claimName=event.source.name
+  if(event.checked){
+    await this.authService.addOperationClaimToUser({email:this.currentEmail,operationClaimName:claimName})
+  }else{
+    console.log("rolü kaldır")
+  }
+ }
 
 }

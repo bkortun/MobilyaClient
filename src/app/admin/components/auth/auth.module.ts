@@ -6,6 +6,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatSlideToggleModule,
     MatSidenavModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule
   ]
 })
 export class AuthModule { }

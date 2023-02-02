@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ListObject } from 'app/contracts/common/list_object';
+import { OperationClaimUser } from 'app/contracts/user/add_operationClamToUser';
 import { firstValueFrom, Observable } from 'rxjs';
 import { HttpClientService } from '../common/http-client.service';
 
@@ -28,5 +29,14 @@ export class AuthService {
       queryString:"Email="+email
      })
      return await firstValueFrom(observable) as ListObject
+   }
+
+   async addOperationClaimToUser(userInfo:OperationClaimUser):Promise<OperationClaimUser>{
+    const observable:Observable<OperationClaimUser>=this.httpClientService.post({
+      controller:"auth",
+      action:"AddOperationClaimToUser"
+    },userInfo)
+    const addedClaim=await firstValueFrom(observable) as OperationClaimUser
+    return addedClaim
    }
 }
