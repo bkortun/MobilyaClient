@@ -1,19 +1,27 @@
 <mat-drawer-container class="inside-container">
-    <div class="container">
-        <div style="margin-top: 10px;">
+  <div class="container">
+    <div style="margin-top: 10px;" class="row">
 
-            <mat-form-field class="input-width" style="margin-bottom: 15px;">
-                <mat-label>Kullanıcının e-posta adresi</mat-label>
-                <input matInput placeholder="ornek@deneme.com" >
-              </mat-form-field>
+      <div class="col-md-5">
+        <mat-form-field class="input-width" style="margin-bottom: 15px;">
+          <mat-label>Kullanıcının e-posta adresi</mat-label>
+          <input matInput placeholder="ornek@deneme.com" #email>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <button mat-raised-button color="primary" (click)="getOperationClaimsByEmail(email.value)">Ara</button>
+      </div>
 
-            <h3>Kullanıcı Yetkileri</h3>
-        <div class="row" >
-            burdaki bilgiler list operation claim ile gelicek eğer input var ise kullanıya göre getirme endpointi yazılmalı
-            <mat-slide-toggle style="margin-bottom: 5px;">Admin</mat-slide-toggle>
+      <div *ngIf="isClicked">
+        <h3>Kullanıcı Yetkileri</h3>
+        <div *ngFor="let claim of operationClaims" class="row">
+          <mat-slide-toggle *ngIf="checkIt(claim)" checked="true"
+            style="margin-bottom: 5px;">{{claim.name}}</mat-slide-toggle>
+          <mat-slide-toggle *ngIf="!checkIt(claim)" checked="false"
+            style="margin-bottom: 5px;">{{claim.name}}</mat-slide-toggle>
         </div>
-        </div>
-        <button mat-raised-button color="primary" style="margin-left: 880px;">Kaydet</button>
+      </div>
+
     </div>
+  </div>
 </mat-drawer-container>
-
