@@ -7,8 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminModule } from './admin/admin.module';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UiModule } from './ui/ui.module';
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -22,9 +24,17 @@ import { UiModule } from './ui/ui.module';
     ToastrModule.forRoot(),
     NgxSpinnerModule,
     HttpClientModule,
-    UiModule
+    UiModule,
+    JwtModule.forRoot({
+      config:{
+        tokenGetter:()=>localStorage.getItem("token"),
+        allowedDomains:["localhost:7000"]
+      }
+    })
   ],
-  providers: [{provide:"baseUrl",useValue:"https://localhost:7000/api"}],
+  providers: [
+    {provide:"baseUrl",useValue:"https://localhost:7000/api"},
+    {provide:HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
