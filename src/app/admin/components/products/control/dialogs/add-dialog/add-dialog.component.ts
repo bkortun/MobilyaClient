@@ -19,7 +19,7 @@ export class AddDialogComponent implements OnInit {
 
   @Output() fileOptions: Partial<FileUploadOptions> = {
     accept: ".jpg,.png,.jpeg",
-    explanation: "Resim seç...",
+    explanation: "Resim Ekle...",
   }
 
   constructor(
