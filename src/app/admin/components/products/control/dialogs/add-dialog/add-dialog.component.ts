@@ -1,7 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { CreateProduct } from 'app/contracts/product/create_product';
 import { AlertifyMessageType, AlertifyPosition, AlertifyService } from 'app/services/admin/alertify.service';
+import { FileUploadOptions } from 'app/services/common/file-upload/file-upload.component';
+import { FileUploadService } from 'app/services/common/file-upload/file-upload.service';
 import { ProductService } from 'app/services/common/modals/product.service';
 
 @Component({
@@ -12,30 +15,53 @@ import { ProductService } from 'app/services/common/modals/product.service';
 export class AddDialogComponent implements OnInit {
 
   productForm: FormGroup;
-  constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
-    private formBuilder:FormBuilder,private productService:ProductService,private alertifyService:AlertifyService) { }
+  formData: FormData = new FormData();
+
+  @Output() fileOptions: Partial<FileUploadOptions> = {
+    accept: ".jpg,.png,.jpeg",
+    explanation: "Resim seç...",
+  }
+
+  constructor(
+    public dialogRef: MatDialogRef<AddDialogComponent>,
+    private formBuilder: FormBuilder,
+    private productService: ProductService,
+    private alertifyService: AlertifyService,
+    private fileUploadService: FileUploadService) { }
 
   ngOnInit(): void {
-    this.productForm=this.formBuilder.group({
-      name:["",Validators.required],
-      category:[""],
-      price:["",Validators.required],
-      stock:["",Validators.required],
+    this.productForm = this.formBuilder.group({
+      name: ["", Validators.required],
+      category: [""],
+      price: ["", Validators.required],
+      stock: ["", Validators.required],
     })
   }
 
-  addProduct(){
+  async addProduct() {
     if (this.productForm.valid) {
-      this.productService.create(this.productForm.value,()=>{
-        this.alertifyService.message("Ürün başarıyla eklendi.",{
-          messageType:AlertifyMessageType.Success,
-          position:AlertifyPosition.BottomRight
+      await this.productService.create(this.productForm.value, () => {
+        this.alertifyService.message("Ürün başarıyla eklendi.", {
+          messageType: AlertifyMessageType.Success,
+          position: AlertifyPosition.BottomRight
         })
+      }).then(p => {
+        if (this.formData) {
+         this.fileUploadService.uploadFile(this.formData, {
+            action: "productImageUpload",
+            controller: "products",
+            queryString: `productId=${p.id}`
+          })
+        }
       })
     }
     this.productForm.reset();
     //When save button on clicked, dialog will close
-  this.dialogRef.close();
+    this.dialogRef.close();
+  }
+
+  getFileData(obj: FormData) {
+    this.formData = obj
   }
 
 }
