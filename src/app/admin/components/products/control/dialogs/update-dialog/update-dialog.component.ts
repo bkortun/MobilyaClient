@@ -27,6 +27,13 @@ export class UpdateDialogComponent implements OnInit {
       queryString:`productId=${this.updateData.id}`
     }
 
+    @Output() getFilesOptions: Partial<FileUploadOptions> = {
+      action:"ListProductImages",
+      controller:"products",
+      queryString:`productId=${this.updateData.id}`,
+      explanation:this.updateData.id
+    }
+
   ngOnInit(): void {
     this.productForm=this.formBuilder.group({
       name:["",Validators.required],
