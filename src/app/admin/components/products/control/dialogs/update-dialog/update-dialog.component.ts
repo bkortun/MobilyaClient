@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Product } from 'app/contracts/product/product';
 import { AlertifyMessageType, AlertifyPosition, AlertifyService } from 'app/services/admin/alertify.service';
+import { FileUploadOptions } from 'app/services/common/file-upload/file-upload.component';
 import { ProductService } from 'app/services/common/modals/product.service';
 
 @Component({
@@ -15,6 +16,16 @@ export class UpdateDialogComponent implements OnInit {
   productForm: FormGroup;
   constructor(@Inject(MAT_DIALOG_DATA) public updateData:any, public dialogRef: MatDialogRef<UpdateDialogComponent>,
     private formBuilder:FormBuilder,private productService:ProductService,private alertifyService:AlertifyService) { }
+
+    @Output() fileOptions: Partial<FileUploadOptions> = {
+      accept: ".jpg,.png,.jpeg",
+      explanation: "Resim Ekle...",
+      action:"productImageUpload",
+      controller:"products",
+      isAdminPage:true,
+      isController:true,
+      queryString:`productId=${this.updateData.id}`
+    }
 
   ngOnInit(): void {
     this.productForm=this.formBuilder.group({
