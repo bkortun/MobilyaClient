@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ListObject } from 'app/contracts/common/list_object';
 import { CreateProduct } from 'app/contracts/product/create_product';
 import { DeleteProduct } from 'app/contracts/product/delete_product';
-import { ListProduct } from 'app/contracts/product/list_product';
 import { UpdateProduct } from 'app/contracts/product/update_product';
 import { catchError, firstValueFrom, Observable, of } from 'rxjs';
 import { HttpClientService } from '../http-client.service';
@@ -26,12 +26,12 @@ export class ProductService {
     return addedProduct;
   }
 
-  async list(page:number=0, size:number=5,successCallBack?:()=>void,errorCallBack?:(error)=>void):Promise<ListProduct>{
-    const observable:Observable<ListProduct>=this.httpClientService.get({
+  async list(page:number=0, size:number=5,successCallBack?:()=>void,errorCallBack?:(error)=>void):Promise<ListObject>{
+    const observable:Observable<ListObject>=this.httpClientService.get({
       controller:"products",
       queryString:`page=${page}&pageSize=${size}`
     })
-    return await firstValueFrom(observable) as ListProduct;
+    return await firstValueFrom(observable) as ListObject;
   }
 
   async update(product:UpdateProduct,successCallBack?:()=>void,errorCallBack?:(error)=>void):Promise<UpdateProduct>{

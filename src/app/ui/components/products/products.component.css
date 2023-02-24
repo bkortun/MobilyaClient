@@ -1,0 +1,9 @@
+.productsCard{
+  margin: 2px;
+  float: left;
+
+}
+.cardPosition{
+  width: 20rem;
+  height: 25rem;
+}
