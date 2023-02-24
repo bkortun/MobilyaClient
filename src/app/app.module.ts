@@ -11,6 +11,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UiModule } from './ui/ui.module';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { FileControlComponent } from './services/common/file-control/file-control.component';
 
 @NgModule({
   declarations: [

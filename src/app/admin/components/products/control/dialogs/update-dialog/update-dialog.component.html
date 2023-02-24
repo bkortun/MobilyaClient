@@ -24,6 +24,7 @@
     </mat-form-field>
   </div>
 </form>
+<app-file-control [options]="fileOptions" [getOptions]="getFilesOptions"></app-file-control>
 <div mat-dialog-actions [align]="'end'">
   <button mat-raised-button color="warn" mat-dialog-close>Kapat</button>
   <button mat-raised-button color="primary" (click)="updateProduct()">Güncelle</button>

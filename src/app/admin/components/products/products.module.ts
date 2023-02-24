@@ -20,6 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSortModule } from '@angular/material/sort';
 import { UpdateDialogComponent } from './control/dialogs/update-dialog/update-dialog.component';
 import { DeleteDialogComponent } from './control/dialogs/delete-dialog/delete-dialog.component';
+import { FileUploadModule } from 'app/services/common/file-upload/file-upload.module';
+import { FileControlModule } from 'app/services/common/file-control/file-control.module';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { DeleteDialogComponent } from './control/dialogs/delete-dialog/delete-di
     MatSelectModule,
     ReactiveFormsModule,
     FormsModule,
-    MatSortModule
+    MatSortModule,
+    FileUploadModule,
+    FileControlModule
   ]
 })
 export class ProductsModule { }

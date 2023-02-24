@@ -19,7 +19,7 @@ export class ControlComponent implements OnInit {
   openDialog() {
     const dialogRef=this.dialog.open(AddDialogComponent, {
       width: "50%",
-      height: "60%"
+      height: "75%"
     });
   }
 
