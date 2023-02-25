@@ -1,0 +1,14 @@
+<div class="container" >
+  <h1 style="margin-top: 10px;">Ürünler</h1>
+  <div class="productsCard" *ngFor="let product of products">
+    <div class="card cardPosition" >
+      <img src="../../../../assets/istockphoto-1252414324-612x612.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h2 class="card-title">{{product.name}}</h2>
+        <p class="card-text">{{product.price}}₺</p>
+        <p class="card-text">Son {{product.stock}} Adet</p>
+        <a href="#" class="btn btn-primary">Ürüne Git</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,12 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LoginComponent } from './login.component';
+import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    LoginComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule.forChild([{path:"",component:LoginComponent}]),
+    FormsModule,
+    ReactiveFormsModule //html'deki [formGroup]="loginForm"'nin çalışması için lazım
   ]
 })
 export class LoginModule { }

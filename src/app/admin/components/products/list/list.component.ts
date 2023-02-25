@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { RouterLinkWithHref } from '@angular/router';
 import { BaseComponent, SpinnerType } from 'app/base/base.component';
-import { ListProduct } from 'app/contracts/product/list_product';
+import { ListObject } from 'app/contracts/common/list_object';
 import { Product } from 'app/contracts/product/product';
 import { AlertifyMessageType, AlertifyPosition, AlertifyService } from 'app/services/admin/alertify.service';
 import { ProductService } from 'app/services/common/modals/product.service';
@@ -47,7 +47,7 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
   async listProducts() {
-    const allProducts: ListProduct = await this.productService.list(this.paginator ? this.paginator.pageIndex : 0,
+    const allProducts: ListObject = await this.productService.list(this.paginator ? this.paginator.pageIndex : 0,
       this.paginator ? this.paginator.pageSize : 300);
 
     //console.log(allProducts.items)

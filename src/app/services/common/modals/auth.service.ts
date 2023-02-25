@@ -15,7 +15,7 @@ export class AuthService {
   private _isAuthenticated: boolean
   roles: string[]=[]
 
-  async checkToken(email: string) {
+  async checkToken(email?: string) {
 
     const token: string = localStorage.getItem("token")
 
@@ -27,11 +27,14 @@ export class AuthService {
     }
     this._isAuthenticated=token!=null || !isExpired
 
-    const claims: ListObject = await this.roleService.listOperationClaimByUserEmail(email)
+    if(email){
+      const claims: ListObject = await this.roleService.listOperationClaimByUserEmail(email)
 
-    for(let i=0;i<claims.count;i++){
-      this.roles.push(claims.items[i].name)
+      for(let i=0;i<claims.count;i++){
+        this.roles.push(claims.items[i].name)
+      }
     }
+
   }
 
   get isAuthenticated() {

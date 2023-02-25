@@ -30,10 +30,11 @@
               "node_modules/alertifyjs/build/css/themes/semantic.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/ngx-spinner/animations/ball-pulse.css",
-              "node_modules/ngx-spinner/animations/ball-climbing-dot.css"
+              "node_modules/ngx-spinner/animations/ball-climbing-dot.css",
+              "node_modules/font-awesome/css/font-awesome.min.css"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/alertifyjs/build/alertify.min.js"
             ]
