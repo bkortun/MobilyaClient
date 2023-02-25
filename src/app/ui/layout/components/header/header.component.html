@@ -22,7 +22,24 @@
           <a class="nav-link" href="">İletişim</a>
         </li>
       </ul>
+      <div style="margin-right: 50px;">
+      <div *ngIf="!authService.isAuthenticated; else accountDropdown">
         <a routerLink="/login" style="margin-right: 10px;"><button class="btn btn-success">Giriş Yap</button></a>
         <a routerLink="/register" style="margin-right: 10px;"><button class="btn btn-warning">Üye Ol</button></a>
+      </div>
+      <ng-template #accountDropdown >
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Hesabım
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Sepet</a></li>
+            <li><a class="dropdown-item" href="#">Profil Ayarları</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="" (click)="logOut()">Çıkış Yap</a></li>
+          </ul>
+        </div>
+      </ng-template>
+    </div>
     </div>
   </div>

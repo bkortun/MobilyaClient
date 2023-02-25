@@ -4,6 +4,7 @@ import { RegisterModule } from './register/register.module';
 import { ProductsModule } from './products/products.module';
 import { HomeModule } from './home/home.module';
 import { LoginModule } from './login/login.module';
+import { ProfileModule } from './profile/profile.module';
 
 
 
@@ -15,7 +16,8 @@ import { LoginModule } from './login/login.module';
     RegisterModule,
     HomeModule,
     ProductsModule,
-    LoginModule
+    LoginModule,
+    ProfileModule
   ]
 })
 export class ComponentsModule { }
