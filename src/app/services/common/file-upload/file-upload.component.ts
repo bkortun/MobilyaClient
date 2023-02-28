@@ -4,6 +4,7 @@ import { AlertifyService } from 'app/services/admin/alertify.service';
 import { NgxFileDropEntry } from 'ngx-file-drop';
 import { firstValueFrom } from 'rxjs';
 import { HttpClientService } from '../http-client.service';
+import { SettingService } from '../modals/setting.service';
 import { FileUploadService } from './file-upload.service';
 
 @Component({
