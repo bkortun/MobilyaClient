@@ -5,6 +5,7 @@ import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions'
 import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
 import { Product } from 'app/contracts/product/product';
 import { AlertifyMessageType, AlertifyPosition, AlertifyService } from 'app/services/admin/alertify.service';
+import { FileUploadService } from 'app/services/common/file-upload/file-upload.service';
 import { ProductService } from 'app/services/common/modals/product.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class UpdateDialogComponent implements OnInit {
 
   productForm: FormGroup;
   constructor(@Inject(MAT_DIALOG_DATA) public updateData:any, public dialogRef: MatDialogRef<UpdateDialogComponent>,
-    private formBuilder:FormBuilder,private productService:ProductService,private alertifyService:AlertifyService) { }
+    private formBuilder:FormBuilder,private productService:ProductService,private alertifyService:AlertifyService,
+    private fileUploadService:FileUploadService) { }
 
     @Output() fileUploadOptions: Partial<FileUploadOptions> = {
       accept: ".jpg,.png,.jpeg",
@@ -35,6 +37,7 @@ export class UpdateDialogComponent implements OnInit {
       id:this.updateData.id
     }
 
+    formData:FormData=new FormData();
 
 
   ngOnInit(): void {
@@ -70,11 +73,23 @@ export class UpdateDialogComponent implements OnInit {
           messageType:AlertifyMessageType.Success,
           position:AlertifyPosition.BottomRight
         })
+      }).then(p => {
+        if (this.formData) {
+         this.fileUploadService.uploadFile(this.formData, {
+            action: "productImageUpload",
+            controller: "products",
+            queryString: `productId=${p.id}`
+          })
+        }
       })
     }
     this.productForm.reset();
     //When save button on clicked, dialog will close
   this.dialogRef.close();
+  }
+
+  getFileData(obj: FormData) {
+    this.formData = obj
   }
 
 }

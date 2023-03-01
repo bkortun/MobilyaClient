@@ -38,15 +38,7 @@ export class FileUploadComponent {
         const fileEntry = selectedFile.fileEntry as FileSystemDirectoryEntry;
         console.log(selectedFile.relativePath, fileEntry);
       }
-      this.dataEmitter.emit(fileData)
-
-      if(this.fileUploadOptions.isController){
-        this.fileUploadService.uploadFile(fileData, {
-          action: this.fileUploadOptions.action,
-          controller: this.fileUploadOptions.controller,
-          queryString: this.fileUploadOptions.queryString
-        })
-      }
+      this.dataEmitter.emit(fileData);
     }
 
   }
@@ -58,6 +50,7 @@ export class FileUploadComponent {
   public fileLeave(event){
     console.log(event);
   }
+
 
 }
 

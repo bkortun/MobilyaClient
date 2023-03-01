@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ListProductImage } from 'app/contracts/file/list_productImage';
 import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
 import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
@@ -19,9 +19,11 @@ export class FileControlComponent implements OnInit{
 
   @Input() fileUploadOptions:Partial<FileUploadOptions>
   @Input() fileDeployOptions:Partial<FileDeployOptions>
+  @Output() dataEmitter:EventEmitter<FormData>=new EventEmitter();
 
   images:ListProductImage[]=[]
   baseUrl:BaseStorageUrl
+  formData:FormData=new FormData()
 
   async ngOnInit() {
     await this.getImages()
@@ -42,7 +44,10 @@ export class FileControlComponent implements OnInit{
     this.fileControlService.deleteFile(id);
   }
 
-
+  getFileData(obj: FormData) {
+    this.formData = obj
+    this.dataEmitter.emit(this.formData)
+  }
 }
 
 
