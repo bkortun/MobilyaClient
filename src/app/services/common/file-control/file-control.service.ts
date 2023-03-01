@@ -1,7 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ListObject } from 'app/contracts/common/list_object';
-import { FileDeleteOptions } from 'app/contracts/file/options/fileDeleteOptions';
 import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
 import { firstValueFrom } from 'rxjs';
 import { HttpClientService } from '../http-client.service';
@@ -26,10 +25,10 @@ export class FileControlService {
     return images
   }
 
-  async deleteFile(id,options:Partial<FileDeleteOptions>){
+  async deleteFile(id:string){
     const observable=this.httpClientService.delete({
-      controller:options.controller,
-      action:options.action
+      controller:"files",
+      action:"delete"
     },id)
 
     const result=await firstValueFrom(observable)

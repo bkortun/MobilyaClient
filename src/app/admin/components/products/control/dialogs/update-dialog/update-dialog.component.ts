@@ -35,10 +35,7 @@ export class UpdateDialogComponent implements OnInit {
       id:this.updateData.id
     }
 
-    @Output() fileDeleteOptions: Partial<FileDeployOptions> = {
-      action:"DeleteProductImage",
-      controller:"products",
-    }
+
 
   ngOnInit(): void {
     this.productForm=this.formBuilder.group({

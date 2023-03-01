@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ListProductImage } from 'app/contracts/file/list_productImage';
-import { FileDeleteOptions } from 'app/contracts/file/options/fileDeleteOptions';
 import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
 import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
 import { BaseStorageUrl } from 'app/contracts/setting/baseStorageUrl';
@@ -20,7 +19,6 @@ export class FileControlComponent implements OnInit{
 
   @Input() fileUploadOptions:Partial<FileUploadOptions>
   @Input() fileDeployOptions:Partial<FileDeployOptions>
-  @Input() fileDeleteOptions:Partial<FileDeleteOptions>
 
   images:ListProductImage[]=[]
   baseUrl:BaseStorageUrl
@@ -41,7 +39,7 @@ export class FileControlComponent implements OnInit{
   }
 
   async deleteImage(id){
-    this.fileControlService.deleteFile(id,this.fileDeleteOptions);
+    this.fileControlService.deleteFile(id);
   }
 
 
