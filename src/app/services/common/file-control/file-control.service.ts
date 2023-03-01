@@ -1,8 +1,9 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ListObject } from 'app/contracts/common/list_object';
+import { FileDeleteOptions } from 'app/contracts/file/options/fileDeleteOptions';
+import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
 import { firstValueFrom } from 'rxjs';
-import { FileUploadOptions } from '../file-upload/file-upload.component';
 import { HttpClientService } from '../http-client.service';
 
 @Injectable({
@@ -12,7 +13,7 @@ export class FileControlService {
 
   constructor(private httpClientService: HttpClientService) { }
 
-  async getFiles(id,options:Partial<FileUploadOptions>){
+  async getFiles(id,options:Partial<FileDeployOptions>){
     const observable=this.httpClientService.get({
       controller: options.controller,
       action: options.action,
@@ -23,5 +24,14 @@ export class FileControlService {
 
     const images = await firstValueFrom(observable) as ListObject;
     return images
+  }
+
+  async deleteFile(id,options:Partial<FileDeleteOptions>){
+    const observable=this.httpClientService.delete({
+      controller:options.controller,
+      action:options.action
+    },id)
+
+    const result=await firstValueFrom(observable)
   }
 }

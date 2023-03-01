@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
 import { CreateProduct } from 'app/contracts/product/create_product';
 import { AlertifyMessageType, AlertifyPosition, AlertifyService } from 'app/services/admin/alertify.service';
-import { FileUploadOptions } from 'app/services/common/file-upload/file-upload.component';
 import { FileUploadService } from 'app/services/common/file-upload/file-upload.service';
 import { ProductService } from 'app/services/common/modals/product.service';
 
@@ -17,7 +17,7 @@ export class AddDialogComponent implements OnInit {
   productForm: FormGroup;
   formData: FormData = new FormData();
 
-  @Output() fileOptions: Partial<FileUploadOptions> = {
+  @Output() fileUploadOptions: Partial<FileUploadOptions> = {
     accept: ".jpg,.png,.jpeg",
     explanation: "Resim Ekle...",
   }

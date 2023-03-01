@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
+import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
 import { Product } from 'app/contracts/product/product';
 import { AlertifyMessageType, AlertifyPosition, AlertifyService } from 'app/services/admin/alertify.service';
-import { FileUploadOptions } from 'app/services/common/file-upload/file-upload.component';
 import { ProductService } from 'app/services/common/modals/product.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class UpdateDialogComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public updateData:any, public dialogRef: MatDialogRef<UpdateDialogComponent>,
     private formBuilder:FormBuilder,private productService:ProductService,private alertifyService:AlertifyService) { }
 
-    @Output() fileOptions: Partial<FileUploadOptions> = {
+    @Output() fileUploadOptions: Partial<FileUploadOptions> = {
       accept: ".jpg,.png,.jpeg",
       explanation: "Resim Ekle...",
       action:"productImageUpload",
@@ -27,11 +28,16 @@ export class UpdateDialogComponent implements OnInit {
       queryString:`productId=${this.updateData.id}`
     }
 
-    @Output() getFilesOptions: Partial<FileUploadOptions> = {
+    @Output() fileDeployOptions: Partial<FileDeployOptions> = {
       action:"ListProductImages",
       controller:"products",
       queryString:`productId=${this.updateData.id}`,
-      explanation:this.updateData.id
+      id:this.updateData.id
+    }
+
+    @Output() fileDeleteOptions: Partial<FileDeployOptions> = {
+      action:"DeleteProductImage",
+      controller:"products",
     }
 
   ngOnInit(): void {

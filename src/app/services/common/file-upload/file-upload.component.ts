@@ -1,5 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
 import { AlertifyService } from 'app/services/admin/alertify.service';
 import { NgxFileDropEntry } from 'ngx-file-drop';
 import { firstValueFrom } from 'rxjs';
@@ -18,7 +19,7 @@ export class FileUploadComponent {
 
   public files: NgxFileDropEntry[];
 
-  @Input() options:Partial<FileUploadOptions>;
+  @Input() fileUploadOptions:Partial<FileUploadOptions>;
   @Output() dataEmitter:EventEmitter<FormData>=new EventEmitter();
 
   public async selectFiles(files: NgxFileDropEntry[]) {
@@ -39,11 +40,11 @@ export class FileUploadComponent {
       }
       this.dataEmitter.emit(fileData)
 
-      if(this.options.isController){
+      if(this.fileUploadOptions.isController){
         this.fileUploadService.uploadFile(fileData, {
-          action: this.options.action,
-          controller: this.options.controller,
-          queryString: this.options.queryString
+          action: this.fileUploadOptions.action,
+          controller: this.fileUploadOptions.controller,
+          queryString: this.fileUploadOptions.queryString
         })
       }
     }
@@ -60,12 +61,4 @@ export class FileUploadComponent {
 
 }
 
-export class FileUploadOptions{
-  controller?: string
-  action?: string
-  queryString?: string
-  explanation?: string
-  accept?: string
-  isAdminPage?: boolean = true
-  isController?:boolean
-}
+

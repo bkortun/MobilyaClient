@@ -1,11 +1,11 @@
 
-  <app-file-upload [options]="options" style="margin-bottom: 10px;"></app-file-upload>
+  <app-file-upload [fileUploadOptions]="fileUploadOptions" style="margin-bottom: 10px;"></app-file-upload>
   <mat-card class="example-card" *ngFor="let image of images ">
     <mat-card-header>
     </mat-card-header>
     <img mat-card-image src="{{baseUrl?.url}}/{{image.path}}" [alt]="image.name">
     <mat-card-actions>
-      <button mat-raised-button color="warn">Sil</button>
+      <button mat-raised-button color="warn" (click)="deleteImage(image.fileId)">Sil</button>
     </mat-card-actions>
   </mat-card>
 

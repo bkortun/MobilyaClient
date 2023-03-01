@@ -3,5 +3,6 @@ export class ListProductImage{
   name:string
   id:string
   imageId:string
+  fileId:string
   productId:string
 }

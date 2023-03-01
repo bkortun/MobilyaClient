@@ -1,9 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ListProductImage } from 'app/contracts/file/list_productImage';
+import { FileDeleteOptions } from 'app/contracts/file/options/fileDeleteOptions';
+import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
+import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
 import { BaseStorageUrl } from 'app/contracts/setting/baseStorageUrl';
-import { FileUploadOptions } from '../file-upload/file-upload.component';
 import { SettingService } from '../modals/setting.service';
 import { FileControlService } from './file-control.service';
+
+declare var $:any
 
 @Component({
   selector: 'app-file-control',
@@ -14,8 +18,9 @@ export class FileControlComponent implements OnInit{
 
   constructor(private fileControlService:FileControlService, private settingService:SettingService) { }
 
-  @Input() options:Partial<FileUploadOptions>
-  @Input() getOptions:Partial<FileUploadOptions>
+  @Input() fileUploadOptions:Partial<FileUploadOptions>
+  @Input() fileDeployOptions:Partial<FileDeployOptions>
+  @Input() fileDeleteOptions:Partial<FileDeleteOptions>
 
   images:ListProductImage[]=[]
   baseUrl:BaseStorageUrl
@@ -26,13 +31,17 @@ export class FileControlComponent implements OnInit{
 
 
   async getImages(){
-    const response=await this.fileControlService.getFiles(this.getOptions.explanation,this.getOptions)
-    this.images=response.items
     this.getBaseStorageUrl()
+    const response=await this.fileControlService.getFiles(this.fileDeployOptions.id,this.fileDeployOptions)
+    this.images=response.items
   }
 
   async getBaseStorageUrl(){
     this.baseUrl=await this.settingService.getBaseStorageUrl()
+  }
+
+  async deleteImage(id){
+    this.fileControlService.deleteFile(id,this.fileDeleteOptions);
   }
 
 
