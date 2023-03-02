@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ListProductImage } from 'app/contracts/file/list_productImage';
 import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
 import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
+import { SetShowcaseImage } from 'app/contracts/file/setShowcase_image';
 import { BaseStorageUrl } from 'app/contracts/setting/baseStorageUrl';
 import { SettingService } from '../modals/setting.service';
 import { FileControlService } from './file-control.service';
@@ -24,11 +25,18 @@ export class FileControlComponent implements OnInit{
   images:ListProductImage[]=[]
   baseUrl:BaseStorageUrl
   formData:FormData=new FormData()
+  isChecked:boolean
 
   async ngOnInit() {
     await this.getImages()
   }
 
+  async changeShowcase(imageId:string){
+    let setShowcaseImage:SetShowcaseImage= new SetShowcaseImage();
+    setShowcaseImage.imageId=imageId;
+    setShowcaseImage.showcase=this.isChecked;
+    this.fileControlService.setShowcase(setShowcaseImage);
+  }
 
   async getImages(){
     this.getBaseStorageUrl()

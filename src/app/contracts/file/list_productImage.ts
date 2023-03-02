@@ -5,4 +5,5 @@ export class ListProductImage{
   imageId:string
   fileId:string
   productId:string
+  showcase:boolean
 }

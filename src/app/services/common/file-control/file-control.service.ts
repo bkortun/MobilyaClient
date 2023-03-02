@@ -33,4 +33,13 @@ export class FileControlService {
 
     const result=await firstValueFrom(observable)
   }
+
+  async setShowcase(body){
+    const observable=this.httpClientService.put({
+      controller:"images",
+      action:"setShowcase"
+    },body)
+
+    const result=await firstValueFrom(observable)
+  }
 }
