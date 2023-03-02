@@ -2,6 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ListObject } from 'app/contracts/common/list_object';
 import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
+import { SetShowcaseImage } from 'app/contracts/file/setShowcase_image';
 import { firstValueFrom } from 'rxjs';
 import { HttpClientService } from '../http-client.service';
 
@@ -34,12 +35,11 @@ export class FileControlService {
     const result=await firstValueFrom(observable)
   }
 
-  async setShowcase(body){
+  async setShowcase(body:SetShowcaseImage){
     const observable=this.httpClientService.put({
       controller:"images",
       action:"setShowcase"
     },body)
-
     const result=await firstValueFrom(observable)
   }
 }

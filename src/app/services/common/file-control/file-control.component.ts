@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ListProductImage } from 'app/contracts/file/list_productImage';
 import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
 import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
@@ -25,17 +26,16 @@ export class FileControlComponent implements OnInit{
   images:ListProductImage[]=[]
   baseUrl:BaseStorageUrl
   formData:FormData=new FormData()
-  isChecked:boolean
 
   async ngOnInit() {
     await this.getImages()
   }
 
-  async changeShowcase(imageId:string){
-    let setShowcaseImage:SetShowcaseImage= new SetShowcaseImage();
-    setShowcaseImage.imageId=imageId;
-    setShowcaseImage.showcase=this.isChecked;
-    this.fileControlService.setShowcase(setShowcaseImage);
+  async changeShowcase(imageId:string,event:MatCheckboxChange){
+    let body:SetShowcaseImage =new SetShowcaseImage();
+    body.showcase= event.checked
+    body.imageId=imageId
+    await this.fileControlService.setShowcase(body);
   }
 
   async getImages(){
