@@ -49,7 +49,7 @@ export class AddDialogComponent implements OnInit {
         if (this.formData) {
          this.fileUploadService.uploadFile(this.formData, {
             action: "productImageUpload",
-            controller: "products",
+            controller: "productImages",
             queryString: `productId=${p.id}`
           })
         }

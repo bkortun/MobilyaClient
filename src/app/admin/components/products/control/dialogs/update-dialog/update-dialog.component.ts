@@ -24,7 +24,7 @@ export class UpdateDialogComponent implements OnInit {
       accept: ".jpg,.png,.jpeg",
       explanation: "Resim Ekle...",
       action:"productImageUpload",
-      controller:"products",
+      controller:"productImages",
       isAdminPage:true,
       isController:true,
       queryString:`productId=${this.updateData.id}`
@@ -32,7 +32,7 @@ export class UpdateDialogComponent implements OnInit {
 
     @Output() fileDeployOptions: Partial<FileDeployOptions> = {
       action:"ListProductImages",
-      controller:"products",
+      controller:"productImages",
       queryString:`productId=${this.updateData.id}`,
       id:this.updateData.id
     }
@@ -77,7 +77,7 @@ export class UpdateDialogComponent implements OnInit {
         if (this.formData) {
          this.fileUploadService.uploadFile(this.formData, {
             action: "productImageUpload",
-            controller: "products",
+            controller: "productImages",
             queryString: `productId=${p.id}`
           })
         }
