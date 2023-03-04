@@ -1,9 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ListProductImage } from 'app/contracts/file/list_productImage';
+import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
+import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
+import { SetShowcaseImage } from 'app/contracts/file/setShowcase_image';
 import { BaseStorageUrl } from 'app/contracts/setting/baseStorageUrl';
-import { FileUploadOptions } from '../file-upload/file-upload.component';
 import { SettingService } from '../modals/setting.service';
 import { FileControlService } from './file-control.service';
+
+declare var $:any
 
 @Component({
   selector: 'app-file-control',
@@ -14,28 +19,43 @@ export class FileControlComponent implements OnInit{
 
   constructor(private fileControlService:FileControlService, private settingService:SettingService) { }
 
-  @Input() options:Partial<FileUploadOptions>
-  @Input() getOptions:Partial<FileUploadOptions>
+  @Input() fileUploadOptions:Partial<FileUploadOptions>
+  @Input() fileDeployOptions:Partial<FileDeployOptions>
+  @Output() dataEmitter:EventEmitter<FormData>=new EventEmitter();
 
   images:ListProductImage[]=[]
   baseUrl:BaseStorageUrl
+  formData:FormData=new FormData()
 
   async ngOnInit() {
     await this.getImages()
   }
 
+  async changeShowcase(imageId:string,event:MatCheckboxChange){
+    let body:SetShowcaseImage =new SetShowcaseImage();
+    body.showcase= event.checked
+    body.imageId=imageId
+    await this.fileControlService.setShowcase(body);
+  }
 
   async getImages(){
-    const response=await this.fileControlService.getFiles(this.getOptions.explanation,this.getOptions)
-    this.images=response.items
     this.getBaseStorageUrl()
+    const response=await this.fileControlService.getFiles(this.fileDeployOptions.id,this.fileDeployOptions)
+    this.images=response.items
   }
 
   async getBaseStorageUrl(){
     this.baseUrl=await this.settingService.getBaseStorageUrl()
   }
 
+  async deleteImage(id){
+    this.fileControlService.deleteFile(id);
+  }
 
+  getFileData(obj: FormData) {
+    this.formData = obj
+    this.dataEmitter.emit(this.formData)
+  }
 }
 
 
