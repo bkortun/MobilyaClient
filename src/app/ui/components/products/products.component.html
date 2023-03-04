@@ -4,12 +4,9 @@
     <div class="card cardPosition">
       <div *ngIf="isContainsWithoutNull(productImage.images)" [id]="'id'+productImage.product.id" class="carousel carousel-dark slide" data-bs-ride="true">
         <div class="carousel-indicators">
-          <button type="button" [attr.data-bs-target]="'#id'+productImage.product.id" data-bs-slide-to="0" class="active"
-            aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" [attr.data-bs-target]="'#id'+productImage.product.id" data-bs-slide-to="1"
-            aria-label="Slide 2"></button>
-          <button type="button" [attr.data-bs-target]="'#id'+productImage.product.id" data-bs-slide-to="2"
-            aria-label="Slide 3"></button>
+          <button type="button" [attr.data-bs-target]="'#id'+productImage.product.id" data-bs-slide-to="0" aria-current="true" class="active" aria-label="Slide 0"></button>
+          <button type="button" [attr.data-bs-target]="'#id'+productImage.product.id" data-bs-slide-to="1" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" [attr.data-bs-target]="'#id'+productImage.product.id" data-bs-slide-to="2" aria-current="true" aria-label="Slide 2"></button>
         </div>
         <div class="carousel-inner">
             <div *ngFor="let image of productImage.images">

@@ -26,15 +26,16 @@ export class ProductsComponent implements OnInit {
   }
 
   async combineProductImages(){
-    let listProduct:ListObject = await this.productService.list(1,36);
+    let listProduct:ListObject = await this.productService.list(2,36);
     let products:Product[]=listProduct.items
 
     let list:ListObject = await this.imageService.listByShowcaseProductImage();
-    let images:ListProductImage[]=list.items;
+    let images:ListProductImage[]=new Array(list.count);
+    images=list.items;
 
     products.forEach(product => {
       let entity:ProductImage=new ProductImage();
-      let img:ListProductImage[]=new Array();
+      let img:ListProductImage[]=new Array(list.count);
       let isFirst=true
       entity.product=product;
       images.forEach(image => {
@@ -46,16 +47,20 @@ export class ProductsComponent implements OnInit {
         else{
           img.push(null)
         }
+        console.log(image)
+
       });
       entity.images=img
       this.productImages.push(entity);
     });
-    console.log(this.productImages)
+
   }
 
   isContainsWithoutNull(array){
     return array.some(el=>el!==null)
   }
+
+
 
   async getbaseUrl(){
    this.baseUrl = await this.settingService.getBaseStorageUrl()
