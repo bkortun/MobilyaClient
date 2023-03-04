@@ -1,9 +1,10 @@
-export class ListProductImage{
-  path:string
-  name:string
-  id:string
-  imageId:string
-  fileId:string
-  productId:string
-  showcase:boolean
+export class ListProductImage {
+  id: string
+  productId: string
+  imageId: string
+  fileId: string
+  imageName: string
+  path: string
+  showcase: boolean
+  isFirst?:boolean
 }

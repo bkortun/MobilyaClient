@@ -4,7 +4,7 @@
     <mat-card-header>
       <mat-checkbox class="example-margin" [checked]="image.showcase" (change)="changeShowcase(image.imageId,$event)">Vitrinde!</mat-checkbox>
     </mat-card-header>
-    <img mat-card-image src="{{baseUrl?.url}}/{{image.path}}" [alt]="image.name">
+    <img mat-card-image src="{{baseUrl?.url}}/{{image.path}}" [alt]="image.imageName">
     <mat-card-actions>
       <button mat-raised-button color="warn" (click)="deleteImage(image.fileId)">Sil</button>
     </mat-card-actions>

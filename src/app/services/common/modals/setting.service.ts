@@ -10,7 +10,7 @@ export class SettingService {
 
   constructor(private httpClientService:HttpClientService) { }
 
-  async getBaseStorageUrl(page:number=0, size:number=5,successCallBack?:()=>void,errorCallBack?:(error)=>void):Promise<BaseStorageUrl>{
+  async getBaseStorageUrl():Promise<BaseStorageUrl>{
     const observable:Observable<BaseStorageUrl>=this.httpClientService.get({
       controller:"settings",
       action:"GetBaseStorageUrl"

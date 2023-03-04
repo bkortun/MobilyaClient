@@ -11,12 +11,19 @@ export class ImageService {
 
   constructor(private httpClientService:HttpClientService) { }
 
-  async listByShowcaseProductImage(productId:string):Promise<ListObject>{
+  async listByShowcaseProductImage():Promise<ListObject>{
     const observable:Observable<ListObject>=this.httpClientService.get({
       controller:"productImages",
       action:"listByShowcase",
-      queryString:`productId=${productId}`
     })
     return await firstValueFrom(observable) as ListObject;
   }
+
+  // async listProductImages(page:number=0, size:number=5){
+  //   const observable:Observable<ListObject>=this.httpClientService.get({
+  //     controller:"productImages",
+  //     queryString:`page=${page}&pageSize=${size}`
+  //   })
+  //   return await firstValueFrom(observable) as ListObject;
+  // }
 }
