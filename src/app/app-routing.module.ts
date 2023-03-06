@@ -13,6 +13,7 @@ const routes: Routes = [
       { path: "", component: DashboardComponent,canActivate:[LoginGuard] },//ana sayfa niteliğinde olduğu için doğrudan componenti veriyoruz
       { path: "products", loadChildren: () => import("./admin/components/products/products.module").then(module => module.ProductsModule) },
       { path: "auth", loadChildren: () => import("./admin/components/auth/auth.module").then(module => module.AuthModule) },
+      { path: "categories", loadChildren: () => import("./admin/components/category/category.module").then(module => module.CategoryModule) },
 
     ],canActivate:[LoginGuard],data:{expectedRoles:["Admin"]}
   },

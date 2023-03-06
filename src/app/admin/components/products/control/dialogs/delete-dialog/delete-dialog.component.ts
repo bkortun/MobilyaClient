@@ -10,7 +10,8 @@ import { ProductService } from 'app/services/common/modals/product.service';
 })
 export class DeleteDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public deletedData:any,private productService: ProductService,public dialogRef: MatDialogRef<DeleteDialogComponent>,private alertifyService:AlertifyService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public deletedData:any,private productService: ProductService,
+  public dialogRef: MatDialogRef<DeleteDialogComponent>,private alertifyService:AlertifyService) { }
 
   ngOnInit(): void {
   }
