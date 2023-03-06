@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ListObject } from 'app/contracts/common/list_object';
+import { AddCategoryProduct } from 'app/contracts/product/addCategory_product';
 import { CreateProduct } from 'app/contracts/product/create_product';
 import { DeleteProduct } from 'app/contracts/product/delete_product';
 import { UpdateProduct } from 'app/contracts/product/update_product';
@@ -53,5 +54,14 @@ export class ProductService {
     //successCallBack();
     //errorCallBack(this.errorMessage);
     return deletedProduct;
+  }
+
+  async addCategory(body:AddCategoryProduct){
+    const observable:Observable<any|DeleteProduct>= this.httpClientService.post({
+      controller:"products",
+      action:"addCategory"
+    },body);
+    const addedCategory= await firstValueFrom(observable);
+    return addedCategory;
   }
 }

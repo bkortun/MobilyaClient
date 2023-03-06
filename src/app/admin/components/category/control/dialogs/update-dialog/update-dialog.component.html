@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Kategoriyi Güncelle</h1>
+<form [formGroup]="categoryForm">
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Kategori Adı</mat-label>
+      <input formControlName="name" matInput placeholder="">
+    </mat-form-field>
+  </div>
+</form>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-raised-button color="warn" mat-dialog-close>Kapat</button>
+  <button mat-raised-button color="primary" (click)="updateCategory()">Güncelle</button>
+</div>
