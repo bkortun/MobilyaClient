@@ -9,6 +9,8 @@ export class HeaderComponent implements OnInit {
 
   constructor() { }
 
+  @Input() drawer:any
+
   ngOnInit(): void {
   }
 }

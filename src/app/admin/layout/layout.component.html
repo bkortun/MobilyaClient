@@ -1,5 +1,5 @@
 
-<app-header></app-header>
+<app-header [drawer]="drawer"></app-header>
 <mat-drawer-container autosize class="sidenav-container">
   <mat-drawer #drawer mode="side" opened class="sidenav"><app-sidebar></app-sidebar></mat-drawer>
   <mat-drawer-content class="sidenav-content"><router-outlet></router-outlet></mat-drawer-content>
