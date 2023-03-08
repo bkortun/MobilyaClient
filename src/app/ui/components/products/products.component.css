@@ -1,9 +1,10 @@
 .productsCard{
   margin: 2px;
-  float: left;
-
+  display: inline-block;
 }
 .cardPosition{
   width: 20rem;
   height: 25rem;
+  margin-bottom: 15px;
 }
+
