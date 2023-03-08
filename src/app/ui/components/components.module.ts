@@ -5,6 +5,8 @@ import { ProductsModule } from './products/products.module';
 import { HomeModule } from './home/home.module';
 import { LoginModule } from './login/login.module';
 import { ProfileModule } from './profile/profile.module';
+import { ContactModule } from './contact/contact.module';
+import { AboutModule } from './about/about.module';
 
 
 
@@ -17,7 +19,9 @@ import { ProfileModule } from './profile/profile.module';
     HomeModule,
     ProductsModule,
     LoginModule,
-    ProfileModule
+    ProfileModule,
+    ContactModule,
+    AboutModule
   ]
 })
 export class ComponentsModule { }

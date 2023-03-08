@@ -22,7 +22,9 @@ const routes: Routes = [
       {path:"",component:HomeComponent},
       {path:"products",loadChildren:()=>import("./ui/components/products/products.module").then(module=>module.ProductsModule)},
       {path:"login",loadChildren:()=>import("./ui/components/login/login.module").then(module=>module.LoginModule)},
-      {path:"register",loadChildren:()=>import("./ui/components/register/register.module").then(module=>module.RegisterModule)}
+      {path:"register",loadChildren:()=>import("./ui/components/register/register.module").then(module=>module.RegisterModule)},
+      {path:"contact",loadChildren:()=>import("./ui/components/contact/contact.module").then(module=>module.ContactModule)},
+      {path:"about",loadChildren:()=>import("./ui/components/about/about.module").then(module=>module.AboutModule)}
     ]
   },
   { path: "admin/login", component: LoginComponent }];
