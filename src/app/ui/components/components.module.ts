@@ -11,6 +11,7 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { ProductDetailsModule } from './product-details/product-details.module';
 import { CampaignModule } from './campaign/campaign.module';
 import { FormsModule } from '@angular/forms';
+import { CommentModule } from './comment/comment.module';
 
 
 
@@ -27,6 +28,7 @@ import { FormsModule } from '@angular/forms';
     ProfileModule,
     ContactModule,
     AboutModule,
+    CommentModule
   ]
 })
 export class ComponentsModule { }
