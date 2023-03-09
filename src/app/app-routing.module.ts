@@ -24,6 +24,7 @@ const routes: Routes = [
       {path:"",loadChildren:()=>import("./ui/components/product-details/product-details.module").then(module=>module.ProductDetailsModule)},
       {path:"login",loadChildren:()=>import("./ui/components/login/login.module").then(module=>module.LoginModule)},
       {path:"register",loadChildren:()=>import("./ui/components/register/register.module").then(module=>module.RegisterModule)},
+      {path:"",loadChildren:()=>import("./ui/components/profile/profile.module").then(module=>module.ProfileModule)},
       {path:"contact",loadChildren:()=>import("./ui/components/contact/contact.module").then(module=>module.ContactModule)},
       {path:"about",loadChildren:()=>import("./ui/components/about/about.module").then(module=>module.AboutModule)}
     ]

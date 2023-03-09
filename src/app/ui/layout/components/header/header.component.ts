@@ -11,24 +11,30 @@ import { CategoryService } from 'app/services/common/modals/category.service';
 export class HeaderComponent implements OnInit {
 
 
-  constructor(public authService:AuthService, private categoryService:CategoryService) {
+  constructor(public authService: AuthService, private categoryService: CategoryService) {
     authService.checkToken()
   }
 
-  categories:CategoryResponse[]=[];
+  categories: CategoryResponse[] = [];
+  userId: string
 
   ngOnInit(): void {
+    this.getUserId();
     this.listCategories()
   }
 
-  logOut(){
+  logOut() {
     localStorage.removeItem("token")
     this.authService.checkToken()
   }
 
-  async listCategories(){
-    let list =await this.categoryService.list();
-    this.categories=list.items
+  async listCategories() {
+    let list = await this.categoryService.list();
+    this.categories = list.items
+  }
+
+  getUserId() {
+    this.userId = this.authService.decodeToken().nameIdentifier;
   }
 
 }

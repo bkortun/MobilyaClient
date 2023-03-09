@@ -11,14 +11,14 @@ export class HeaderComponent implements OnInit {
   constructor(private authService:AuthService) { }
 
   @Input() drawer:any
-  name:string
+  email:string
 
   ngOnInit(): void {
     this.getName();
   }
 
   getName(){
-   this.name = this.authService.decodeToken().name;
+   this.email = this.authService.decodeToken().email;
   }
 
 }
