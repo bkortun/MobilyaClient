@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { AuthService } from 'app/services/common/modals/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,10 +8,17 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService:AuthService) { }
 
   @Input() drawer:any
+  name:string
 
   ngOnInit(): void {
+    this.getName();
   }
+
+  getName(){
+   this.name = this.authService.decodeToken().name;
+  }
+
 }
