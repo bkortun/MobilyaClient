@@ -7,21 +7,26 @@ import { LoginModule } from './login/login.module';
 import { ProfileModule } from './profile/profile.module';
 import { ContactModule } from './contact/contact.module';
 import { AboutModule } from './about/about.module';
+import { ProductDetailsComponent } from './product-details/product-details.component';
+import { ProductDetailsModule } from './product-details/product-details.module';
+import { CampaignModule } from './campaign/campaign.module';
+import { FormsModule } from '@angular/forms';
 
 
 
 @NgModule({
-  declarations: [
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     RegisterModule,
     HomeModule,
     ProductsModule,
+    ProductDetailsModule,
+    CampaignModule,
     LoginModule,
     ProfileModule,
     ContactModule,
-    AboutModule
+    AboutModule,
   ]
 })
 export class ComponentsModule { }

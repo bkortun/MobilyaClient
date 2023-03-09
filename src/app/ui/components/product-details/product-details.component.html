@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row product-details" *ngIf="product">
+    <div class="col-sm-6">
+      <div *ngIf="isContainsWithoutNull(images)" [id]="'id'+product.id"
+        class="carousel carousel-dark slide border border-dark" data-bs-ride="true">
+        <div class="carousel-indicators">
+          <button type="button" [attr.data-bs-target]="'#id'+product.id" data-bs-slide-to="0" aria-current="true"
+            class="active" aria-label="Slide 0"></button>
+          <button type="button" [attr.data-bs-target]="'#id'+product.id" data-bs-slide-to="1" aria-current="true"
+            aria-label="Slide 1"></button>
+          <button type="button" [attr.data-bs-target]="'#id'+product.id" data-bs-slide-to="2" aria-current="true"
+            aria-label="Slide 2"></button>
+        </div>
+        <div class="carousel-inner">
+          <div *ngFor="let image of images">
+            <div [ngClass]="image.isFirst? 'carousel-item active':'carousel-item'" *ngIf="image?.path">
+              <img src="{{baseUrl?.url}}/{{image?.path}}" class="d-block w-100" alt="...">
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#id'+product.id"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#id'+product.id"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <div *ngIf="!isContainsWithoutNull(images)">
+        <img class="product-img" src="../../../../assets/istockphoto-1252414324-612x612.jpg" class="d-block w-100"
+          alt="...">
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="details">
+        <h1>{{product.name}}</h1>
+        <h3>Fiyat: {{product.price}}₺</h3>
+        <h4>Kategori:</h4>
+        <button type="button" style="margin-right: 15px;" class="btn btn-success">Hemen Satıl Al</button>
+        <button type="button" class="btn btn-warning">Sepete Ekle</button>
+        <div class="quantity-group">
+          <div class="input-group input-group-lg" style="width: fit-content;">
+            <button type="button" class="btn btn-info" (click)="decreaseQuantity()">-</button>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-lg" [(ngModel)]="selectedQuantity">
+            <button type="button" class="btn btn-info" (click)="increaseQuantity()">+</button>
+          </div>
+          <h4 style="margin-top: 10px;">Açıklama:</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,6 +4,7 @@ import { ListObject } from 'app/contracts/common/list_object';
 import { AddCategoryProduct } from 'app/contracts/product/addCategory_product';
 import { CreateProduct } from 'app/contracts/product/create_product';
 import { DeleteProduct } from 'app/contracts/product/delete_product';
+import { Product } from 'app/contracts/product/product';
 import { UpdateProduct } from 'app/contracts/product/update_product';
 import { catchError, firstValueFrom, Observable, of } from 'rxjs';
 import { HttpClientService } from '../http-client.service';
@@ -63,5 +64,13 @@ export class ProductService {
     },body);
     const addedCategory= await firstValueFrom(observable);
     return addedCategory;
+  }
+
+  async listById(id:string):Promise<Product>{
+    const observable:Observable<Product>=this.httpClientService.get({
+      controller:"products",
+      //queryString:`id=${id}`
+    },id)
+    return await firstValueFrom(observable) as Product;
   }
 }

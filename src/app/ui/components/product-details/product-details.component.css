@@ -1,0 +1,16 @@
+.w-100 {
+  width: 100% !important;
+  height: 60vh;
+}
+.product-details{
+  margin-top: 50px;
+  margin-bottom: 80px;
+}
+.product-details .product-img{
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+}
+.quantity-group{
+  margin-top: 20px;
+}

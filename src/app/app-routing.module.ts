@@ -21,6 +21,7 @@ const routes: Routes = [
     path:"",component:UiLayoutComponent,children:[
       {path:"",component:HomeComponent},
       {path:"products",loadChildren:()=>import("./ui/components/products/products.module").then(module=>module.ProductsModule)},
+      {path:"",loadChildren:()=>import("./ui/components/product-details/product-details.module").then(module=>module.ProductDetailsModule)},
       {path:"login",loadChildren:()=>import("./ui/components/login/login.module").then(module=>module.LoginModule)},
       {path:"register",loadChildren:()=>import("./ui/components/register/register.module").then(module=>module.RegisterModule)},
       {path:"contact",loadChildren:()=>import("./ui/components/contact/contact.module").then(module=>module.ContactModule)},
