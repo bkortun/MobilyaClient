@@ -19,14 +19,16 @@ export class ProductsComponent implements OnInit {
 
   productImages:ProductImage[]=[]
   baseUrl:BaseStorageUrl
+  page=0
+  size=36
 
   ngOnInit(): void {
     this.getbaseUrl()
-    this.combineProductImages();
+    this.combineProductImages(this.page,this.size);
   }
 
-  async combineProductImages(){
-    let listProduct:ListObject = await this.productService.list(2,36);
+  async combineProductImages(page,size){
+    let listProduct:ListObject = await this.productService.list(page,size);
     let products:Product[]=listProduct.items
 
     let list:ListObject = await this.imageService.listByShowcaseProductImage();
@@ -47,7 +49,6 @@ export class ProductsComponent implements OnInit {
         else{
           img.push(null)
         }
-        console.log(image)
 
       });
       entity.images=img
@@ -64,6 +65,12 @@ export class ProductsComponent implements OnInit {
 
   async getbaseUrl(){
    this.baseUrl = await this.settingService.getBaseStorageUrl()
+  }
+
+  onScroll(){
+    console.log(this.page)
+    this.page=this.page+1
+    this.combineProductImages(this.page,this.size)
   }
 
 
