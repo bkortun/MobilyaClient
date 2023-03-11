@@ -14,6 +14,7 @@ const routes: Routes = [
       { path: "products", loadChildren: () => import("./admin/components/products/products.module").then(module => module.ProductsModule) },
       { path: "auth", loadChildren: () => import("./admin/components/auth/auth.module").then(module => module.AuthModule) },
       { path: "categories", loadChildren: () => import("./admin/components/category/category.module").then(module => module.CategoryModule) },
+      { path: "campaigns", loadChildren: () => import("./admin/components/campaign/campaign.module").then(module => module.CampaignModule) },
 
     ],canActivate:[LoginGuard],data:{expectedRoles:["Admin"]}
   },
@@ -25,6 +26,7 @@ const routes: Routes = [
       {path:"login",loadChildren:()=>import("./ui/components/login/login.module").then(module=>module.LoginModule)},
       {path:"register",loadChildren:()=>import("./ui/components/register/register.module").then(module=>module.RegisterModule)},
       {path:"contact",loadChildren:()=>import("./ui/components/contact/contact.module").then(module=>module.ContactModule)},
+      {path:"campaign",loadChildren:()=>import("./ui/components/campaign/campaign.module").then(module=>module.CampaignModule)},
       {path:"about",loadChildren:()=>import("./ui/components/about/about.module").then(module=>module.AboutModule)}
     ]
   },

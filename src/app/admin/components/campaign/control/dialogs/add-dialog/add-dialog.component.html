@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Kampanya Ekle</h1>
+<form [formGroup]="campaignForm">
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Kampanya Adı</mat-label>
+      <input formControlName="name" matInput placeholder="">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Kampanya Açıklama</mat-label>
+      <input formControlName="description" type="text" matInput placeholder="">
+    </mat-form-field>
+
+  </div>
+</form>
+<!-- <app-file-upload [fileUploadOptions]="fileUploadOptions" (dataEmitter)="getFileData($event)"></app-file-upload> -->
+<div mat-dialog-actions [align]="'end'">
+  <button mat-raised-button color="warn" mat-dialog-close>Kapat</button>
+  <button mat-raised-button color="primary" (click)="addCampaign()">Ekle</button>
+</div>
