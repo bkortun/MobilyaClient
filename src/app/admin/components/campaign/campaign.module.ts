@@ -18,6 +18,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
+import { FileControlModule } from 'app/services/common/file-control/file-control.module';
+import { FileUploadModule } from 'app/services/common/file-upload/file-upload.module';
 
 
 
@@ -45,6 +47,8 @@ import { MatSortModule } from '@angular/material/sort';
     ReactiveFormsModule,
     FormsModule,
     MatSortModule,
+    FileUploadModule,
+    FileControlModule
   ]
 })
 export class CampaignModule { }

@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { CreateCampaign } from 'app/contracts/campaign/create_campaign';
+import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
+import { FileUploadService } from 'app/services/common/file-upload/file-upload.service';
 import { CampaignService } from 'app/services/common/modals/campaign.service';
 
 @Component({
@@ -14,9 +17,17 @@ export class AddDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<AddDialogComponent>,
     private formBuilder: FormBuilder,
     private campaignService: CampaignService,
+    private fileUploadService: FileUploadService
   ) { }
 
+  @Output() fileUploadOptions: Partial<FileUploadOptions> = {
+    accept: ".jpg,.png,.jpeg",
+    explanation: "Resim Ekle...",
+  }
+
   campaignForm: FormGroup;
+  formData: FormData = new FormData();
+
 
   ngOnInit(): void {
     this.campaignForm = this.formBuilder.group({
@@ -26,12 +37,32 @@ export class AddDialogComponent implements OnInit {
   }
 
   async addCampaign() {
+    const imageId=await this.uploadImage();
     if (this.campaignForm.valid){
-      await this.campaignService.create(this.campaignForm.value)
+      let createCampaign:CreateCampaign=new CreateCampaign();
+      createCampaign.name=this.campaignForm.value["name"]
+      createCampaign.description=this.campaignForm.value["description"]
+      createCampaign.imageId=imageId
+      console.log(createCampaign)
+      await this.campaignService.create(createCampaign)
     }
     this.campaignForm.reset();
     //When save button on clicked, dialog will close
     this.dialogRef.close();
   }
 
+  async uploadImage():Promise<string>{
+      if (this.formData) {
+       let uploadedImage=await this.fileUploadService.uploadFile(this.formData, {
+          action: "UploadCampaignImage",
+          controller: "campaigns",
+        });
+        return uploadedImage["id"];
+      }
+      return null;
+  }
+
+  getFileData(obj: FormData) {
+    this.formData = obj
+  }
 }
