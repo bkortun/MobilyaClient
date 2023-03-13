@@ -1,7 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
-import { UploadImage } from 'app/contracts/file/upload_image';
 import { firstValueFrom, Observable } from 'rxjs';
 import { HttpClientService } from '../http-client.service';
 

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Campaign } from 'app/contracts/campaign/campaign';
+import { CampaignService } from 'app/services/common/modals/campaign.service';
 
 @Component({
   selector: 'app-campaign',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CampaignComponent implements OnInit {
 
-  constructor() { }
+  constructor(private campaignService: CampaignService, private activeRoute: ActivatedRoute) { }
 
-  ngOnInit(): void {
+  campaign: Campaign
+
+  async ngOnInit() {
+    let campaignId = this.activeRoute.snapshot.paramMap.get("campaignId");
+    this.getCampaign(campaignId);
   }
 
+  async getCampaign(campaignId: string) {
+    this.campaign = await this.campaignService.listById(campaignId);
+  }
 }
