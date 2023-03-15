@@ -15,6 +15,7 @@ const routes: Routes = [
       { path: "auth", loadChildren: () => import("./admin/components/auth/auth.module").then(module => module.AuthModule) },
       { path: "categories", loadChildren: () => import("./admin/components/category/category.module").then(module => module.CategoryModule) },
       { path: "campaigns", loadChildren: () => import("./admin/components/campaign/campaign.module").then(module => module.CampaignModule) },
+      { path: "users", loadChildren: () => import("./admin/components/user/user.module").then(module => module.UserModule) },
 
     ],canActivate:[LoginGuard],data:{expectedRoles:["Admin"]}
   },

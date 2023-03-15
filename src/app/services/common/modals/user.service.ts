@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, firstValueFrom, Observable, of } from 'rxjs';
 import { HttpClientService } from '../http-client.service';
 import { Register } from 'app/contracts/user/register';
+import { ListObject } from 'app/contracts/common/list_object';
 
 @Injectable({
   providedIn: 'root',
@@ -45,5 +46,21 @@ export class UserService {
     }
     callBackFunction();
     errorCallBack(this.errorMessage);
+  }
+
+  async listUserDetails(page,size):Promise<ListObject>{
+    const observable:Observable<ListObject>=this.httpClientService.get({
+      action:"listUserDetails",
+      controller:"userDetails"
+    })
+    return await firstValueFrom(observable) as ListObject
+  }
+
+  async listUsers(page,size):Promise<ListObject>{
+    const observable:Observable<ListObject>=this.httpClientService.get({
+      action:"listUsers",
+      controller:"users"
+    })
+    return await firstValueFrom(observable) as ListObject
   }
 }
