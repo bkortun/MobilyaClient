@@ -27,4 +27,12 @@ export class ImageService {
     },productId)
     return await firstValueFrom(observable) as ListObject;
   }
+
+  async listCampaignImage(campaignId:string){
+    const observable:Observable<ListObject>=this.httpClientService.get({
+      controller:"campaigns",
+      action:"listCampaignImage"
+    },campaignId)
+    return await firstValueFrom(observable) as ListObject;
+  }
 }
