@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   async login(email: string, password: string) {
 
     await this.userService.login(email,password,()=>this.authService.checkToken(email))
-console.log(this.authService.isAuthenticated)
+console.log(this.authService.decodeToken())
     this.activatedRoute.queryParams.subscribe(params => {
       const returnUrl: string = params["returnUrl"];
       if (returnUrl)
