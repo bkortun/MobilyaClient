@@ -4,6 +4,7 @@ import { ProfileComponent } from './profile.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadModule } from 'app/services/common/file-upload/file-upload.module';
+import { FileControlModule } from 'app/services/common/file-control/file-control.module';
 
 
 
@@ -16,7 +17,8 @@ import { FileUploadModule } from 'app/services/common/file-upload/file-upload.mo
     RouterModule.forChild([{path:"profile/:userId",component:ProfileComponent}]),
     ReactiveFormsModule,
     FormsModule,
-    FileUploadModule
+    FileUploadModule,
+    FileControlModule
   ]
 })
 export class ProfileModule { }

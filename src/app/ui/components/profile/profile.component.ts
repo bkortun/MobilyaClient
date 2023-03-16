@@ -1,5 +1,7 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
 import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
 import { User } from 'app/contracts/user/user';
 import { UserDetail } from 'app/contracts/user/userDetails';
@@ -15,7 +17,8 @@ import { UserService } from 'app/services/common/modals/user.service';
 export class ProfileComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService,
-    private userService: UserService, private fileUploadService: FileUploadService) { }
+    private userService: UserService, private fileUploadService: FileUploadService,
+    private activeRoute:ActivatedRoute) { }
 
   profileForm: FormGroup;
   user: User;
@@ -26,6 +29,11 @@ export class ProfileComponent implements OnInit {
   @Output() fileUploadOptions: Partial<FileUploadOptions> = {
     accept: ".jpg,.png,.jpeg",
     explanation: "Profil Resimi Ekle...",
+  }
+  @Output() fileDeployOptions: Partial<FileDeployOptions> = {
+    action:"ListProfilePhoto",
+    controller:"userDetails",
+    id:this.activeRoute.snapshot.paramMap.get("userId")
   }
 
   async ngOnInit() {

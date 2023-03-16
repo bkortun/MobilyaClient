@@ -87,7 +87,7 @@
       </div>
       <div class="col-md-5 col-lg-4">
         <div class="py-5 text-center">
-          <app-file-upload [fileUploadOptions]="fileUploadOptions" (dataEmitter)="getFileData($event)"></app-file-upload>
+          <app-file-control [fileUploadOptions]="fileUploadOptions" [fileDeployOptions]="fileDeployOptions" (dataEmitter)="getFileData($event)"></app-file-control>
         </div>
       </div>
     </div>
