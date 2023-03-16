@@ -1,11 +1,13 @@
-export class UserDetails{
+import { User } from "./user";
+
+export class UserDetail{
   id:string;
-  userId:string
+  userId:string;
   firstName:string;
   lastName:string;
   email:string;
   gender:boolean;
-  birthday:Date;
+  dateOfBirth:Date;
   phoneNumber:string;
   profilePhotoId:string;
 }

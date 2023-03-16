@@ -4,6 +4,8 @@ import { catchError, firstValueFrom, Observable, of } from 'rxjs';
 import { HttpClientService } from '../http-client.service';
 import { Register } from 'app/contracts/user/register';
 import { ListObject } from 'app/contracts/common/list_object';
+import { UserDetail } from 'app/contracts/user/userDetails';
+import { User } from 'app/contracts/user/user';
 
 @Injectable({
   providedIn: 'root',
@@ -50,17 +52,34 @@ export class UserService {
 
   async listUserDetails(page,size):Promise<ListObject>{
     const observable:Observable<ListObject>=this.httpClientService.get({
-      action:"listUserDetails",
-      controller:"userDetails"
+      controller:"userDetails",
+      queryString:`page=${page}&pageSize=${size}`
+
     })
     return await firstValueFrom(observable) as ListObject
   }
 
-  async listUsers(page,size):Promise<ListObject>{
-    const observable:Observable<ListObject>=this.httpClientService.get({
-      action:"listUsers",
-      controller:"users"
-    })
-    return await firstValueFrom(observable) as ListObject
+  //this func just get all user details
+  async listUserDetailByUserId(userId:string){
+    const observable:Observable<UserDetail>=this.httpClientService.get({
+      controller:"userDetails"
+    },userId)
+    return await firstValueFrom(observable) as UserDetail
   }
+
+  //this func just get only user data (first,lastName,email)
+  async listByUserId(userId:string){
+    const observable:Observable<User>=this.httpClientService.get({
+      controller:"users"
+    },userId)
+    return await firstValueFrom(observable) as User
+  }
+
+  async updateDetails(userDetail:UserDetail){
+    const observable:Observable<UserDetail>=this.httpClientService.put({
+      controller:"userDetails"
+    },userDetail)
+    return await firstValueFrom(observable) as UserDetail
+  }
+
 }

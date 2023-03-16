@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ListObject } from 'app/contracts/common/list_object';
-import { UserDetails } from 'app/contracts/user/userDetails';
+import { UserDetail } from 'app/contracts/user/userDetails';
 import { UserService } from 'app/services/common/modals/user.service';
 
 @Component({
@@ -15,8 +15,8 @@ export class UserComponent implements OnInit {
 
   constructor(private userService:UserService) { }
 
-  displayedColumns: string[] = ['firstName','lastName','email','gender','birthday','phoneNumber'];
-  dataSource: MatTableDataSource<UserDetails>;
+  displayedColumns: string[] = ['firstName','lastName','email','gender','dateOfBirth','phoneNumber'];
+  dataSource: MatTableDataSource<UserDetail>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
