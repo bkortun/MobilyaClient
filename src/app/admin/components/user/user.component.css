@@ -1,0 +1,21 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}
+
+.inside-container {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 98%;
+  height: 100%;
+  border: 2px solid rgb(197, 221, 245);
+}
