@@ -2,11 +2,13 @@ import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserAddress } from 'app/contracts/address/user_address';
 import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
 import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
 import { User } from 'app/contracts/user/user';
 import { UserDetail } from 'app/contracts/user/userDetails';
 import { FileUploadService } from 'app/services/common/file-upload/file-upload.service';
+import { AddressService } from 'app/services/common/modals/address.service';
 import { AuthService } from 'app/services/common/modals/auth.service';
 import { UserService } from 'app/services/common/modals/user.service';
 import { AddressDialogComponent } from './dialogs/address-dialog/address-dialog.component';
@@ -20,12 +22,15 @@ export class ProfileComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService,
     private userService: UserService, private fileUploadService: FileUploadService,
-    private activeRoute:ActivatedRoute,public dialog: MatDialog) { }
+    private activeRoute:ActivatedRoute,public dialog: MatDialog,private activatedRoute:ActivatedRoute,
+    private addressService:AddressService) { }
 
   profileForm: FormGroup;
   user: User;
   userDetail: UserDetail;
   formData: FormData = new FormData();
+  userAddresses:UserAddress[]
+  selectedAddress:UserAddress=null;
 
 
   @Output() fileUploadOptions: Partial<FileUploadOptions> = {
@@ -40,6 +45,7 @@ export class ProfileComponent implements OnInit {
 
   async ngOnInit() {
     this.initilazeForm();
+    this.getAddresses();
     this.setValues();
   }
 
@@ -116,5 +122,23 @@ export class ProfileComponent implements OnInit {
       width: "50%",
       height: "85%"
     });
+  }
+
+
+  async getAddresses(){
+    const list=await this.addressService.getAddresses(this.activatedRoute.snapshot.paramMap.get("userId"));
+    this.userAddresses=list.items;
+  }
+
+  getAddressId(id:string){
+    this.userAddresses.forEach(userAddress => {
+      if(userAddress.addressId==id)
+        this.selectedAddress=userAddress;
+    });
+  }
+
+  async deleteSelectedAddress(addressId:string){
+    this.addressService.delete(addressId);
+    this.selectedAddress=null;
   }
 }
