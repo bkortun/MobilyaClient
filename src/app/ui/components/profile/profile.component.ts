@@ -1,5 +1,6 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
 import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
@@ -8,6 +9,7 @@ import { UserDetail } from 'app/contracts/user/userDetails';
 import { FileUploadService } from 'app/services/common/file-upload/file-upload.service';
 import { AuthService } from 'app/services/common/modals/auth.service';
 import { UserService } from 'app/services/common/modals/user.service';
+import { AddressDialogComponent } from './dialogs/address-dialog/address-dialog.component';
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +20,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService,
     private userService: UserService, private fileUploadService: FileUploadService,
-    private activeRoute:ActivatedRoute) { }
+    private activeRoute:ActivatedRoute,public dialog: MatDialog) { }
 
   profileForm: FormGroup;
   user: User;
@@ -107,5 +109,12 @@ export class ProfileComponent implements OnInit {
 
   getFileData(obj: FormData) {
     this.formData = obj
+  }
+
+  openDialog() {
+    const dialogRef=this.dialog.open(AddressDialogComponent, {
+      width: "50%",
+      height: "85%"
+    });
   }
 }

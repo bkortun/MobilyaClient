@@ -1,0 +1,53 @@
+<div class="container">
+  <main>
+        <h2 class="mb-3">Adres Ekle</h2>
+        <form [formGroup]="addressForm">
+          <div class="row g-3">
+            <div class="col-sm-12">
+              <label for="title" class="form-label">Adres Başlık</label>
+              <input type="text" formControlName="title" class="form-control" id="title" placeholder="" value="">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="country" class="form-label">Ülke</label>
+              <input type="text" formControlName="country" class="form-control" id="country" placeholder="" value="">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="city" class="form-label">İl</label>
+              <input type="text" formControlName="city" class="form-control" id="city" placeholder="" value="">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="district" class="form-label">İlçe</label>
+              <input type="text" formControlName="district" class="form-control" id="district" placeholder="" value="">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="neighbourhood" class="form-label">Mahalle</label>
+              <input type="text" formControlName="neighbourhood" class="form-control" id="neighbourhood" placeholder=""
+                value="">
+            </div>
+
+            <div class="col-sm-12">
+              <label for="addressDetail" class="form-label">Adres Detay</label>
+              <input type="text" formControlName="addressDetail" class="form-control" id="addressDetail" placeholder=""
+                value="">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="zipCode" class="form-label">Posta Kodu</label>
+              <input type="text" formControlName="zipCode" class="form-control" id="zipCode" placeholder="" value="">
+            </div>
+          </div>
+        </form>
+        <hr class="my-4">
+        <div class="row">
+          <div class="col-md-9"></div>
+          <div class="col-md-3">
+            <button class="btn btn-danger " style="margin-right: 15px;" mat-dialog-close >İptal</button>
+            <button class="btn btn-primary" type="submit" (click)="addAddress()">Kaydet</button>
+          </div>
+        </div>
+  </main>
+</div>
