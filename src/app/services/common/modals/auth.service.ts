@@ -15,7 +15,7 @@ export class AuthService {
   constructor(private jwtHelper: JwtHelperService, private roleService: RoleService) { }
 
   private _isAuthenticated: boolean
-  roles: string[]=[]
+  roles: string[] = []
 
   async checkToken(email?: string) {
 
@@ -27,34 +27,35 @@ export class AuthService {
     } catch {
       isExpired = true
     }
-    this._isAuthenticated=token!=null || !isExpired
+    this._isAuthenticated = token != null || !isExpired
 
-    if(email){
+    //Todo burası düzeltilecek gerek yok
+    if (email) {
       const claims: ListObject = await this.roleService.listOperationClaimByUserEmail(email)
 
-      for(let i=0;i<claims.count;i++){
+      for (let i = 0; i < claims.count; i++) {
         this.roles.push(claims.items[i].name)
       }
     }
     console.log(this.isAuthenticated)
   }
 
-  decodeToken(){
+  decodeToken() {
     const token: string = localStorage.getItem("token")
-    if(token){
+    if (token) {
       var base64Url = token.split('.')[1];
       var base64 = base64Url.replace('-', '+').replace('_', '/');
-      const json= JSON.parse(window.atob(base64)) ;
-      this.renameKey(json,"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier","nameIdentifier");
-      this.renameKey(json,"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name","name");
-      this.renameKey(json,"http://schemas.microsoft.com/ws/2008/06/identity/claims/role","roles");
+      const json = JSON.parse(window.atob(base64));
+      this.renameKey(json, "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", "nameIdentifier");
+      this.renameKey(json, "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name", "name");
+      this.renameKey(json, "http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "roles");
       //const updatedJson=JSON.stringify(json);
       return json as DecodedJWT;
     }
     return null;
   }
 
-  private renameKey ( obj, oldKey, newKey ) {
+  private renameKey(obj, oldKey, newKey) {
     obj[newKey] = obj[oldKey];
     delete obj[oldKey];
   }
@@ -63,7 +64,7 @@ export class AuthService {
     return this._isAuthenticated
   }
 
-  getRoles(){
+  getRoles() {
     return this.roles
   }
 }

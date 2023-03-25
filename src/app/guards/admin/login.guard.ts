@@ -12,6 +12,7 @@ export class LoginGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      debugger
       console.log(this.authService.isAuthenticated)
     if (!this.authService.isAuthenticated) {
       this.router.navigate(["admin/login"], {

@@ -13,20 +13,23 @@ export class AddressService {
   constructor(private httpClientService: HttpClientService) { }
 
   async create(address:CreateAddress): Promise<CreateAddress> {
-    const obsevable: Observable<CreateAddress> = this.httpClientService.post({ controller: "Addresses" }, address)
-    let addedAddress:CreateAddress=await firstValueFrom(obsevable) as CreateAddress;
+    const observable: Observable<CreateAddress> = this.httpClientService.post({ controller: "Addresses" }, address)
+    let addedAddress:CreateAddress=await firstValueFrom(observable) as CreateAddress;
     return addedAddress;
   }
 
   async getAddresses(userId:string): Promise<ListObject> {
-    const obsevable: Observable<ListObject> = this.httpClientService.get({ controller: "UserDetailAddresses" }, userId)
-    let userAddress:ListObject=await firstValueFrom(obsevable) as ListObject;
+    const observable: Observable<ListObject> = this.httpClientService.get({
+      controller: "UserDetailAddresses",
+      queryString:`userId=${userId}`
+   }, userId)
+    let userAddress:ListObject=await firstValueFrom(observable) as ListObject;
     return userAddress;
   }
 
   async delete(id:string){
-    const obsevable= this.httpClientService.delete({ controller: "Addresses" }, id)
-    let deletedAddress=await firstValueFrom(obsevable);
+    const observable= this.httpClientService.delete({ controller: "Addresses" }, id)
+    let deletedAddress=await firstValueFrom(observable);
     return deletedAddress;
   }
 }

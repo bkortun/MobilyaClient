@@ -31,7 +31,7 @@
         </li>
       </ul>
       <div style="margin-right: 50px;">
-      <div *ngIf="authService.isAuthenticated==false; else accountDropdown">
+      <div *ngIf="!isAuth; else accountDropdown">
         <a routerLink="/login" style="margin-right: 10px;"><button class="btn btn-success">Giriş Yap</button></a>
         <a routerLink="/register" style="margin-right: 10px;"><button class="btn btn-warning">Üye Ol</button></a>
       </div>

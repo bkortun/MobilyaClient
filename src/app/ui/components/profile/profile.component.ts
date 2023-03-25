@@ -101,7 +101,7 @@ export class ProfileComponent implements OnInit {
   }
 
   async saveUserInfos() {
-    if(Object.keys(this.formData).length!==0) var profilePhotoId:string=await this.uploadProfilePhoto(this.userDetail.userId);
+     var profilePhotoId:string=await this.uploadProfilePhoto(this.userDetail.userId);
     if (this.profileForm.valid) {
       if (this.profileForm.value["gender"] == "Erkek")
         this.profileForm.value["gender"] = true
@@ -117,6 +117,8 @@ export class ProfileComponent implements OnInit {
   }
 
   async uploadProfilePhoto(userId: string):Promise<string> {
+
+
     if (this.formData) {
       let uploadedImage=await this.fileUploadService.uploadFile(this.formData, {
         action: "Upload",
@@ -143,6 +145,7 @@ export class ProfileComponent implements OnInit {
   async getAddresses(){
     const list=await this.addressService.getAddresses(this.activatedRoute.snapshot.paramMap.get("userId"));
     this.userAddresses=list.items;
+
   }
 
   getAddressId(id:string){

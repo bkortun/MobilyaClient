@@ -6,6 +6,7 @@ import { Register } from 'app/contracts/user/register';
 import { ListObject } from 'app/contracts/common/list_object';
 import { UserDetail } from 'app/contracts/user/userDetails';
 import { User } from 'app/contracts/user/user';
+import { UserAddress } from 'app/contracts/address/user_address';
 
 @Injectable({
   providedIn: 'root',
@@ -82,7 +83,7 @@ export class UserService {
     return await firstValueFrom(observable) as UserDetail
   }
 
-  //userDetailadrress list
+
   //userDetailadrress create
 
 }

@@ -30,13 +30,13 @@ export class RegisterComponent implements OnInit {
 
   register(){
     if (this.registerForm.valid) {
-     this.userService.register(this.registerForm.value,()=>{
-      this.authService.checkToken()
+     this.userService.register(this.registerForm.value,async ()=>{
+      await this.authService.checkToken()
         this.alertifyService.message("Kayıt Başarılı",{
           messageType:AlertifyMessageType.Success,
           position:AlertifyPosition.BottomRight
         })
-        this.router.navigate([`/`]);
+        this.router.navigate([`/profile/${this.authService.decodeToken().nameIdentifier}`]);
       },(error)=>{})
     }
   }

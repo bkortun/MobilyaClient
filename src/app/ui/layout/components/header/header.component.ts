@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CategoryResponse } from 'app/contracts/category/category_response';
 import { AuthService } from 'app/services/common/modals/auth.service';
 import { CategoryService } from 'app/services/common/modals/category.service';
@@ -10,9 +11,16 @@ import { CategoryService } from 'app/services/common/modals/category.service';
 })
 export class HeaderComponent implements OnInit {
 
+  isAuth:boolean;
 
-  constructor(public authService: AuthService, private categoryService: CategoryService) {
-    authService.checkToken()
+  constructor(public authService: AuthService, private categoryService: CategoryService,private router:Router) {
+    router.events.subscribe(()=>{
+      if(this.router.navigated){
+        this.authService.checkToken();
+        this.isAuth=this.authService.isAuthenticated;
+      }
+
+    })
   }
 
   categories: CategoryResponse[] = [];
@@ -24,8 +32,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut() {
-    localStorage.removeItem("token")
-    this.authService.checkToken()
+    localStorage.removeItem("token");
   }
 
   async listCategories() {
@@ -34,7 +41,8 @@ export class HeaderComponent implements OnInit {
   }
 
   getUserId() {
-    this.userId = this.authService.decodeToken().nameIdentifier;
+    if(this.isAuth)
+      this.userId = this.authService.decodeToken().nameIdentifier;
   }
 
 }
