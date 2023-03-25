@@ -36,7 +36,7 @@ export class AuthService {
         this.roles.push(claims.items[i].name)
       }
     }
-
+    console.log(this.isAuthenticated)
   }
 
   decodeToken(){

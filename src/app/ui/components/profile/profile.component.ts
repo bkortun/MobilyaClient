@@ -44,12 +44,12 @@ export class ProfileComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.initilazeForm();
+    this.initializeForm();
     this.getAddresses();
     this.setValues();
   }
 
-  initilazeForm() {
+  initializeForm() {
     this.profileForm = this.formBuilder.group({
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
@@ -78,15 +78,30 @@ export class ProfileComponent implements OnInit {
         this.profileForm.controls["gender"].setValue("Kadın");
       this.profileForm.controls["phoneNumber"].setValue(this.userDetail.phoneNumber);
     }
+    else{
+      //Todo
+      //! Backendden gelicek karşılama ile değiştirilecek
+      console.log(this.user)
+      this.profileForm.controls["firstName"].setValue(this.user.firstName);
+      this.profileForm.controls["lastName"].setValue(this.user.lastName);
+      this.profileForm.controls["email"].setValue(this.user.email);
+    }
   }
 
   async getUserDetail() {
     const userId = this.authService.decodeToken().nameIdentifier;
-    this.userDetail = await this.userService.listUserDetailByUserId(userId);
+    try {
+      this.userDetail = await this.userService.listUserDetailByUserId(userId);
+    } catch (error) {
+      console.log(error)
+      this.userDetail=null
+      this.user=await this.userService.listByUserId(userId)
+    }
+
   }
 
   async saveUserInfos() {
-    let profilePhotoId:string=await this.uploadProfilePhoto(this.userDetail.userId);
+    if(Object.keys(this.formData).length!==0) var profilePhotoId:string=await this.uploadProfilePhoto(this.userDetail.userId);
     if (this.profileForm.valid) {
       if (this.profileForm.value["gender"] == "Erkek")
         this.profileForm.value["gender"] = true

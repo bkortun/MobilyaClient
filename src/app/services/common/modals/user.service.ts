@@ -82,4 +82,7 @@ export class UserService {
     return await firstValueFrom(observable) as UserDetail
   }
 
+  //userDetailadrress list
+  //userDetailadrress create
+
 }
