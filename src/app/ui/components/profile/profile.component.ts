@@ -22,15 +22,15 @@ export class ProfileComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService,
     private userService: UserService, private fileUploadService: FileUploadService,
-    private activeRoute:ActivatedRoute,public dialog: MatDialog,private activatedRoute:ActivatedRoute,
-    private addressService:AddressService) { }
+    private activeRoute: ActivatedRoute, public dialog: MatDialog, private activatedRoute: ActivatedRoute,
+    private addressService: AddressService) { }
 
   profileForm: FormGroup;
   user: User;
   userDetail: UserDetail;
   formData: FormData = new FormData();
-  userAddresses:UserAddress[]
-  selectedAddress:UserAddress=null;
+  userAddresses: UserAddress[]
+  selectedAddress: UserAddress = null;
 
 
   @Output() fileUploadOptions: Partial<FileUploadOptions> = {
@@ -38,9 +38,9 @@ export class ProfileComponent implements OnInit {
     explanation: "Profil Resimi Ekle...",
   }
   @Output() fileDeployOptions: Partial<FileDeployOptions> = {
-    action:"ListProfilePhoto",
-    controller:"userDetails",
-    id:this.activeRoute.snapshot.paramMap.get("userId")
+    action: "ListProfilePhoto",
+    controller: "userDetails",
+    id: this.activeRoute.snapshot.paramMap.get("userId")
   }
 
   async ngOnInit() {
@@ -72,13 +72,21 @@ export class ProfileComponent implements OnInit {
       this.profileForm.controls["lastName"].setValue(this.userDetail.lastName);
       this.profileForm.controls["email"].setValue(this.userDetail.email);
       this.profileForm.controls["dateOfBirth"].setValue(this.userDetail.dateOfBirth);
-      if (this.userDetail.gender)
-        this.profileForm.controls["gender"].setValue("Erkek");
-      else
-        this.profileForm.controls["gender"].setValue("Kadın");
+      console.log(this.userDetail.gender)
+      if (this.userDetail.gender != null) {
+        if (this.userDetail.gender)
+          this.profileForm.controls["gender"].setValue("Erkek");
+        if (!this.userDetail.gender)
+          this.profileForm.controls["gender"].setValue("Kadın");
+      }
+      else{
+        this.profileForm.controls["gender"].setValue("Seç...");
+      }
+
+
       this.profileForm.controls["phoneNumber"].setValue(this.userDetail.phoneNumber);
     }
-    else{
+    else {
       //Todo
       //! Backendden gelicek karşılama ile değiştirilecek
       console.log(this.user)
@@ -94,36 +102,43 @@ export class ProfileComponent implements OnInit {
       this.userDetail = await this.userService.listUserDetailByUserId(userId);
     } catch (error) {
       console.log(error)
-      this.userDetail=null
-      this.user=await this.userService.listByUserId(userId)
+      this.userDetail = null
+      this.user = await this.userService.listByUserId(userId)
     }
 
   }
 
   async saveUserInfos() {
-     var profilePhotoId:string=await this.uploadProfilePhoto(this.userDetail.userId);
+    var profilePhotoId: string = await this.uploadProfilePhoto(this.userDetail.userId);
     if (this.profileForm.valid) {
       if (this.profileForm.value["gender"] == "Erkek")
         this.profileForm.value["gender"] = true
-      else
+      if (this.profileForm.value["gender"] == "Kadın")
         this.profileForm.value["gender"] = false
+      if (this.profileForm.value["gender"] == "Seç...")
+        this.profileForm.value["gender"] = null
 
       this.profileForm.value["userId"] = this.userDetail.userId;
-      this.profileForm.value["profilePhotoId"] = profilePhotoId;
+
+      if(profilePhotoId==undefined)
+        this.profileForm.value["profilePhotoId"]=this.userDetail.profilePhotoId;
+      else
+        this.profileForm.value["profilePhotoId"] = profilePhotoId;
+
       this.profileForm.value["id"] = this.userDetail.id;
       console.log(this.profileForm.value)
       await this.userService.updateDetails(this.profileForm.value);
     }
   }
 
-  async uploadProfilePhoto(userId: string):Promise<string> {
-
-
+  async uploadProfilePhoto(userId: string): Promise<string> {
     if (this.formData) {
-      let uploadedImage=await this.fileUploadService.uploadFile(this.formData, {
+      let uploadedImage = await this.fileUploadService.uploadFile(this.formData, {
         action: "Upload",
         controller: "userDetails",
         queryString: `userId=${userId}`
+      }).catch(()=>{
+        return "null";
       })
       return uploadedImage["profilePhotoId"];
     }
@@ -135,28 +150,28 @@ export class ProfileComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef=this.dialog.open(AddressDialogComponent, {
+    const dialogRef = this.dialog.open(AddressDialogComponent, {
       width: "50%",
       height: "85%"
     });
   }
 
 
-  async getAddresses(){
-    const list=await this.addressService.getAddresses(this.activatedRoute.snapshot.paramMap.get("userId"));
-    this.userAddresses=list.items;
+  async getAddresses() {
+    const list = await this.addressService.getAddresses(this.activatedRoute.snapshot.paramMap.get("userId"));
+    this.userAddresses = list.items;
 
   }
 
-  getAddressId(id:string){
+  getAddressId(id: string) {
     this.userAddresses.forEach(userAddress => {
-      if(userAddress.addressId==id)
-        this.selectedAddress=userAddress;
+      if (userAddress.addressId == id)
+        this.selectedAddress = userAddress;
     });
   }
 
-  async deleteSelectedAddress(addressId:string){
+  async deleteSelectedAddress(addressId: string) {
     this.addressService.delete(addressId);
-    this.selectedAddress=null;
+    this.selectedAddress = null;
   }
 }
