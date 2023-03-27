@@ -33,7 +33,8 @@ export class AddressDialogComponent implements OnInit {
   async addAddress(){
     if(this.addressForm.valid){
       const userId:string= this.authService.decodeToken().nameIdentifier;
-      await this.addressService.create(this.addressForm.value)
+      const address=await this.addressService.create(this.addressForm.value);
+      await this.addressService.createUserDetailAddress(address.id,userId);
     }
     this.addressForm.reset();
     this.dialogRef.close();

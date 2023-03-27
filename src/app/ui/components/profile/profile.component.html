@@ -48,6 +48,7 @@
             <label for="addresses" class="form-label">Adresler</label>
             <div class="col-md-6">
               <select #addresses (change)="getAddressId(addresses.value)" class="form-select" id="addresses" required="">
+                <option >Seç...</option>
                 <option *ngFor="let userAddress of userAddresses" [value]="userAddress.addressId">{{userAddress.title}}</option>
               </select>
             </div>

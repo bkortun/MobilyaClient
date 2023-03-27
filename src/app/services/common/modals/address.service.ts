@@ -18,11 +18,17 @@ export class AddressService {
     return addedAddress;
   }
 
+  async createUserDetailAddress(addressId:string,userId:string) {
+    const observable = this.httpClientService.post({ controller: "UserDetailAddresses" }, {addressId,userId})
+    let addedAddress=await firstValueFrom(observable)
+    return addedAddress;
+  }
+
   async getAddresses(userId:string): Promise<ListObject> {
     const observable: Observable<ListObject> = this.httpClientService.get({
       controller: "UserDetailAddresses",
       queryString:`userId=${userId}`
-   }, userId)
+   })
     let userAddress:ListObject=await firstValueFrom(observable) as ListObject;
     return userAddress;
   }

@@ -154,12 +154,15 @@ export class ProfileComponent implements OnInit {
       width: "50%",
       height: "85%"
     });
+    this.getAddresses();
   }
 
 
   async getAddresses() {
     const list = await this.addressService.getAddresses(this.activatedRoute.snapshot.paramMap.get("userId"));
-    this.userAddresses = list.items;
+    console.log(list.items)
+    this.userAddresses =list.items;
+
 
   }
 
@@ -171,7 +174,7 @@ export class ProfileComponent implements OnInit {
   }
 
   async deleteSelectedAddress(addressId: string) {
-    this.addressService.delete(addressId);
+    await this.addressService.delete(addressId);
     this.selectedAddress = null;
   }
 }
