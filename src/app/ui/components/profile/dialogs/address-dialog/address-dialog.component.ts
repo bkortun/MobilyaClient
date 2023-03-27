@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { UserAddress } from 'app/contracts/address/user_address';
 import { AddressService } from 'app/services/common/modals/address.service';
 import { AuthService } from 'app/services/common/modals/auth.service';
 
@@ -31,10 +33,12 @@ export class AddressDialogComponent implements OnInit {
   async addAddress(){
     if(this.addressForm.valid){
       const userId:string= this.authService.decodeToken().nameIdentifier;
-      await this.addressService.createAddress(this.addressForm.value)
+      const address=await this.addressService.create(this.addressForm.value);
+      await this.addressService.createUserDetailAddress(address.id,userId);
     }
     this.addressForm.reset();
     this.dialogRef.close();
   }
+
 
 }

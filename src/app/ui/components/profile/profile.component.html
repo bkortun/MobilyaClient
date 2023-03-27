@@ -27,7 +27,7 @@
             <div class="col-12">
               <label for="gender" class="form-label">Cinsiyet</label>
               <select formControlName="gender" class="form-select" id="gender" required="">
-                <option value="">Choose...</option>
+                <option>Seç...</option>
                 <option>Erkek</option>
                 <option>Kadın</option>
               </select>
@@ -45,49 +45,44 @@
                 value="">
             </div>
 
-            <label for="country" class="form-label">Adresler</label>
+            <label for="addresses" class="form-label">Adresler</label>
             <div class="col-md-6">
-              <select class="form-select" id="country" required="">
-                <option value="">Choose...</option>
+              <select #addresses (change)="getAddressId(addresses.value)" class="form-select" id="addresses" required="">
+                <option >Seç...</option>
+                <option *ngFor="let userAddress of userAddresses" [value]="userAddress.addressId">{{userAddress.title}}</option>
               </select>
             </div>
 
-            <button class="col-md-6 btn btn-warning btn-md" (click)="openDialog()" >Adres Ekle</button>
+            <button class="col-md-6 btn btn-warning btn-md" (click)="openDialog()">Adres Ekle</button>
 
-            <!-- <div class="col-md-12">
-              <label for="country" class="form-label">Ülke</label>
-              <select formControlName="country" class="form-select" id="country" required="">
-                <option value="">Choose...</option>
-                <option>United States</option>
-              </select>
+            <div class="row" *ngIf="selectedAddress">
+              <div class="col-md-6">
+                <label for="country" class="form-label">Ülke</label>
+                <input type="text" class="form-control" id="country" placeholder="" [value]="selectedAddress.country" [attr.disabled]=true>
+              </div>
+
+              <div class="col-md-6">
+                <label for="state" class="form-label">İl</label>
+                <input type="text" class="form-control" id="city" placeholder="" [value]="selectedAddress.city" [attr.disabled]=true>
+              </div>
+
+              <div class="col-md-6">
+                <label for="state" class="form-label">İlçe</label>
+                <input type="text" class="form-control" id="district" placeholder="" [value]="selectedAddress.district" [attr.disabled]=true>
+              </div>
+
+              <div class="col-md-6">
+                <label for="zip" class="form-label">Posta Kodu</label>
+                <input type="text" class="form-control" id="zipCode" placeholder="" [value]="selectedAddress.zipCode" [attr.disabled]=true>
+              </div>
+
+              <div class="col-md-12">
+                <label for="address" class="form-label">Adres Detay</label>
+                <input type="text" class="form-control" id="addressDetail" placeholder="" [value]="selectedAddress.addressDetail" [attr.disabled]=true>
+              </div>
+
+              <button class="w-25 btn btn-danger " style="margin-top: 15px;" (click)="deleteSelectedAddress(selectedAddress.addressId)">Sil</button>
             </div>
-
-            <div class="col-md-12">
-              <label for="state" class="form-label">İl</label>
-              <select formControlName="city" class="form-select" id="city" required="">
-                <option value="">Choose...</option>
-                <option>California</option>
-              </select>
-            </div>
-
-            <div class="col-md-12">
-              <label for="state" class="form-label">İlçe</label>
-              <select formControlName="district" class="form-select" id="district" required="">
-                <option value="">Choose...</option>
-                <option>Kızılay</option>
-              </select>
-            </div>
-
-            <div class="col-md-12">
-              <label for="zip" class="form-label">Posta Kodu</label>
-              <input formControlName="zipCode" type="text" class="form-control" id="zip" placeholder="" required="">
-            </div>
-
-            <div class="col-12">
-              <label for="address" class="form-label">Adres</label>
-              <input type="text" formControlName="address" class="form-control" id="address" placeholder="1234 Yıldız Cad." required="">
-            </div> -->
-
           </div>
           <hr class="my-4">
         </form>

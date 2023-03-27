@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertifyMessageType, AlertifyPosition, AlertifyService } from 'app/services/admin/alertify.service';
+import { AuthService } from 'app/services/common/modals/auth.service';
 import { UserService } from 'app/services/common/modals/user.service';
 
 @Component({
@@ -14,7 +15,9 @@ export class RegisterComponent implements OnInit {
 
   registerForm:FormGroup
 
-  constructor(private router:Router, private formBuilder:FormBuilder,private userService:UserService,private alertifyService:AlertifyService) { }
+  constructor(private router:Router, private formBuilder:FormBuilder,
+    private userService:UserService,private alertifyService:AlertifyService,
+    private authService:AuthService) { }
 
   ngOnInit(): void {
     this.registerForm=this.formBuilder.group({
@@ -27,12 +30,13 @@ export class RegisterComponent implements OnInit {
 
   register(){
     if (this.registerForm.valid) {
-     this.userService.register(this.registerForm.value,()=>{
+     this.userService.register(this.registerForm.value,async ()=>{
+      await this.authService.checkToken()
         this.alertifyService.message("Kayıt Başarılı",{
           messageType:AlertifyMessageType.Success,
           position:AlertifyPosition.BottomRight
         })
-        this.router.navigate(['/']);
+        this.router.navigate([`/profile/${this.authService.decodeToken().nameIdentifier}`]);
       },(error)=>{})
     }
   }

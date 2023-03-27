@@ -2,11 +2,13 @@ import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserAddress } from 'app/contracts/address/user_address';
 import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
 import { FileUploadOptions } from 'app/contracts/file/options/fileUploadOptions';
 import { User } from 'app/contracts/user/user';
 import { UserDetail } from 'app/contracts/user/userDetails';
 import { FileUploadService } from 'app/services/common/file-upload/file-upload.service';
+import { AddressService } from 'app/services/common/modals/address.service';
 import { AuthService } from 'app/services/common/modals/auth.service';
 import { UserService } from 'app/services/common/modals/user.service';
 import { AddressDialogComponent } from './dialogs/address-dialog/address-dialog.component';
@@ -20,12 +22,15 @@ export class ProfileComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService,
     private userService: UserService, private fileUploadService: FileUploadService,
-    private activeRoute:ActivatedRoute,public dialog: MatDialog) { }
+    private activeRoute: ActivatedRoute, public dialog: MatDialog, private activatedRoute: ActivatedRoute,
+    private addressService: AddressService) { }
 
   profileForm: FormGroup;
   user: User;
   userDetail: UserDetail;
   formData: FormData = new FormData();
+  userAddresses: UserAddress[]
+  selectedAddress: UserAddress = null;
 
 
   @Output() fileUploadOptions: Partial<FileUploadOptions> = {
@@ -33,17 +38,18 @@ export class ProfileComponent implements OnInit {
     explanation: "Profil Resimi Ekle...",
   }
   @Output() fileDeployOptions: Partial<FileDeployOptions> = {
-    action:"ListProfilePhoto",
-    controller:"userDetails",
-    id:this.activeRoute.snapshot.paramMap.get("userId")
+    action: "ListProfilePhoto",
+    controller: "userDetails",
+    id: this.activeRoute.snapshot.paramMap.get("userId")
   }
 
   async ngOnInit() {
-    this.initilazeForm();
+    this.initializeForm();
+    this.getAddresses();
     this.setValues();
   }
 
-  initilazeForm() {
+  initializeForm() {
     this.profileForm = this.formBuilder.group({
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
@@ -66,41 +72,73 @@ export class ProfileComponent implements OnInit {
       this.profileForm.controls["lastName"].setValue(this.userDetail.lastName);
       this.profileForm.controls["email"].setValue(this.userDetail.email);
       this.profileForm.controls["dateOfBirth"].setValue(this.userDetail.dateOfBirth);
-      if (this.userDetail.gender)
-        this.profileForm.controls["gender"].setValue("Erkek");
-      else
-        this.profileForm.controls["gender"].setValue("Kadın");
+      console.log(this.userDetail.gender)
+      if (this.userDetail.gender != null) {
+        if (this.userDetail.gender)
+          this.profileForm.controls["gender"].setValue("Erkek");
+        if (!this.userDetail.gender)
+          this.profileForm.controls["gender"].setValue("Kadın");
+      }
+      else{
+        this.profileForm.controls["gender"].setValue("Seç...");
+      }
+
+
       this.profileForm.controls["phoneNumber"].setValue(this.userDetail.phoneNumber);
+    }
+    else {
+      //Todo
+      //! Backendden gelicek karşılama ile değiştirilecek
+      console.log(this.user)
+      this.profileForm.controls["firstName"].setValue(this.user.firstName);
+      this.profileForm.controls["lastName"].setValue(this.user.lastName);
+      this.profileForm.controls["email"].setValue(this.user.email);
     }
   }
 
   async getUserDetail() {
     const userId = this.authService.decodeToken().nameIdentifier;
-    this.userDetail = await this.userService.listUserDetailByUserId(userId);
+    try {
+      this.userDetail = await this.userService.listUserDetailByUserId(userId);
+    } catch (error) {
+      console.log(error)
+      this.userDetail = null
+      this.user = await this.userService.listByUserId(userId)
+    }
+
   }
 
   async saveUserInfos() {
-    let profilePhotoId:string=await this.uploadProfilePhoto(this.userDetail.userId);
+    var profilePhotoId: string = await this.uploadProfilePhoto(this.userDetail.userId);
     if (this.profileForm.valid) {
       if (this.profileForm.value["gender"] == "Erkek")
         this.profileForm.value["gender"] = true
-      else
+      if (this.profileForm.value["gender"] == "Kadın")
         this.profileForm.value["gender"] = false
+      if (this.profileForm.value["gender"] == "Seç...")
+        this.profileForm.value["gender"] = null
 
       this.profileForm.value["userId"] = this.userDetail.userId;
-      this.profileForm.value["profilePhotoId"] = profilePhotoId;
+
+      if(profilePhotoId==undefined)
+        this.profileForm.value["profilePhotoId"]=this.userDetail.profilePhotoId;
+      else
+        this.profileForm.value["profilePhotoId"] = profilePhotoId;
+
       this.profileForm.value["id"] = this.userDetail.id;
       console.log(this.profileForm.value)
       await this.userService.updateDetails(this.profileForm.value);
     }
   }
 
-  async uploadProfilePhoto(userId: string):Promise<string> {
+  async uploadProfilePhoto(userId: string): Promise<string> {
     if (this.formData) {
-      let uploadedImage=await this.fileUploadService.uploadFile(this.formData, {
+      let uploadedImage = await this.fileUploadService.uploadFile(this.formData, {
         action: "Upload",
         controller: "userDetails",
         queryString: `userId=${userId}`
+      }).catch(()=>{
+        return "null";
       })
       return uploadedImage["profilePhotoId"];
     }
@@ -112,9 +150,31 @@ export class ProfileComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef=this.dialog.open(AddressDialogComponent, {
+    const dialogRef = this.dialog.open(AddressDialogComponent, {
       width: "50%",
       height: "85%"
     });
+    this.getAddresses();
+  }
+
+
+  async getAddresses() {
+    const list = await this.addressService.getAddresses(this.activatedRoute.snapshot.paramMap.get("userId"));
+    console.log(list.items)
+    this.userAddresses =list.items;
+
+
+  }
+
+  getAddressId(id: string) {
+    this.userAddresses.forEach(userAddress => {
+      if (userAddress.addressId == id)
+        this.selectedAddress = userAddress;
+    });
+  }
+
+  async deleteSelectedAddress(addressId: string) {
+    await this.addressService.delete(addressId);
+    this.selectedAddress = null;
   }
 }
