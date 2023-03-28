@@ -52,12 +52,14 @@ export class UpdateDialogComponent implements OnInit {
       category:[""],
       price:["",Validators.required],
       stock:["",Validators.required],
+      description:["",Validators.required]
     })
     if(this.updateData){
       this.productForm.controls["name"].setValue(this.updateData.name);
       this.productForm.controls["category"].setValue(this.updateData.category);
       this.productForm.controls["price"].setValue(this.updateData.price);
       this.productForm.controls["stock"].setValue(this.updateData.stock);
+      this.productForm.controls["description"].setValue(this.updateData.description);
     }
   }
 //Todo dialog açıldığında mevcut kategoriler getirilecek getByProductIdCategory
@@ -72,6 +74,7 @@ export class UpdateDialogComponent implements OnInit {
       console.log(categories)
       product.price=this.productForm.controls["price"].value;
       product.stock=this.productForm.controls["stock"].value;
+      product.description=this.productForm.controls["description"].value;
       product.createdDate=this.updateData.createdDate;
       product.updatedDate=null;
       product.status=this.updateData.status;

@@ -41,6 +41,7 @@ export class AddDialogComponent implements OnInit {
       category: [""],
       price: ["", Validators.required],
       stock: ["", Validators.required],
+      description: ["", Validators.required],
     })
   }
 
