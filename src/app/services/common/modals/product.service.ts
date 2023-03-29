@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Dynamic } from 'app/contracts/common/dynamic_query';
 import { ListObject } from 'app/contracts/common/list_object';
 import { AddCategoryProduct } from 'app/contracts/product/addCategory_product';
 import { CreateProduct } from 'app/contracts/product/create_product';
@@ -33,6 +34,15 @@ export class ProductService {
       controller:"products",
       queryString:`page=${page}&pageSize=${size}`
     })
+    return await firstValueFrom(observable) as ListObject;
+  }
+
+  async listDynamic(dynamic:Dynamic,page:number=0, size:number=5):Promise<ListObject>{
+    const observable:Observable<Dynamic>=this.httpClientService.post<Dynamic>({
+      controller:"products",
+      action:"listDynamic",
+      queryString:`page=${page}&pageSize=${size}`
+    },dynamic)
     return await firstValueFrom(observable) as ListObject;
   }
 
