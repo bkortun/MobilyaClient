@@ -1,46 +1,107 @@
 <div class="container">
-  <h1 style="margin-top: 10px;">Ürünler</h1>
-  <div class="search-results" infiniteScroll (scrolled)="onScroll()">
-    <div class="productsCard" *ngFor="let productImage of productImages">
-      <div class="card cardPosition">
-        <div *ngIf="isContainsWithoutNull(productImage.images)" [id]="'id'+productImage.product.id"
-          class="carousel carousel-dark slide" data-bs-ride="true">
-          <div class="carousel-indicators">
-            <button type="button" [attr.data-bs-target]="'#id'+productImage.product.id" data-bs-slide-to="0"
-              aria-current="true" class="active" aria-label="Slide 0"></button>
-            <button type="button" [attr.data-bs-target]="'#id'+productImage.product.id" data-bs-slide-to="1"
-              aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" [attr.data-bs-target]="'#id'+productImage.product.id" data-bs-slide-to="2"
-              aria-current="true" aria-label="Slide 2"></button>
-          </div>
-          <div class="carousel-inner">
-            <div *ngFor="let image of productImage.images">
-              <div [ngClass]="image.isFirst? 'carousel-item active':'carousel-item'" *ngIf="image?.path">
-                <img src="{{baseUrl?.url}}/{{image?.path}}" class="d-block w-100" alt="...">
+<h1 style="margin-top: 10px;">Ürünler</h1>
+<div class="row">
+  <div class="col-md-2">
+    <div class="card sideCard" >
+      <div class="card-header fs-4">
+        Filtre
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item fs-6">Fiyat Aralığı</li>
+        <div class="input-group input-group-sm mb-3" style="margin-top: 4px;">
+        <input type="number" #minPrice class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="0">
+        <p class="fs-3" style="margin: 5px;">-</p>
+        <input type="number" #maxPrice class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+      </div>
+      <div class="card-footer">
+        <button type="button" class="btn btn-secondary btn-sm" (click)="useFilter(minPrice.value,maxPrice.value,'price')">Uygula</button>
+      </div>
+        <li class="list-group-item fs-6">Stok Miktarı</li>
+        <div class="input-group input-group-sm mb-3" style="margin-top: 4px;">
+          <input type="text" #minStock class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="0">
+          <p class="fs-3" style="margin: 5px;">-</p>
+          <input type="text" #maxStock class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+        </div>
+        <div class="card-footer">
+          <button type="button" class="btn btn-secondary btn-sm" (click)="useFilter(minStock.value,maxStock.value,'stock')">Uygula</button>
+        </div>
+      </ul>
+      <div class="card-header fs-4">
+        Sırala
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><button type="button" (click)="sortClick('likeCount','asc')"
+          style="width: 11rem;" class="btn btn-outline-primary">En çok beğenilen</button></li>
+        <li class="list-group-item"><button type="button" (click)="sortClick('viewCount','asc')"
+          style="width: 11rem;" class="btn btn-outline-primary">En çok görüntülenen</button></li>
+        <li class="list-group-item"><button type="button" (click)="sortClick('price','desc')"
+          style="width: 11rem;" class="btn btn-outline-primary">Fiyat Azalan</button></li>
+        <li class="list-group-item"><button type="button" (click)="sortClick('price','asc')"
+          style="width: 11rem;" class="btn btn-outline-primary">Fiyat Artan</button></li>
+        <li class="list-group-item"><button type="button" (click)="sortClick('stock','asc')"
+          style="width: 11rem;" class="btn btn-outline-primary">Stok Artan</button></li>
+        <li class="list-group-item"><button type="button" (click)="sortClick('stock','desc')"
+          style="width: 11rem;" class="btn btn-outline-primary">Stok Azalan</button></li>
+        <li class="list-group-item"><button type="button" (click)="sortClick('name','asc')"
+          style="width: 11rem;" class="btn btn-outline-primary">A -> Z</button></li>
+        <li class="list-group-item"><button type="button" (click)="sortClick('name','desc')"
+          style="width: 11rem;" class="btn btn-outline-primary">Z -> A</button></li>
+      </ul>
+      <div class="card-header fs-4">
+        Kategori
+      </div>
+      <ul class="list-group list-group-flush">
+        <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+          <button type="button" class="btn btn-outline-dark" *ngFor="let category of categories" (click)="getByCategory(category.id)">{{category.name}}</button>
+        </div>
+
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-10">
+    <div class="search-results" infiniteScroll (scrolled)="onScroll()">
+      <div class="productsCard" *ngFor="let productImage of productImages">
+        <div class="card cardPosition">
+          <div *ngIf="isContainsWithoutNull(productImage.images)" [id]="'id'+productImage.product.id"
+            class="carousel carousel-dark slide" data-bs-ride="true">
+            <div class="carousel-indicators">
+              <button type="button" [attr.data-bs-target]="'#id'+productImage.product.id" data-bs-slide-to="0"
+                aria-current="true" class="active" aria-label="Slide 0"></button>
+              <button type="button" [attr.data-bs-target]="'#id'+productImage.product.id" data-bs-slide-to="1"
+                aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" [attr.data-bs-target]="'#id'+productImage.product.id" data-bs-slide-to="2"
+                aria-current="true" aria-label="Slide 2"></button>
+            </div>
+            <div class="carousel-inner">
+              <div *ngFor="let image of productImage.images">
+                <div [ngClass]="image.isFirst? 'carousel-item active':'carousel-item'" *ngIf="image?.path">
+                  <img src="{{baseUrl?.url}}/{{image?.path}}" class="d-block w-100" alt="...">
+                </div>
               </div>
             </div>
+            <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#id'+productImage.product.id"
+              data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#id'+productImage.product.id"
+              data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
-          <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#id'+productImage.product.id"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#id'+productImage.product.id"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-        <div *ngIf="!isContainsWithoutNull(productImage.images)">
-          <img src="../../../../assets/istockphoto-1252414324-612x612.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">{{productImage.product.name}}</h2>
-          <p class="card-text">{{productImage.product.price}}₺</p>
-          <p class="card-text">Son {{productImage.product.stock}} Adet</p>
-          <a routerLink="/detail/{{productImage.product.id}}" class="btn btn-primary">Ürüne Git</a>
+          <div *ngIf="!isContainsWithoutNull(productImage.images)">
+            <img src="../../../../assets/istockphoto-1252414324-612x612.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">{{productImage.product.name}}</h2>
+            <p class="card-text">{{productImage.product.price}}₺</p>
+            <p class="card-text">Son {{productImage.product.stock}} Adet</p>
+            <a routerLink="/detail/{{productImage.product.id}}" class="btn btn-primary">Ürüne Git</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
