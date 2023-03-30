@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Category } from 'app/contracts/category/category';
 import { Dynamic, Filter, Sort } from 'app/contracts/common/dynamic_query';
 import { ListObject } from 'app/contracts/common/list_object';
 import { ListProductImage } from 'app/contracts/file/list_productImage';
 import { Product } from 'app/contracts/product/product';
 import { ProductImage } from 'app/contracts/product/productImage';
 import { BaseStorageUrl } from 'app/contracts/setting/baseStorageUrl';
+import { CategoryService } from 'app/services/common/modals/category.service';
 import { ImageService } from 'app/services/common/modals/image.service';
 import { ProductService } from 'app/services/common/modals/product.service';
 import { SettingService } from 'app/services/common/modals/setting.service';
@@ -16,18 +18,27 @@ import { SettingService } from 'app/services/common/modals/setting.service';
 })
 export class ProductsComponent implements OnInit {
 
-  constructor(private productService: ProductService, private imageService: ImageService, private settingService: SettingService) { }
+  constructor(private productService: ProductService, private imageService: ImageService,
+     private settingService: SettingService, private categoryService:CategoryService) { }
 
   productImages: ProductImage[] = []
   baseUrl: BaseStorageUrl
   page = 0
   size = 36
-  dynamicBody: Dynamic;
+
+  dynamicBody=new Dynamic();
+  sorts:Sort[]=new Array();
+  sort:Sort=new Sort();
+  filter:Filter=new Filter();
+
   isClicked:boolean=false
+  categories:Category[];
 
   ngOnInit(): void {
+
     this.getbaseUrl()
     this.combineProductImages(this.page, this.size);
+    this.getCategories();
   }
 
   async combineProductImages(page, size,isDynamic:boolean=false) {
@@ -91,16 +102,37 @@ export class ProductsComponent implements OnInit {
   //   }
 
   sortClick(field:string,dir:string){
-    this.dynamicBody=new Dynamic();
-    let sorts:Sort[]=new Array();
-    let sort:Sort=new Sort();
-    let filter:Filter=new Filter();
-    filter=null;
-    sort.field=field;
-    sort.dir=dir;
-    sorts.push(sort);
-    this.dynamicBody.sort=sorts;
-    this.dynamicBody.filter=filter;
+    //button'a basıldığında arkaplanı mavi olması ayarlanacak video18
+    this.sort.field=field;
+    this.sort.dir=dir;
+    this.sorts.push(this.sort);
+    this.dynamicBody.sort=this.sorts;
+    this.combineProductImages(0,this.size,true);
+  }
+
+  async getCategories(){
+    const list=await this.categoryService.list(0,20);
+    this.categories=list.items;
+  }
+
+  getByCategory(categoryId:string){
+    console.log(categoryId)
+  }
+
+  useFilter(min:string,max:string,fieldName:string){
+    let secondFilter:Filter=new Filter();
+    let secondFilters:Filter[]=new Array();
+    this.filter.field=fieldName;
+    this.filter.operator="gte";
+    this.filter.logic="and"
+    this.filter.value=min;
+    secondFilter.field=fieldName;
+    secondFilter.operator="lte";
+    secondFilter.value=max;
+    secondFilters.push(secondFilter);
+    this.filter.filters=secondFilters;
+    this.dynamicBody.filter=this.filter;
+    this.productImages=[];
     this.combineProductImages(0,this.size,true);
   }
 

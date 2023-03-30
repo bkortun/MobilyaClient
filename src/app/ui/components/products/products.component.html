@@ -3,14 +3,30 @@
 <div class="row">
   <div class="col-md-2">
     <div class="card sideCard" >
-      <div class="card-header">
+      <div class="card-header fs-4">
         Filtre
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Fiyat Aralığı</li>
-        <li class="list-group-item">Stok Miktarı</li>
+        <li class="list-group-item fs-6">Fiyat Aralığı</li>
+        <div class="input-group input-group-sm mb-3" style="margin-top: 4px;">
+        <input type="number" #minPrice class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="0">
+        <p class="fs-3" style="margin: 5px;">-</p>
+        <input type="number" #maxPrice class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+      </div>
+      <div class="card-footer">
+        <button type="button" class="btn btn-secondary btn-sm" (click)="useFilter(minPrice.value,maxPrice.value,'price')">Uygula</button>
+      </div>
+        <li class="list-group-item fs-6">Stok Miktarı</li>
+        <div class="input-group input-group-sm mb-3" style="margin-top: 4px;">
+          <input type="text" #minStock class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="0">
+          <p class="fs-3" style="margin: 5px;">-</p>
+          <input type="text" #maxStock class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+        </div>
+        <div class="card-footer">
+          <button type="button" class="btn btn-secondary btn-sm" (click)="useFilter(minStock.value,maxStock.value,'stock')">Uygula</button>
+        </div>
       </ul>
-      <div class="card-header">
+      <div class="card-header fs-4">
         Sırala
       </div>
       <ul class="list-group list-group-flush">
@@ -31,15 +47,15 @@
         <li class="list-group-item"><button type="button" (click)="sortClick('name','desc')"
           style="width: 11rem;" class="btn btn-outline-primary">Z -> A</button></li>
       </ul>
-      <div class="card-header">
+      <div class="card-header fs-4">
         Kategori
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Ofis</li>
+        <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+          <button type="button" class="btn btn-outline-dark" *ngFor="let category of categories" (click)="getByCategory(category.id)">{{category.name}}</button>
+        </div>
+
       </ul>
-      <div class="card-footer">
-        <button>Gönder</button>
-      </div>
     </div>
   </div>
   <div class="col-md-10">
