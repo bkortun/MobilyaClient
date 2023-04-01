@@ -100,9 +100,9 @@
           </div>
           <div class="card-body">
             <div class="col-md-6">
-              <select #addresses style="width: 12rem;" class="form-select" id="addresses" required="">
+              <select #addresses (change)="getAddressId(addresses.value)" style="width: 12rem;" class="form-select" id="addresses" required="">
                 <option >Seç...</option>
-                <option >userAddress.title</option>
+                <option *ngFor="let userAddress of userAddresses" [value]="userAddress.addressId">{{userAddress.title}}</option>
               </select>
             </div>
             <br>
