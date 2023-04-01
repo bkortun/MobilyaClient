@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CreateBasketItem } from 'app/contracts/basketItem/create_basketItem';
 import { Category } from 'app/contracts/category/category';
 import { Dynamic, Filter, Sort } from 'app/contracts/common/dynamic_query';
@@ -23,7 +24,8 @@ export class ProductsComponent implements OnInit {
 
   constructor(private productService: ProductService, private imageService: ImageService,
      private settingService: SettingService, private categoryService:CategoryService,
-     private basketService:BasketService, private authService:AuthService) { }
+     private basketService:BasketService, private authService:AuthService,
+     private activatedRoute:ActivatedRoute) { }
 
   productImages: ProductImage[] = []
   baseUrl: BaseStorageUrl
@@ -39,10 +41,13 @@ export class ProductsComponent implements OnInit {
   categories:Category[];
 
   ngOnInit(): void {
-
-    this.getbaseUrl()
-    this.combineProductImages(this.page, this.size);
+    this.getbaseUrl();
     this.getCategories();
+    var categoryId=this.activatedRoute.snapshot.paramMap.get("categoryId")
+    if(categoryId)
+      this.getByCategory(categoryId);
+    else
+      this.combineProductImages(this.page, this.size);
   }
 
   //Todo refactor et

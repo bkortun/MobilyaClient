@@ -18,7 +18,7 @@
           </a>
           <ul class="dropdown-menu">
             <div *ngFor="let category of categories">
-              <li><a class="dropdown-item" href="#">{{category.name}}</a></li>
+              <li><a class="dropdown-item" href="/products/{{category.id}}">{{category.name}}</a></li>
             <li><hr class="dropdown-divider"></li>
             </div>
           </ul>

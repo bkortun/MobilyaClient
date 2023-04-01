@@ -14,6 +14,7 @@ import { InfiniteScrollModule } from "ngx-infinite-scroll";
   imports: [
     CommonModule,
     RouterModule.forChild([{path:"",component:ProductsComponent}]),
+    RouterModule.forChild([{path:":categoryId",component:ProductsComponent}]),
     InfiniteScrollModule
   ]
 })
