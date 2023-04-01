@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ListBasket } from 'app/contracts/basket/list_basket';
 import { CreateBasketItem } from 'app/contracts/basketItem/create_basketItem';
+import { UpdateBasketItemQuantity } from 'app/contracts/basketItem/update_basketItemQuantity';
 import { ListObject } from 'app/contracts/common/list_object';
 import { firstValueFrom, Observable } from 'rxjs';
 import { HttpClientService } from '../http-client.service';
@@ -32,9 +33,17 @@ export class BasketService {
   async listBasketItems(page:number=0, size:number=5, basketId:string):Promise<ListObject>{
     const observable:Observable<ListObject>=this.httpClientService.get({
       controller:"basketItems",
-      action:"listByBasketItem",
+      action:"listByBasket",
       queryString:`page=${page}&pageSize=${size}&basketId=${basketId}`
-    },basketId);
+    });
     return await firstValueFrom(observable) as ListObject;
+  }
+
+  async changeQuantity(id:string,quantity:number):Promise<UpdateBasketItemQuantity>{
+    const observable=this.httpClientService.put({
+      controller:"basketItems",
+      action:"UpdateQuantity",
+    },{id,quantity});
+    return await firstValueFrom(observable) as UpdateBasketItemQuantity;
   }
 }

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserAddress } from 'app/contracts/address/user_address';
 import { ListBasket } from 'app/contracts/basket/list_basket';
+import { ListBasketItem } from 'app/contracts/basketItem/list_basketItem';
 import { AddressService } from 'app/services/common/modals/address.service';
 import { AuthService } from 'app/services/common/modals/auth.service';
 import { BasketService } from 'app/services/common/modals/basket.service';
@@ -13,13 +14,18 @@ import { BasketService } from 'app/services/common/modals/basket.service';
 })
 export class BasketComponent implements OnInit {
 
-  constructor(private authService:AuthService,private addressService:AddressService
-    ,private activatedRoute:ActivatedRoute, private basketService:BasketService) { }
+  constructor(private authService:AuthService,private addressService:AddressService,
+    private activatedRoute:ActivatedRoute, private basketService:BasketService) { }
+
+    @ViewChild('quantity') quantity:ElementRef;
 
   userId:string;
   userAddresses:UserAddress[];
   selectedAddress:UserAddress;
   basket:ListBasket;
+  basketItems:ListBasketItem[];
+  basketItemsCount:number;
+  selectedQuantity:number
 
   ngOnInit(): void {
     this.userId=this.getUserId();
@@ -48,6 +54,29 @@ export class BasketComponent implements OnInit {
   async getBasketOfUser(){
    this.basket =await this.basketService.listBasket(this.userId);
    console.log(this.basket)
+   this.getBasketItems(this.basket.id);
   }
 
+  async getBasketItems(basketId:string){
+    console.log(this.basket.id)
+    const list=await this.basketService.listBasketItems(0,20,basketId);
+    console.log(list)
+    this.basketItems=list.items;
+    this.basketItemsCount=list.count;
+  }
+
+  //Todo düzgün çalışmıyor bakılıcak
+  async increaseQuantity(basketItemId:string,quantity:number){
+    console.log(quantity+" in")
+    this.quantity["value"]= await (await this.basketService.changeQuantity(basketItemId,quantity+1)).quantity.toString();
+  }
+  async decreaseQuantity(basketItemId:string,quantity:number){
+    console.log(quantity+" de")
+    this.quantity["value"]= await (await this.basketService.changeQuantity(basketItemId,quantity-1)).quantity.toString();
+  }
+
+  async changeQuantity(basketItemId:string,quantity:string){
+    console.log(quantity+" change")
+    this.quantity["value"]= await (await this.basketService.changeQuantity(basketItemId,parseInt(quantity))).quantity.toString();
+  }
 }
