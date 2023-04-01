@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CreateBasketItem } from 'app/contracts/basketItem/create_basketItem';
 import { Category } from 'app/contracts/category/category';
 import { Dynamic, Filter, Sort } from 'app/contracts/common/dynamic_query';
 import { ListObject } from 'app/contracts/common/list_object';
@@ -6,6 +7,8 @@ import { ListProductImage } from 'app/contracts/file/list_productImage';
 import { Product } from 'app/contracts/product/product';
 import { ProductImage } from 'app/contracts/product/productImage';
 import { BaseStorageUrl } from 'app/contracts/setting/baseStorageUrl';
+import { AuthService } from 'app/services/common/modals/auth.service';
+import { BasketService } from 'app/services/common/modals/basket.service';
 import { CategoryService } from 'app/services/common/modals/category.service';
 import { ImageService } from 'app/services/common/modals/image.service';
 import { ProductService } from 'app/services/common/modals/product.service';
@@ -19,7 +22,8 @@ import { SettingService } from 'app/services/common/modals/setting.service';
 export class ProductsComponent implements OnInit {
 
   constructor(private productService: ProductService, private imageService: ImageService,
-     private settingService: SettingService, private categoryService:CategoryService) { }
+     private settingService: SettingService, private categoryService:CategoryService,
+     private basketService:BasketService, private authService:AuthService) { }
 
   productImages: ProductImage[] = []
   baseUrl: BaseStorageUrl
@@ -41,10 +45,13 @@ export class ProductsComponent implements OnInit {
     this.getCategories();
   }
 
-  async combineProductImages(page, size,isDynamic:boolean=false) {
+  //Todo refactor et
+  async combineProductImages(page, size,isDynamic:boolean=false,categoryId:string=null) {
     let listProduct: ListObject;
     if(!isDynamic)
       listProduct= await this.productService.list(page, size);
+    if(categoryId!=null)
+      listProduct= await this.productService.listByCategoryId(page,size,categoryId);
     else
       listProduct= await this.productService.listDynamic(this.dynamicBody,page, size);
 
@@ -115,8 +122,12 @@ export class ProductsComponent implements OnInit {
     this.categories=list.items;
   }
 
-  getByCategory(categoryId:string){
-    console.log(categoryId)
+  //Todo category seçilmişken filtreler çalışmıyor
+  async getByCategory(categoryId:string){
+    this.page=0;
+    this.size=36;
+    this.productImages=[];
+    await this.combineProductImages(this.page,this.size,false,categoryId);
   }
 
   useFilter(min:string,max:string,fieldName:string){
@@ -135,5 +146,16 @@ export class ProductsComponent implements OnInit {
     this.productImages=[];
     this.combineProductImages(0,this.size,true);
   }
+
+async addToBasket(productId:string){
+  let userId=this.authService.decodeToken().nameIdentifier;
+  let basketId=await (await this.basketService.listBasket(userId)).id;
+  let basketItem:CreateBasketItem=new CreateBasketItem();
+  basketItem.basketId=basketId;
+  basketItem.productId=productId;
+  basketItem.quantity=1;
+  this.basketService.createBasketItem(basketItem);
+}
+
 
 }

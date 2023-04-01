@@ -46,7 +46,7 @@ export class BasketComponent implements OnInit {
   }
 
   async getBasketOfUser(){
-   this.basket =await this.basketService.listBasket(0,10,this.userId);
+   this.basket =await this.basketService.listBasket(this.userId);
    console.log(this.basket)
   }
 

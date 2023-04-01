@@ -83,4 +83,13 @@ export class ProductService {
     },id)
     return await firstValueFrom(observable) as Product;
   }
+
+  async listByCategoryId(page:number=0, size:number=5,categoryId:string):Promise<ListObject>{
+    const observable:Observable<ListObject>=this.httpClientService.get({
+      controller:"products",
+      action:"listByCategoryId",
+      queryString:`page=${page}&pageSize=${size}`
+    },categoryId)
+    return await firstValueFrom(observable) as ListObject;
+  }
 }
