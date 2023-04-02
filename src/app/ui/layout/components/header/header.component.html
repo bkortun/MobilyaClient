@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #e3f2fd;">
+<nav class="navbar navbar-expand-lg bg-body-tertiary gradient-custom">
   <div class="container-fluid" >
     <a class="navbar-brand mb-0 h1" href="#">MobilyaAPI</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,7 @@
           </a>
           <ul class="dropdown-menu">
             <div *ngFor="let category of categories">
-              <li><a class="dropdown-item" href="#">{{category.name}}</a></li>
+              <li><a class="dropdown-item" href="/products/{{category.id}}">{{category.name}}</a></li>
             <li><hr class="dropdown-divider"></li>
             </div>
           </ul>
@@ -37,11 +37,11 @@
       </div>
       <ng-template #accountDropdown >
         <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             Hesabım
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Sepet</a></li>
+            <li><a class="dropdown-item" routerLink="/basket/{{userId}}">Sepet</a></li>
             <li><a class="dropdown-item" routerLink="/profile/{{userId}}">Profil Ayarları</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="" (click)="logOut()">Çıkış Yap</a></li>

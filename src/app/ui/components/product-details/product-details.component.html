@@ -39,8 +39,8 @@
         <h1>{{product.name}}</h1>
         <h3>Fiyat: {{product.price}}₺</h3>
         <h4>Kategori:</h4>
-        <button type="button" style="margin-right: 15px;" class="btn btn-success">Hemen Satıl Al</button>
-        <button type="button" class="btn btn-warning">Sepete Ekle</button>
+        <button type="button" style="margin-right: 15px;" class="btn btn-success" (click)="goToBasket(product.id)">Hemen Satıl Al</button>
+        <button type="button" class="btn btn-warning" (click)="addToBasket(product.id)">Sepete Ekle</button>
         <div class="quantity-group">
           <div class="input-group input-group-lg" style="width: fit-content;">
             <button type="button" class="btn btn-info" (click)="decreaseQuantity()">-</button>

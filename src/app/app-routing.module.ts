@@ -29,7 +29,8 @@ const routes: Routes = [
       {path:"",loadChildren:()=>import("./ui/components/profile/profile.module").then(module=>module.ProfileModule)},
       {path:"contact",loadChildren:()=>import("./ui/components/contact/contact.module").then(module=>module.ContactModule)},
       {path:"campaign",loadChildren:()=>import("./ui/components/campaign/campaign.module").then(module=>module.CampaignModule)},
-      {path:"about",loadChildren:()=>import("./ui/components/about/about.module").then(module=>module.AboutModule)}
+      {path:"about",loadChildren:()=>import("./ui/components/about/about.module").then(module=>module.AboutModule)},
+      {path:"",loadChildren:()=>import("./ui/components/basket/basket.module").then(module=>module.BasketModule)}
     ]
   },
   { path: "admin/login", component: LoginComponent }];

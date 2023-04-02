@@ -1,0 +1,174 @@
+<section class="h-100 gradient-custom">
+  <div class="container py-5">
+    <h1>Sepet</h1>
+    <div class="row d-flex justify-content-center my-4">
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">{{basketItemsCount}} Ürün Bulunuyor</h5>
+          </div>
+          <div class="card-body">
+
+            <div *ngFor="let basketItem of basketItems">
+              <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0" >
+                  <!-- Image -->
+                  <img src="../../../../assets/istockphoto-1252414324-612x612.jpg" style="width: 12.5rem;height: 10rem;" alt="">
+                </div>
+
+                <div class="col-lg-5 col-md-4 mb-4 mb-lg-0" >
+                  <!-- Data -->
+                  <p><strong>{{basketItem.productName}}</strong></p>
+                  <button type="button" class="btn btn-danger btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                    title="Remove item" (click)="deleteBasketItem(basketItem.id)">
+                    <img src="../../../../assets/352303_delete_icon.png" style="width: 2rem;height: 2rem;">
+                  </button>
+
+                  <!-- Data -->
+                </div>
+
+                <div class="col-lg-4 col-md-2 mb-4 mb-lg-0">
+                  <!-- Quantity -->
+                  <div class="d-flex mb-4" style="max-width: 300px">
+                    <button class="btn btn-primary px-3 me-2" style="width: 3rem;height: 2.5rem;"
+                    (click)="decreaseQuantity(basketItem.id,basketItem.quantity)">
+                      <img src="../../../../assets/211863_minus_round_icon.png" style="width: 1rem;height: 1rem" alt="">
+                    </button>
+
+                    <div class="form-outline">
+                      <input #quantity min="0" name="quantity" [value]="basketItem.quantity" (change)="changeQuantity(basketItem.id,quantity.value)" type="number" class="form-control" />
+                      <label class="form-label" for="form1">Adet</label>
+                    </div>
+
+                    <button class="btn btn-primary px-3 ms-2" style="width: 3rem;height: 2.5rem;"
+                    (click)="increaseQuantity(basketItem.id,basketItem.quantity)">
+                      <img src="../../../../assets/134224_add_plus_new_icon.png"  style="width: 1rem;height: 1rem;" alt="">
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- Single item -->
+
+              <hr class="my-4" />
+            </div>
+
+          </div>
+        </div>
+
+        <!-- <div class="card mb-4 mb-lg-0">
+          <div class="card-body">
+            <p><strong>We accept</strong></p>
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+              alt="Visa" />
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+              alt="American Express" />
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+              alt="Mastercard" />
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
+              alt="PayPal acceptance mark" />
+          </div>
+        </div> -->
+      </div>
+
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">Adres</h5>
+          </div>
+          <div class="card-body">
+            <div class="col-md-6">
+              <select #addresses (change)="getAddressId(addresses.value)" style="width: 12rem;" class="form-select" id="addresses" required="">
+                <option >Seç...</option>
+                <option *ngFor="let userAddress of userAddresses" [value]="userAddress.addressId">{{userAddress.title}}</option>
+              </select>
+            </div>
+            <br>
+            <button class="col-md-6 btn btn-warning btn-md" style="width: 7rem;" routerLink="/profile/{{userId}}">Adres Ekle</button>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">Ödeme Bilgileri</h5>
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h5 class="mb-0">Barış Kortun</h5>
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
+                class="img-fluid rounded-3" style="width: 45px;" alt="Avatar">
+            </div>
+
+            <!-- <p class="small mb-2">Card type</p>
+            <a href="#!" type="submit" class="text-white"><i
+                class="fab fa-cc-mastercard fa-2x me-2"></i></a>
+            <a href="#!" type="submit" class="text-white"><i
+                class="fab fa-cc-visa fa-2x me-2"></i></a>
+            <a href="#!" type="submit" class="text-white"><i
+                class="fab fa-cc-amex fa-2x me-2"></i></a>
+            <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a> -->
+
+            <form class="mt-4">
+              <div class="form-outline form-white mb-4">
+                <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
+                  placeholder="Cardholder's Name" />
+                <label class="form-label" for="typeName">Cardholder's Name</label>
+              </div>
+
+              <div class="form-outline form-white mb-4">
+                <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
+                  placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" />
+                <label class="form-label" for="typeText">Card Number</label>
+              </div>
+
+              <div class="row mb-4">
+                <div class="col-md-6">
+                  <div class="form-outline form-white">
+                    <input type="text" id="typeExp" class="form-control form-control-lg"
+                      placeholder="MM/YYYY" size="7" id="exp" minlength="7" maxlength="7" />
+                    <label class="form-label" for="typeExp">Expiration</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-outline form-white">
+                    <input type="password" id="typeText" class="form-control form-control-lg"
+                      placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
+                    <label class="form-label" for="typeText">Cvv</label>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+
+            <hr class="my-4">
+
+            <div class="d-flex justify-content-between">
+              <p class="mb-2">Toplam Fiyat</p>
+              <p class="mb-2">{{basket.totalPrice |currency:'':''}}₺</p>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <p class="mb-2">Kargo</p>
+              <p class="mb-2">20.00₺</p>
+            </div>
+
+            <div class="d-flex justify-content-between mb-4">
+              <p class="mb-2">Toplam</p>
+              <p class="mb-2">{{basket.totalPrice+20|currency:'':''}}₺</p>
+            </div>
+
+            <button type="button" class="btn btn-info btn-block btn-lg" (click)="closeBasket()">
+              <div class="d-flex justify-content-between">
+                <span>Siparişi Tamamla<i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+              </div>
+            </button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

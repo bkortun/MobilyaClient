@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CreateBasketItem } from 'app/contracts/basketItem/create_basketItem';
 import { ListProductImage } from 'app/contracts/file/list_productImage';
 import { Product } from 'app/contracts/product/product';
 import { BaseStorageUrl } from 'app/contracts/setting/baseStorageUrl';
+import { AuthService } from 'app/services/common/modals/auth.service';
+import { BasketService } from 'app/services/common/modals/basket.service';
 import { ImageService } from 'app/services/common/modals/image.service';
 import { ProductService } from 'app/services/common/modals/product.service';
 import { SettingService } from 'app/services/common/modals/setting.service';
@@ -15,12 +18,14 @@ import { SettingService } from 'app/services/common/modals/setting.service';
 export class ProductDetailsComponent implements OnInit {
 
   constructor(private activeRoute:ActivatedRoute, private productService:ProductService,
-     private imageService:ImageService,private settingService:SettingService) { }
+     private imageService:ImageService,private settingService:SettingService,
+     private authService:AuthService,private basketService:BasketService,private router:Router) { }
 
   product:Product
   images:ListProductImage[]
   baseUrl:BaseStorageUrl
   selectedQuantity:number
+  userId:string;
 
   ngOnInit(): void {
     this.selectedQuantity=1
@@ -51,6 +56,24 @@ export class ProductDetailsComponent implements OnInit {
     if(this.selectedQuantity>0)
       this.selectedQuantity=this.selectedQuantity-1
     console.log(this.selectedQuantity)
+  }
 
+  async addToBasket(productId: string) {
+    try {
+    this.userId = this.authService.decodeToken().nameIdentifier;
+    let basketId = await (await this.basketService.listBasket(this.userId)).id;
+    let basketItem: CreateBasketItem = new CreateBasketItem();
+    basketItem.basketId = basketId;
+    basketItem.productId = productId;
+    basketItem.quantity = this.selectedQuantity;
+    this.basketService.createBasketItem(basketItem);
+    } catch (error) {
+      this.router.navigateByUrl("/login")
+    }
+  }
+  async goToBasket(productId: string){
+    await this.addToBasket(productId);
+    if(this.authService.decodeToken().nameIdentifier)
+      this.router.navigateByUrl(`/basket/${this.userId}`)
   }
 }
