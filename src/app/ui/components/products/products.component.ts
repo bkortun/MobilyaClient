@@ -162,8 +162,7 @@ export class ProductsComponent implements OnInit {
     basketItem.quantity = 1;
     this.basketService.createBasketItem(basketItem);
     } catch (error) {
-      //Şuan çalışmıyor
-      this.router.navigate["../login"]
+      this.router.navigateByUrl("/login")
     }
   }
 

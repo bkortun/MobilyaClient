@@ -46,4 +46,12 @@ export class BasketService {
     },{id,quantity});
     return await firstValueFrom(observable) as UpdateBasketItemQuantity;
   }
+
+  async deleteBasketItem(basketItemId:string){
+    const observable= this.httpClientService.delete({
+      controller:"BasketItems",
+    },basketItemId);
+    const deletedBasketItem= await firstValueFrom(observable);
+    return deletedBasketItem;
+  }
 }

@@ -68,12 +68,12 @@ export class ProductDetailsComponent implements OnInit {
     basketItem.quantity = this.selectedQuantity;
     this.basketService.createBasketItem(basketItem);
     } catch (error) {
-      //Şuan çalışmıyor
-      this.router.navigate["../login"]
+      this.router.navigateByUrl("/login")
     }
   }
-  goToBasket(productId: string){
-    this.addToBasket(productId);
-    this.router.navigate[`/basket/${this.userId}`]
+  async goToBasket(productId: string){
+    await this.addToBasket(productId);
+    if(this.authService.decodeToken().nameIdentifier)
+      this.router.navigateByUrl(`/basket/${this.userId}`)
   }
 }

@@ -20,7 +20,7 @@
                   <!-- Data -->
                   <p><strong>{{basketItem.productName}}</strong></p>
                   <button type="button" class="btn btn-danger btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
-                    title="Remove item">
+                    title="Remove item" (click)="deleteBasketItem(basketItem.id)">
                     <img src="../../../../assets/352303_delete_icon.png" style="width: 2rem;height: 2rem;">
                   </button>
 
@@ -160,7 +160,7 @@
               <p class="mb-2">{{basket.totalPrice+20|currency:'':''}}₺</p>
             </div>
 
-            <button type="button" class="btn btn-info btn-block btn-lg">
+            <button type="button" class="btn btn-info btn-block btn-lg" (click)="closeBasket()">
               <div class="d-flex justify-content-between">
                 <span>Siparişi Tamamla<i class="fas fa-long-arrow-alt-right ms-2"></i></span>
               </div>

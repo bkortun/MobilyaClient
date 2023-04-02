@@ -1,11 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserAddress } from 'app/contracts/address/user_address';
 import { ListBasket } from 'app/contracts/basket/list_basket';
 import { ListBasketItem } from 'app/contracts/basketItem/list_basketItem';
+import { CreateOrder } from 'app/contracts/order/create_order';
 import { AddressService } from 'app/services/common/modals/address.service';
 import { AuthService } from 'app/services/common/modals/auth.service';
 import { BasketService } from 'app/services/common/modals/basket.service';
+import { OrderService } from 'app/services/common/modals/order.service';
 
 @Component({
   selector: 'app-basket',
@@ -15,7 +17,8 @@ import { BasketService } from 'app/services/common/modals/basket.service';
 export class BasketComponent implements OnInit {
 
   constructor(private authService:AuthService,private addressService:AddressService,
-    private activatedRoute:ActivatedRoute, private basketService:BasketService) { }
+    private activatedRoute:ActivatedRoute, private basketService:BasketService,
+    private orderService:OrderService, private router:Router) { }
 
     @ViewChild('quantity') quantity:ElementRef;
 
@@ -78,5 +81,16 @@ export class BasketComponent implements OnInit {
   async changeQuantity(basketItemId:string,quantity:string){
     console.log(quantity+" change")
     this.quantity["value"]= await (await this.basketService.changeQuantity(basketItemId,parseInt(quantity))).quantity.toString();
+  }
+
+  async deleteBasketItem(basketItemId:string){
+    this.basketService.deleteBasketItem(basketItemId);
+  }
+
+  async closeBasket(){
+    let body=new CreateOrder();
+    body.basketId=this.basket.id;
+    await this.orderService.create(body);
+    this.router.navigateByUrl("/")
   }
 }
