@@ -72,15 +72,18 @@ export class BasketComponent implements OnInit {
   async increaseQuantity(basketItemId:string,quantity:number){
     console.log(quantity+" in")
     this.quantity["value"]= await (await this.basketService.changeQuantity(basketItemId,quantity+1)).quantity.toString();
+    window.location.reload();
   }
   async decreaseQuantity(basketItemId:string,quantity:number){
     console.log(quantity+" de")
     this.quantity["value"]= await (await this.basketService.changeQuantity(basketItemId,quantity-1)).quantity.toString();
+    window.location.reload();
   }
 
   async changeQuantity(basketItemId:string,quantity:string){
     console.log(quantity+" change")
     this.quantity["value"]= await (await this.basketService.changeQuantity(basketItemId,parseInt(quantity))).quantity.toString();
+    window.location.reload();
   }
 
   async deleteBasketItem(basketItemId:string){

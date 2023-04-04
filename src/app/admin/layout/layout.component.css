@@ -1,8 +1,8 @@
 .sidenav-container {
-  width: 98%;
+
   /*sidebarın yüksekliği contentin yüksekliğini örtüyor*/
   height: 1000px;
-  margin-left: 1%;
+
 }
 
 .sidenav-content {
@@ -10,15 +10,17 @@
   height: 100%;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: #eee;
+
 }
 
 .sidenav {
   padding: 10px;
   width: 15%;
-  background-color: rgb(218, 229, 247);
-  border: 2px solid rgb(197, 221, 245);
-
+  background: rgb(238,238,238);
+background: linear-gradient(90deg, rgba(238,238,238,1) 0%, rgba(0,69,255,0.5803571428571428) 100%);
+  border: 5px solid #eee;
+  border-radius: 10px;
 }
 
 .example-sidenav-content {
@@ -26,4 +28,5 @@
   height: 100%;
   align-items: center;
   justify-content: center;
+
 }
