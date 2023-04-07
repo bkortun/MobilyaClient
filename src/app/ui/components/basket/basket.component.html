@@ -36,7 +36,8 @@
                     </button>
 
                     <div class="form-outline">
-                      <input #quantity min="0" name="quantity" [value]="basketItem.quantity" (change)="changeQuantity(basketItem.id,quantity.value)" type="number" class="form-control" />
+                      <input #quantity min="0" name="quantity" [value]="basketItem.quantity"
+                      (change)="changeQuantity(basketItem.id,quantity.value)" type="number" class="form-control" />
                       <label class="form-label" for="form1">Adet</label>
                     </div>
 

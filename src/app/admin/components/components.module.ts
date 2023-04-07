@@ -5,6 +5,7 @@ import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 import { CategoryModule } from './category/category.module';
 import { CampaignModule } from 'app/ui/components/campaign/campaign.module';
+import { OrderModule } from './order/order.module';
 
 
 
@@ -16,7 +17,8 @@ import { CampaignModule } from 'app/ui/components/campaign/campaign.module';
     ProductsModule,
     CategoryModule,
     AuthModule,
-    CampaignModule
+    CampaignModule,
+    OrderModule
   ]
 })
 export class ComponentsModule { }

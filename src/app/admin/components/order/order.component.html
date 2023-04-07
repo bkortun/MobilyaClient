@@ -1,0 +1,49 @@
+<mat-drawer-container class="inside-container container">
+  <h2 style="margin-top: 20px;">Tamamlanmamış Siparişler</h2>
+  <div *ngFor="let order of livingOrders">
+    <mat-accordion>
+      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Sipariş No: {{order.id}}
+          </mat-panel-title>
+          <mat-panel-description>
+            Kullanıcı Adı: {{order.firstName}} {{order.lastName}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>Toplam Ücret: {{order.totalPrice}}</p>
+        <p>Ürün Sayısı: {{order.totalProduct}}</p>
+        <p>Adres: {{order.address}}</p>
+        <button mat-raised-button color="accent" (click)="getBasketItems(order.basketId)">Ürünleri Gör</button>
+        <button mat-raised-button color="warn" (click)="cancelOrder(order.id)">Siparişi İptal Et</button>
+        <button mat-raised-button color="primary" (click)="completeOrder(order.id)">Siparişi Tamamla</button>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <h2 style="margin-top: 35px;">Tamamlanmış Siparişler</h2>
+  <div *ngFor="let order of completedOrders">
+    <mat-accordion>
+      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Sipariş No: {{order.id}}
+          </mat-panel-title>
+          <mat-panel-description>
+            Kullanıcı Adı: {{order.firstName}} {{order.lastName}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>Toplam Ücret: {{order.totalPrice}}</p>
+        <p>Ürün Sayısı: {{order.totalProduct}}</p>
+        <p>Adres: {{order.address}}</p>
+        <p>Tarih: {{order.createdDate}}</p>
+        <button mat-raised-button color="accent" (click)="getBasketItems(order.basketId)">Ürünleri Gör</button>
+        <button mat-raised-button color="warn"  *ngIf="order.isCancel">Siparişi İptal Edilmiştir</button>
+        <button mat-raised-button color="primary" *ngIf="order.isComplete">Siparişi Tamamlanmıştır</button>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+
+
+</mat-drawer-container>
