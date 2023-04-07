@@ -13,6 +13,7 @@
         </mat-expansion-panel-header>
         <p>Toplam Ücret: {{order.totalPrice}}</p>
         <p>Ürün Sayısı: {{order.totalProduct}}</p>
+        <p>Adres: {{order.address}}</p>
         <button mat-raised-button color="accent" (click)="getBasketItems(order.basketId)">Ürünleri Gör</button>
         <button mat-raised-button color="warn" (click)="cancelOrder(order.id)">Siparişi İptal Et</button>
         <button mat-raised-button color="primary" (click)="completeOrder(order.id)">Siparişi Tamamla</button>
@@ -34,6 +35,7 @@
         </mat-expansion-panel-header>
         <p>Toplam Ücret: {{order.totalPrice}}</p>
         <p>Ürün Sayısı: {{order.totalProduct}}</p>
+        <p>Adres: {{order.address}}</p>
         <p>Tarih: {{order.createdDate}}</p>
         <button mat-raised-button color="accent" (click)="getBasketItems(order.basketId)">Ürünleri Gör</button>
         <button mat-raised-button color="warn"  *ngIf="order.isCancel">Siparişi İptal Edilmiştir</button>
