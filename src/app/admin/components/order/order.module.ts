@@ -4,6 +4,7 @@ import { OrderComponent } from './order.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -15,7 +16,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     CommonModule,
     MatExpansionModule,
     RouterModule.forChild([{path:"",component:OrderComponent}]),
-    MatSidenavModule
+    MatSidenavModule,
+    MatButtonModule
   ]
 })
 export class OrderModule { }

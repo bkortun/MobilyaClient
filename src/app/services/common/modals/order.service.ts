@@ -26,4 +26,23 @@ export class OrderService {
     })
     return await firstValueFrom(observable) as ListObject;
   }
+
+  async completeOrder(orderId:string){
+    const observable= this.httpClientService.put({
+      controller:"orders",
+      action:"isCompleted",
+      queryString:`orderId=${orderId}`
+    },orderId)
+    const response= await firstValueFrom(observable);
+    return response;
+  }
+  async cancelOrder(orderId:string){
+    const observable= this.httpClientService.put({
+      controller:"orders",
+      action:"isCanceled",
+      queryString:`orderId=${orderId}`
+    },orderId)
+    const response= await firstValueFrom(observable);
+    return response;
+  }
 }
