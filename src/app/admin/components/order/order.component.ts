@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ListBasketItem } from 'app/contracts/basketItem/list_basketItem';
 import { ListOrder } from 'app/contracts/order/list_order';
+import { BasketService } from 'app/services/common/modals/basket.service';
 import { OrderService } from 'app/services/common/modals/order.service';
+import { BasketItemsDialogComponent } from './basket-items-dialog/basket-items-dialog.component';
 
 @Component({
   selector: 'app-order',
@@ -9,10 +13,12 @@ import { OrderService } from 'app/services/common/modals/order.service';
 })
 export class OrderComponent implements OnInit {
 
-  constructor(private orderService:OrderService) { }
+  constructor(private orderService:OrderService, private basketService:BasketService,
+    public dialog: MatDialog) { }
 
   completedOrders:ListOrder[]=[];
   livingOrders:ListOrder[]=[];
+  basketItems:ListBasketItem[]
 
   ngOnInit(): void {
     this.listOrders()
@@ -40,5 +46,19 @@ export class OrderComponent implements OnInit {
 
   async cancelOrder(orderId:string){
     await this.orderService.cancelOrder(orderId);
+  }
+
+  async getBasketItems(basketId:string){
+    const list=await this.basketService.listBasketItems(0,50,basketId);
+    this.basketItems=list.items;
+    this.openDialog();
+  }
+
+  openDialog() {
+    const dialogRef=this.dialog.open(BasketItemsDialogComponent, {
+      width: "50%",
+      height: "75%",
+      data:this.basketItems
+    });
   }
 }
