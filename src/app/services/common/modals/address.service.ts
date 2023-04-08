@@ -18,9 +18,10 @@ export class AddressService {
     return addedAddress;
   }
 
-  async createUserDetailAddress(addressId:string,userId:string) {
+  async createUserDetailAddress(addressId:string,userId:string, callBackFunction?:()=>void) {
     const observable = this.httpClientService.post({ controller: "UserDetailAddresses" }, {addressId,userId})
     let addedAddress=await firstValueFrom(observable)
+    callBackFunction();
     return addedAddress;
   }
 
@@ -33,9 +34,10 @@ export class AddressService {
     return userAddress;
   }
 
-  async delete(id:string){
+  async delete(id:string, callBackFunction?:()=>void){
     const observable= this.httpClientService.delete({ controller: "Addresses" }, id)
     let deletedAddress=await firstValueFrom(observable);
+    callBackFunction();
     return deletedAddress;
   }
 }

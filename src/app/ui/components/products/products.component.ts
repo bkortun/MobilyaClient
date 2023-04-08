@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BaseComponent, SpinnerType } from 'app/base/base.component';
 import { CreateBasketItem } from 'app/contracts/basketItem/create_basketItem';
 import { Category } from 'app/contracts/category/category';
 import { Dynamic, Filter, Sort } from 'app/contracts/common/dynamic_query';
@@ -14,18 +15,24 @@ import { CategoryService } from 'app/services/common/modals/category.service';
 import { ImageService } from 'app/services/common/modals/image.service';
 import { ProductService } from 'app/services/common/modals/product.service';
 import { SettingService } from 'app/services/common/modals/setting.service';
+import { CustomToastrService, ToastrMessageType, ToastrPosition } from 'app/services/ui/custom-toastr.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent extends BaseComponent implements OnInit {
 
   constructor(private productService: ProductService, private imageService: ImageService,
     private settingService: SettingService, private categoryService: CategoryService,
     private basketService: BasketService, private authService: AuthService,
-    private activatedRoute: ActivatedRoute, private router: Router) { }
+    private activatedRoute: ActivatedRoute, private router: Router, spinner:NgxSpinnerService,
+    private toastrService:CustomToastrService) {
+      super(spinner)
+      this.showSpinner(SpinnerType.BallClimbingDot)
+    }
 
   productImages: ProductImage[] = []
   baseUrl: BaseStorageUrl
@@ -41,13 +48,16 @@ export class ProductsComponent implements OnInit {
   categories: Category[];
 
   ngOnInit(): void {
-    this.getbaseUrl();
+    this.getBaseUrl();
     this.getCategories();
     var categoryId = this.activatedRoute.snapshot.paramMap.get("categoryId")
     if (categoryId)
       this.getByCategory(categoryId);
     else
       this.combineProductImages(this.page, this.size);
+
+    this.hideSpinner(SpinnerType.BallClimbingDot)
+
   }
 
   //Todo refactor et
@@ -84,6 +94,7 @@ export class ProductsComponent implements OnInit {
       entity.images = img
       this.productImages[i] = entity;
     }
+    this.hideSpinner(SpinnerType.BallClimbingDot)
   }
 
   isContainsWithoutNull(array) {
@@ -92,7 +103,7 @@ export class ProductsComponent implements OnInit {
 
 
 
-  async getbaseUrl() {
+  async getBaseUrl() {
     this.baseUrl = await this.settingService.getBaseStorageUrl()
   }
 
@@ -115,6 +126,7 @@ export class ProductsComponent implements OnInit {
 
   sortClick(field: string, dir: string) {
     //button'a basıldığında arkaplanı mavi olması ayarlanacak video18
+    this.showSpinner(SpinnerType.BallClimbingDot)
     this.sort.field = field;
     this.sort.dir = dir;
     this.sorts.push(this.sort);
@@ -123,12 +135,15 @@ export class ProductsComponent implements OnInit {
   }
 
   async getCategories() {
+    this.showSpinner(SpinnerType.BallClimbingDot)
     const list = await this.categoryService.list(0, 20);
     this.categories = list.items;
+    this.hideSpinner(SpinnerType.BallClimbingDot)
   }
 
   //Todo category seçilmişken filtreler çalışmıyor
   async getByCategory(categoryId: string) {
+    this.showSpinner(SpinnerType.BallClimbingDot)
     this.page = 0;
     this.size = 36;
     this.productImages = [];
@@ -136,6 +151,7 @@ export class ProductsComponent implements OnInit {
   }
 
   useFilter(min: string, max: string, fieldName: string) {
+    this.showSpinner(SpinnerType.BallClimbingDot)
     let secondFilter: Filter = new Filter();
     let secondFilters: Filter[] = new Array();
     this.filter.field = fieldName;
@@ -153,6 +169,7 @@ export class ProductsComponent implements OnInit {
   }
 
   async addToBasket(productId: string) {
+    this.showSpinner(SpinnerType.BallClimbingDot)
     try {
     let userId = this.authService.decodeToken().nameIdentifier;
     let basketId = await (await this.basketService.listBasket(userId)).id;
@@ -160,9 +177,16 @@ export class ProductsComponent implements OnInit {
     basketItem.basketId = basketId;
     basketItem.productId = productId;
     basketItem.quantity = 1;
-    this.basketService.createBasketItem(basketItem);
+    this.basketService.createBasketItem(basketItem,()=>{
+      this.toastrService.message("Ürün sepete eklendi.",
+      "Bilgilendirme",{messageType:ToastrMessageType.Success,position:ToastrPosition.BottomRight})
+      this.hideSpinner(SpinnerType.BallClimbingDot)
+    });
     } catch (error) {
       this.router.navigateByUrl("/login")
+      this.toastrService.message("Sepete ürün eklemek için öncelikle giriş yapmalısınız.",
+      "Uyarı",{messageType:ToastrMessageType.Warning,position:ToastrPosition.BottomRight})
+      this.hideSpinner(SpinnerType.BallClimbingDot)
     }
   }
 

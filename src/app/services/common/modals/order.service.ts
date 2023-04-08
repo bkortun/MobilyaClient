@@ -11,11 +11,12 @@ export class OrderService {
 
   constructor(private httpClientService:HttpClientService) { }
 
-  async create(createOrder:CreateOrder){
+  async create(createOrder:CreateOrder, callBackFunction?:()=>void){
     const observable= this.httpClientService.post({
       controller:"orders",
     },createOrder)
     const addedOrder= await firstValueFrom(observable);
+    callBackFunction();
     return addedOrder;
   }
 

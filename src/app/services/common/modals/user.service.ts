@@ -28,62 +28,57 @@ export class UserService {
     if (tokenResponse) {
       localStorage.setItem('token', tokenResponse.token);
     }
-    callBackFunction()
+    callBackFunction();
   }
 
-  async register(register: Register, callBackFunction: () => void, errorCallBack: (error) => void): Promise<any> {
+  async register(register: Register, callBackFunction?: () => void): Promise<any> {
     const observable: Observable<any | Token> = this.httpClientService.post<any | Token>({
       controller: "auth",
       action: "register"
-    }, register).pipe(catchError((error) => {
-      if (error.error instanceof ErrorEvent) {
-        this.errorMessage = `Error: ${error.error.message}`;
-      } else {
-        this.errorMessage = `Error: ${error.message}`;
-      }
-      return of([]);
-    }));
+    }, register)
     const tokenResponse: Token = (await firstValueFrom(observable)) as Token;
     if (tokenResponse) {
       localStorage.setItem('token', tokenResponse.token);
     }
     callBackFunction();
-    errorCallBack(this.errorMessage);
   }
 
-  async listUserDetails(page,size):Promise<ListObject>{
-    const observable:Observable<ListObject>=this.httpClientService.get({
-      controller:"userDetails",
-      queryString:`page=${page}&pageSize=${size}`
+  async listUserDetails(page, size): Promise<ListObject> {
+    const observable: Observable<ListObject> = this.httpClientService.get({
+      controller: "userDetails",
+      queryString: `page=${page}&pageSize=${size}`
 
     })
-    return await firstValueFrom(observable) as ListObject
+    let response= await firstValueFrom(observable) as ListObject;
+    return response;
   }
 
   //this func just get all user details
-  async listUserDetailByUserId(userId:string){
-    const observable:Observable<UserDetail>=this.httpClientService.get({
-      controller:"userDetails"
-    },userId)
-    return await firstValueFrom(observable) as UserDetail
+  async listUserDetailByUserId(userId: string) {
+    const observable: Observable<UserDetail> = this.httpClientService.get({
+      controller: "userDetails"
+    }, userId)
+    let response=  await firstValueFrom(observable) as UserDetail
+    return response;
   }
 
   //this func just get only user data (first,lastName,email)
-  async listByUserId(userId:string){
-    const observable:Observable<User>=this.httpClientService.get({
-      controller:"users"
-    },userId)
-    return await firstValueFrom(observable) as User
+  async listByUserId(userId: string) {
+    const observable: Observable<User> = this.httpClientService.get({
+      controller: "auth",
+      action:"listById"
+    }, userId)
+    let response=  await firstValueFrom(observable) as User
+    return response;
   }
 
-  async updateDetails(userDetail:UserDetail){
-    const observable:Observable<UserDetail>=this.httpClientService.put({
-      controller:"userDetails"
-    },userDetail)
-    return await firstValueFrom(observable) as UserDetail
+  async updateDetails(userDetail: UserDetail, callBackFunction?: () => void) {
+    const observable: Observable<UserDetail> = this.httpClientService.put({
+      controller: "userDetails"
+    }, userDetail)
+    let response=  await firstValueFrom(observable) as UserDetail
+    callBackFunction();
+    return response;
   }
-
-
-  //userDetailadrress create
 
 }

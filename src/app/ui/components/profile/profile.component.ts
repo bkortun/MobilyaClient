@@ -12,18 +12,24 @@ import { AddressService } from 'app/services/common/modals/address.service';
 import { AuthService } from 'app/services/common/modals/auth.service';
 import { UserService } from 'app/services/common/modals/user.service';
 import { AddressDialogComponent } from './dialogs/address-dialog/address-dialog.component';
+import { CustomToastrService, ToastrMessageType, ToastrPosition } from 'app/services/ui/custom-toastr.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BaseComponent, SpinnerType } from 'app/base/base.component';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent extends BaseComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService,
     private userService: UserService, private fileUploadService: FileUploadService,
     private activeRoute: ActivatedRoute, public dialog: MatDialog, private activatedRoute: ActivatedRoute,
-    private addressService: AddressService) { }
+    private addressService: AddressService, private toastrService: CustomToastrService, spinner: NgxSpinnerService) {
+    super(spinner)
+    this.showSpinner(SpinnerType.BallClimbingDot)
+  }
 
   profileForm: FormGroup;
   user: User;
@@ -47,6 +53,7 @@ export class ProfileComponent implements OnInit {
     this.initializeForm();
     this.getAddresses();
     this.setValues();
+    this.hideSpinner(SpinnerType.BallClimbingDot)
   }
 
   initializeForm() {
@@ -72,14 +79,13 @@ export class ProfileComponent implements OnInit {
       this.profileForm.controls["lastName"].setValue(this.userDetail.lastName);
       this.profileForm.controls["email"].setValue(this.userDetail.email);
       this.profileForm.controls["dateOfBirth"].setValue(this.userDetail.dateOfBirth);
-      console.log(this.userDetail.gender)
       if (this.userDetail.gender != null) {
         if (this.userDetail.gender)
           this.profileForm.controls["gender"].setValue("Erkek");
         if (!this.userDetail.gender)
           this.profileForm.controls["gender"].setValue("Kadın");
       }
-      else{
+      else {
         this.profileForm.controls["gender"].setValue("Seç...");
       }
 
@@ -87,8 +93,6 @@ export class ProfileComponent implements OnInit {
       this.profileForm.controls["phoneNumber"].setValue(this.userDetail.phoneNumber);
     }
     else {
-      //Todo
-      //! Backendden gelicek karşılama ile değiştirilecek
       console.log(this.user)
       this.profileForm.controls["firstName"].setValue(this.user.firstName);
       this.profileForm.controls["lastName"].setValue(this.user.lastName);
@@ -104,11 +108,13 @@ export class ProfileComponent implements OnInit {
       console.log(error)
       this.userDetail = null
       this.user = await this.userService.listByUserId(userId)
+      console.log(this.user)
     }
 
   }
 
   async saveUserInfos() {
+    this.showSpinner(SpinnerType.BallClimbingDot)
     var profilePhotoId: string = await this.uploadProfilePhoto(this.userDetail.userId);
     if (this.profileForm.valid) {
       if (this.profileForm.value["gender"] == "Erkek")
@@ -120,14 +126,19 @@ export class ProfileComponent implements OnInit {
 
       this.profileForm.value["userId"] = this.userDetail.userId;
 
-      if(profilePhotoId==undefined)
-        this.profileForm.value["profilePhotoId"]=this.userDetail.profilePhotoId;
+      if (profilePhotoId == undefined)
+        this.profileForm.value["profilePhotoId"] = this.userDetail.profilePhotoId;
       else
         this.profileForm.value["profilePhotoId"] = profilePhotoId;
 
       this.profileForm.value["id"] = this.userDetail.id;
       console.log(this.profileForm.value)
-      await this.userService.updateDetails(this.profileForm.value);
+      await this.userService.updateDetails(this.profileForm.value, () => {
+        this.toastrService.message("Bilgileriniz kaydedildi.",
+          "Bilgilendirme", { messageType: ToastrMessageType.Info, position: ToastrPosition.BottomLeft });
+        this.hideSpinner(SpinnerType.BallClimbingDot)
+        window.location.reload();
+      });
     }
   }
 
@@ -137,8 +148,6 @@ export class ProfileComponent implements OnInit {
         action: "Upload",
         controller: "userDetails",
         queryString: `userId=${userId}`
-      }).catch(()=>{
-        return "null";
       })
       return uploadedImage["profilePhotoId"];
     }
@@ -154,16 +163,18 @@ export class ProfileComponent implements OnInit {
       width: "50%",
       height: "85%"
     });
-    this.getAddresses();
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getAddresses();
+    });
+
   }
 
 
   async getAddresses() {
     const list = await this.addressService.getAddresses(this.activatedRoute.snapshot.paramMap.get("userId"));
     console.log(list.items)
-    this.userAddresses =list.items;
-
-
+    this.userAddresses = list.items;
   }
 
   getAddressId(id: string) {
@@ -174,7 +185,13 @@ export class ProfileComponent implements OnInit {
   }
 
   async deleteSelectedAddress(addressId: string) {
-    await this.addressService.delete(addressId);
+    this.showSpinner(SpinnerType.BallClimbingDot)
+    await this.addressService.delete(addressId,()=>{
+      this.toastrService.message("Adres silindi",
+      "Bilgilendirme",{messageType:ToastrMessageType.Info,position:ToastrPosition.BottomLeft})
+      this.getAddresses();
+      this.hideSpinner(SpinnerType.BallClimbingDot);
+    });
     this.selectedAddress = null;
   }
 }

@@ -22,11 +22,12 @@ export class BasketService {
     return await firstValueFrom(observable) as ListBasket;
   }
 
-  async createBasketItem(basketItem:CreateBasketItem):Promise<CreateBasketItem>{
+  async createBasketItem(basketItem:CreateBasketItem, callBackFunction?:()=>void):Promise<CreateBasketItem>{
     const observable:Observable<any|CreateBasketItem>= this.httpClientService.post<CreateBasketItem>({
       controller:"basketItems",
     },basketItem)
     const addedBasketItem:CreateBasketItem= await firstValueFrom(observable) as CreateBasketItem;
+    callBackFunction();
     return addedBasketItem;
   }
 
@@ -47,11 +48,12 @@ export class BasketService {
     return await firstValueFrom(observable) as UpdateBasketItemQuantity;
   }
 
-  async deleteBasketItem(basketItemId:string){
+  async deleteBasketItem(basketItemId:string, callBackFunction?:()=>void){
     const observable= this.httpClientService.delete({
       controller:"BasketItems",
     },basketItemId);
     const deletedBasketItem= await firstValueFrom(observable);
+    callBackFunction();
     return deletedBasketItem;
   }
 }

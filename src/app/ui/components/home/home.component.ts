@@ -1,19 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BaseComponent, SpinnerType } from 'app/base/base.component';
 import { Campaign } from 'app/contracts/campaign/campaign';
 import { BaseStorageUrl } from 'app/contracts/setting/baseStorageUrl';
 import { CampaignService } from 'app/services/common/modals/campaign.service';
 import { ImageService } from 'app/services/common/modals/image.service';
 import { SettingService } from 'app/services/common/modals/setting.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent extends BaseComponent implements OnInit {
 
-  constructor(private campaignService:CampaignService, private settingService:SettingService, private imageService:ImageService,private router:Router) { }
+  constructor(private campaignService:CampaignService, private settingService:SettingService,
+    private imageService:ImageService,private router:Router, spinner:NgxSpinnerService) {
+      super(spinner)
+      this.showSpinner(SpinnerType.BallClimbingDot)
+     }
 
   campaigns:Campaign[]
   baseUrl:BaseStorageUrl
@@ -21,6 +27,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getBaseUrl();
     this.listCampaign();
+    this.hideSpinner(SpinnerType.BallClimbingDot)
   }
 
   async listCampaign(){

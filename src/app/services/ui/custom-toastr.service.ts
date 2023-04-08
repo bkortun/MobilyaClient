@@ -10,6 +10,7 @@ export class CustomToastrService {
 
   message(message:string,title:string,options:Partial<ToastrOptions>){
     this.toastr[options.messageType](message,title,{positionClass:options.position})
+    //burdaki indexer içine yazılan değer fonksiyonun adını belirtiyor
   }
 }
 
