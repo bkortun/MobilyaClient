@@ -7,6 +7,9 @@ import { SetShowcaseImage } from 'app/contracts/file/setShowcase_image';
 import { BaseStorageUrl } from 'app/contracts/setting/baseStorageUrl';
 import { SettingService } from '../modals/setting.service';
 import { FileControlService } from './file-control.service';
+import { CustomToastrService, ToastrMessageType, ToastrPosition } from 'app/services/ui/custom-toastr.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BaseComponent, SpinnerType } from 'app/base/base.component';
 
 declare var $:any
 
@@ -15,15 +18,18 @@ declare var $:any
   templateUrl: './file-control.component.html',
   styleUrls: ['./file-control.component.css']
 })
-export class FileControlComponent implements OnInit{
+export class FileControlComponent extends BaseComponent implements OnInit{
 
-  constructor(private fileControlService:FileControlService, private settingService:SettingService) { }
+  constructor(private fileControlService:FileControlService, private settingService:SettingService,
+    private toastrService:CustomToastrService,spinner:NgxSpinnerService) {
+      super(spinner)
+     }
 
   @Input() fileUploadOptions:Partial<FileUploadOptions>
   @Input() fileDeployOptions:Partial<FileDeployOptions>
   @Output() dataEmitter:EventEmitter<FormData>=new EventEmitter();
 
-  images:ListProductImage[]=[]
+  images?:ListProductImage[]=[]
   baseUrl:BaseStorageUrl
   formData:FormData=new FormData()
 
@@ -41,7 +47,8 @@ export class FileControlComponent implements OnInit{
   async getImages(){
     this.getBaseStorageUrl()
     const response=await this.fileControlService.getFiles(this.fileDeployOptions.id,this.fileDeployOptions)
-    this.images=response.items
+    if(response!=null)
+      this.images=response.items
   }
 
   async getBaseStorageUrl(){
@@ -49,7 +56,12 @@ export class FileControlComponent implements OnInit{
   }
 
   async deleteImage(id){
-    this.fileControlService.deleteFile(id);
+    this.showSpinner(SpinnerType.BallClimbingDot)
+    this.fileControlService.deleteFile(id,()=>{
+      this.toastrService.message("Resim silindi.",
+      "Bilgilendirme",{messageType:ToastrMessageType.Info,position:ToastrPosition.BottomLeft})
+      this.hideSpinner(SpinnerType.BallClimbingDot)
+    });
   }
 
   getFileData(obj: FormData) {

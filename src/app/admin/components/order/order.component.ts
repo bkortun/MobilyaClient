@@ -5,16 +5,22 @@ import { ListOrder } from 'app/contracts/order/list_order';
 import { BasketService } from 'app/services/common/modals/basket.service';
 import { OrderService } from 'app/services/common/modals/order.service';
 import { BasketItemsDialogComponent } from './basket-items-dialog/basket-items-dialog.component';
+import { AlertifyMessageType, AlertifyPosition, AlertifyService } from 'app/services/admin/alertify.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BaseComponent, SpinnerType } from 'app/base/base.component';
 
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css']
 })
-export class OrderComponent implements OnInit {
+export class OrderComponent extends BaseComponent implements OnInit {
 
   constructor(private orderService:OrderService, private basketService:BasketService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog, private alertifyService:AlertifyService, spinner:NgxSpinnerService) {
+      super(spinner)
+      this.showSpinner(SpinnerType.BallPulse)
+     }
 
   completedOrders:ListOrder[]=[];
   livingOrders:ListOrder[]=[];
@@ -22,6 +28,7 @@ export class OrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.listOrders()
+    this.hideSpinner(SpinnerType.BallPulse)
   }
 
   panelOpenState = false;
@@ -41,11 +48,31 @@ export class OrderComponent implements OnInit {
   }
 
   async completeOrder(orderId:string){
-    await this.orderService.completeOrder(orderId);
+    this.showSpinner(SpinnerType.BallPulse)
+    await this.orderService.completeOrder(orderId,()=>{
+      this.alertifyService.message("Sipariş tamamlandı.",{
+        messageType:AlertifyMessageType.Success,
+        position:AlertifyPosition.BottomRight
+      })
+      this.completedOrders=[];
+      this.livingOrders=[];
+      this.listOrders();
+    });
+    this.hideSpinner(SpinnerType.BallPulse)
   }
 
   async cancelOrder(orderId:string){
-    await this.orderService.cancelOrder(orderId);
+    this.showSpinner(SpinnerType.BallPulse)
+    await this.orderService.cancelOrder(orderId,()=>{
+      this.alertifyService.message("Sipariş iptal edildi.",{
+        messageType:AlertifyMessageType.Warning,
+        position:AlertifyPosition.BottomRight
+      })
+      this.completedOrders=[];
+      this.livingOrders=[];
+      this.listOrders();
+    });
+    this.hideSpinner(SpinnerType.BallPulse)
   }
 
   async getBasketItems(basketId:string){

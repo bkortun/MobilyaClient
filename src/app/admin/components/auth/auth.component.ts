@@ -1,27 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { BaseComponent, SpinnerType } from 'app/base/base.component';
 import { ListObject } from 'app/contracts/common/list_object';
 import { OperationClaim } from 'app/contracts/user/operationClaim';
 import { OperationClaimWithEmail } from 'app/contracts/user/operationClaim_email';
+import { AlertifyMessageType, AlertifyPosition, AlertifyService } from 'app/services/admin/alertify.service';
 import { AuthService } from 'app/services/admin/auth.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent extends BaseComponent implements OnInit {
 
   operationClaims:OperationClaim[]
   emailClaims:OperationClaimWithEmail[]
   isClicked=false
   currentEmail:string=""
 
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService,private alertifyService:AlertifyService,
+    spinner:NgxSpinnerService) {
+      super(spinner)
+      this.showSpinner(SpinnerType.BallPulse)
+     }
 
   async ngOnInit() {
     await this.getOperationClaims()
+    this.hideSpinner(SpinnerType.BallPulse)
   }
 
   async getOperationClaims(){
@@ -30,10 +38,12 @@ export class AuthComponent implements OnInit {
   }
 
   async getOperationClaimsByEmail(email:string){
+    this.showSpinner(SpinnerType.BallPulse)
     this.currentEmail=email
     const claims:ListObject=await this.authService.listOperationClaimByUserEmail(email)
     this.emailClaims=claims.items
     this.isClicked=true
+    this.hideSpinner(SpinnerType.BallPulse)
   }
 
   checkIt(claim:OperationClaim):boolean{
@@ -46,13 +56,27 @@ export class AuthComponent implements OnInit {
 
 
  async getStatus(event:MatSlideToggleChange){
+  this.showSpinner(SpinnerType.BallPulse)
   let claimName=event.source.name
   if(event.checked){
-    await this.authService.addOperationClaimToUser({email:this.currentEmail,operationClaimName:claimName})
+    await this.authService.addOperationClaimToUser({email:this.currentEmail,operationClaimName:claimName},()=>{
+      this.alertifyService.message("Kullanıcıya yetki verildi.",{
+        messageType:AlertifyMessageType.Warning,
+        position:AlertifyPosition.BottomRight
+      })
+    })
   }else{
     let id:string=this.findIdOfUserOperationClaim(claimName)
-    await this.authService.removeOperationClaimFromUser(id)
+    await this.authService.removeOperationClaimFromUser(id,()=>{
+      this.alertifyService.message("Kullanıcıdan yetki alındı.",{
+        messageType:AlertifyMessageType.Warning,
+        position:AlertifyPosition.BottomRight
+      })
+    })
   }
+  this.emailClaims=[];
+  await this.getOperationClaimsByEmail(this.currentEmail);
+  this.hideSpinner(SpinnerType.BallPulse)
  }
 
  private findIdOfUserOperationClaim(name:string):string{
@@ -60,9 +84,6 @@ export class AuthComponent implements OnInit {
     if(this.emailClaims[i].name==name)
       return this.emailClaims[i].id
   }
-  //Slide'ı kapalı-açık-kapalı durumunda kullanırsan patlıyor çünkü id'yi bulamıyor bulması için sayfanın yenilenmesi lazım
-  //buraya bir dialog konulup durum engellenebilir
-  //TODO burdaki duruma çözüm bul
   return "emailClaims_bulunamadı"
  }
 

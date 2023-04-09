@@ -11,6 +11,7 @@ export class DashboardComponent extends BaseComponent implements OnInit  {
 
   constructor(spinner:NgxSpinnerService) {
     super(spinner)
+    this.showSpinner(SpinnerType.BallPulse)
    }
 
   ngOnInit(): void {

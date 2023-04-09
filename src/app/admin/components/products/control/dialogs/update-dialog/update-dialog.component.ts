@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BaseComponent, SpinnerType } from 'app/base/base.component';
 import { Category } from 'app/contracts/category/category';
 import { CategoryResponse } from 'app/contracts/category/category_response';
 import { FileDeployOptions } from 'app/contracts/file/options/fileDeployOptions';
@@ -11,18 +12,22 @@ import { AlertifyMessageType, AlertifyPosition, AlertifyService } from 'app/serv
 import { FileUploadService } from 'app/services/common/file-upload/file-upload.service';
 import { CategoryService } from 'app/services/common/modals/category.service';
 import { ProductService } from 'app/services/common/modals/product.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-update-dialog',
   templateUrl: './update-dialog.component.html',
   styleUrls: ['./update-dialog.component.css']
 })
-export class UpdateDialogComponent implements OnInit {
+export class UpdateDialogComponent extends BaseComponent implements OnInit {
 
   productForm: FormGroup;
   constructor(@Inject(MAT_DIALOG_DATA) public updateData:any, public dialogRef: MatDialogRef<UpdateDialogComponent>,
     private formBuilder:FormBuilder,private productService:ProductService,private alertifyService:AlertifyService,
-    private fileUploadService:FileUploadService, private categoryService:CategoryService) { }
+    private fileUploadService:FileUploadService, private categoryService:CategoryService, spinner:NgxSpinnerService) {
+      super(spinner)
+      this.showSpinner(SpinnerType.BallPulse)
+     }
 
     @Output() fileUploadOptions: Partial<FileUploadOptions> = {
       accept: ".jpg,.png,.jpeg",
@@ -61,9 +66,11 @@ export class UpdateDialogComponent implements OnInit {
       this.productForm.controls["stock"].setValue(this.updateData.stock);
       this.productForm.controls["description"].setValue(this.updateData.description);
     }
+    this.hideSpinner(SpinnerType.BallPulse)
   }
 //Todo dialog açıldığında mevcut kategoriler getirilecek getByProductIdCategory
   updateProduct(){
+    this.showSpinner(SpinnerType.BallPulse)
     if (this.productForm.valid) {
       let id:string
       const product:Product=new Product();
@@ -80,7 +87,7 @@ export class UpdateDialogComponent implements OnInit {
       product.status=this.updateData.status;
 
       this.productService.update(product,()=>{
-        this.alertifyService.message("Ürün başarıyla eklendi.",{
+        this.alertifyService.message("Ürün başarıyla güncellendi.",{
           messageType:AlertifyMessageType.Success,
           position:AlertifyPosition.BottomRight
         })
@@ -96,7 +103,7 @@ export class UpdateDialogComponent implements OnInit {
       }).then(c=>{
         let body=new AddCategoryProduct();
         body.productId=id
-        console.log(this.productForm.value["category"])
+        if(categories){
         categories?.forEach(category => {
           console.log(category)
           if(category)
@@ -104,11 +111,13 @@ export class UpdateDialogComponent implements OnInit {
           console.log(body)
           this.productService.addCategory(body)
         });
+      }
       })
     }
     this.productForm.reset();
     //When save button on clicked, dialog will close
   this.dialogRef.close();
+  this.hideSpinner(SpinnerType.BallPulse)
   }
 
   async listCategories(){

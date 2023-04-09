@@ -1,19 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BaseComponent, SpinnerType } from 'app/base/base.component';
 import { CategoryResponse } from 'app/contracts/category/category_response';
 import { AuthService } from 'app/services/common/modals/auth.service';
 import { CategoryService } from 'app/services/common/modals/category.service';
+import { CustomToastrService } from 'app/services/ui/custom-toastr.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent extends BaseComponent implements OnInit {
 
   isAuth:boolean;
 
-  constructor(public authService: AuthService, private categoryService: CategoryService,private router:Router) {
+  constructor(public authService: AuthService, private categoryService: CategoryService,private router:Router,
+    private toastrService:CustomToastrService, spinner:NgxSpinnerService) {
+      super(spinner)
+      this.showSpinner(SpinnerType.BallClimbingDot)
     router.events.subscribe(()=>{
       if(this.router.navigated){
         this.authService.checkToken();
@@ -29,10 +35,14 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.getUserId();
     this.listCategories()
+    this.hideSpinner(SpinnerType.BallClimbingDot)
   }
 
   logOut() {
+    this.showSpinner(SpinnerType.BallClimbingDot)
     localStorage.removeItem("token");
+    window.location.reload();
+    this.hideSpinner(SpinnerType.BallClimbingDot);
   }
 
   async listCategories() {

@@ -26,13 +26,14 @@ export class FileControlService {
     return images
   }
 
-  async deleteFile(id:string){
+  async deleteFile(id:string, callBackFunction?:()=>void){
     const observable=this.httpClientService.delete({
       controller:"files",
       action:"delete"
     },id)
 
     const result=await firstValueFrom(observable)
+    callBackFunction();
   }
 
   async setShowcase(body:SetShowcaseImage){

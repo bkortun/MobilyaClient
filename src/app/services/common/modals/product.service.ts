@@ -19,17 +19,16 @@ export class ProductService {
 
   errorMessage:String;
 
-   async create(product:CreateProduct,successCallBack?:()=>void,errorCallBack?:(error)=>void):Promise<CreateProduct>{
+   async create(product:CreateProduct,callBackFunction?:()=>void):Promise<CreateProduct>{
     const observable:Observable<any|CreateProduct>= this.httpClientService.post<CreateProduct>({
       controller:"products",
     },product)
     const addedProduct:CreateProduct= await firstValueFrom(observable) as CreateProduct;
-    //successCallBack();
-    //errorCallBack(this.errorMessage);
+    callBackFunction();
     return addedProduct;
   }
 
-  async list(page:number=0, size:number=5,successCallBack?:()=>void,errorCallBack?:(error)=>void):Promise<ListObject>{
+  async list(page:number=0, size:number=5):Promise<ListObject>{
     const observable:Observable<ListObject>=this.httpClientService.get({
       controller:"products",
       queryString:`page=${page}&pageSize=${size}`
@@ -46,33 +45,31 @@ export class ProductService {
     return await firstValueFrom(observable) as ListObject;
   }
 
-  async update(product:UpdateProduct,successCallBack?:()=>void,errorCallBack?:(error)=>void):Promise<UpdateProduct>{
-    //console.log(product)
+  async update(product:UpdateProduct,callBackFunction?:()=>void):Promise<UpdateProduct>{
     const observable:Observable<any|UpdateProduct>= this.httpClientService.put<UpdateProduct>({
       controller:"products",
     },product)
     const updatedProduct:UpdateProduct= await firstValueFrom(observable) as UpdateProduct;
-    //successCallBack();
-    //errorCallBack(this.errorMessage);
+    callBackFunction();
     return updatedProduct;
   }
 
-  async delete(id:string,successCallBack?:()=>void,errorCallBack?:(error)=>void):Promise<DeleteProduct>{
+  async delete(id:string,callBackFunction?:()=>void):Promise<DeleteProduct>{
     const observable:Observable<any|DeleteProduct>= this.httpClientService.delete({
       controller:"products",
     },id);
     const deletedProduct:DeleteProduct= await firstValueFrom(observable) as DeleteProduct;
-    //successCallBack();
-    //errorCallBack(this.errorMessage);
+    callBackFunction();
     return deletedProduct;
   }
 
-  async addCategory(body:AddCategoryProduct){
+  async addCategory(body:AddCategoryProduct, callBackFunction?:()=>void){
     const observable:Observable<any|DeleteProduct>= this.httpClientService.post({
       controller:"products",
       action:"addCategory"
     },body);
     const addedCategory= await firstValueFrom(observable);
+    callBackFunction();
     return addedCategory;
   }
 

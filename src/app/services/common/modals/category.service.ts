@@ -11,11 +11,12 @@ export class CategoryService {
 
   constructor(private httpClientService:HttpClientService) { }
 
-  async create(category:CategoryResponse):Promise<CategoryResponse>{
+  async create(category:CategoryResponse,callBackFunction?:()=>void):Promise<CategoryResponse>{
     const observable:Observable<any|CategoryResponse>= this.httpClientService.post<CategoryResponse>({
       controller:"categories",
     },category)
     const addedCategory:CategoryResponse= await firstValueFrom(observable) as CategoryResponse;
+    callBackFunction();
     return addedCategory;
   }
 
@@ -27,19 +28,21 @@ export class CategoryService {
     return await firstValueFrom(observable) as ListObject;
   }
 
-  async update(category:CategoryResponse):Promise<CategoryResponse>{
+  async update(category:CategoryResponse,callBackFunction?:()=>void):Promise<CategoryResponse>{
     const observable:Observable<any|CategoryResponse>= this.httpClientService.put<CategoryResponse>({
       controller:"categories",
     },category)
     const updatedCategory:CategoryResponse= await firstValueFrom(observable) as CategoryResponse;
+    callBackFunction();
     return updatedCategory;
   }
 
-  async delete(id:string):Promise<CategoryResponse>{
+  async delete(id:string,callBackFunction?:()=>void):Promise<CategoryResponse>{
     const observable:Observable<any|CategoryResponse>= this.httpClientService.delete({
       controller:"categories",
     },id);
     const deletedCategory:CategoryResponse= await firstValueFrom(observable) as CategoryResponse;
+    callBackFunction();
     return deletedCategory;
   }
 }

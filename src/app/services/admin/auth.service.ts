@@ -32,21 +32,23 @@ export class AuthService {
      return await firstValueFrom(observable) as ListObject
    }
 
-   async addOperationClaimToUser(userInfo:AddedOperationClaimUser):Promise<AddedOperationClaimUser>{
+   async addOperationClaimToUser(userInfo:AddedOperationClaimUser,callBackFunction?:()=>void):Promise<AddedOperationClaimUser>{
     const observable:Observable<AddedOperationClaimUser>=this.httpClientService.post({
       controller:"auth",
       action:"AddOperationClaimToUser"
     },userInfo)
     const addedClaim=await firstValueFrom(observable) as AddedOperationClaimUser
+    callBackFunction();
     return addedClaim
    }
 
-   async removeOperationClaimFromUser(id:string):Promise<RemovedOperationClaimUser>{
+   async removeOperationClaimFromUser(id:string,callBackFunction?:()=>void):Promise<RemovedOperationClaimUser>{
     const observable:Observable<RemovedOperationClaimUser>=this.httpClientService.delete({
       controller:"auth",
       action:"RemoveOperationClaimFromUser"
     },id)
     const removedClaim=await firstValueFrom(observable) as RemovedOperationClaimUser
+    callBackFunction();
     return removedClaim
    }
 }

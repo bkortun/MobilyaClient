@@ -16,11 +16,12 @@ export class ControlComponent implements OnInit {
   }
 
   //Todo ekleme yapıldıktan sonra listProduct yapılacak
+  //yapabilmem için dialogref'i list componente göndermem lazım
   openDialog() {
     const dialogRef=this.dialog.open(AddDialogComponent, {
       width: "50%",
       height: "75%"
-    });
+    }).afterClosed().subscribe(() => { window.location.reload() })
   }
 
 }
