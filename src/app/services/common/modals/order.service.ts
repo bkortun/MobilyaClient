@@ -28,22 +28,24 @@ export class OrderService {
     return await firstValueFrom(observable) as ListObject;
   }
 
-  async completeOrder(orderId:string){
+  async completeOrder(orderId:string,callBackFunction?:()=>void){
     const observable= this.httpClientService.put({
       controller:"orders",
       action:"isCompleted",
       queryString:`orderId=${orderId}`
     },orderId)
     const response= await firstValueFrom(observable);
+    callBackFunction();
     return response;
   }
-  async cancelOrder(orderId:string){
+  async cancelOrder(orderId:string,callBackFunction?:()=>void){
     const observable= this.httpClientService.put({
       controller:"orders",
       action:"isCanceled",
       queryString:`orderId=${orderId}`
     },orderId)
     const response= await firstValueFrom(observable);
+    callBackFunction();
     return response;
   }
 }

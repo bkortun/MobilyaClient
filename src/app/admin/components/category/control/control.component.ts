@@ -18,6 +18,6 @@ export class ControlComponent implements OnInit {
     const dialogRef=this.dialog.open(AddDialogComponent, {
       width: "50%",
       height: "35%"
-    });
+    }).afterClosed().subscribe(() => { window.location.reload() });
   }
 }

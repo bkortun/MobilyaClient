@@ -29,17 +29,18 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   constructor(spinner: NgxSpinnerService, private productService: ProductService, public dialog: MatDialog) {
     super(spinner);
-
+    this.showSpinner(SpinnerType.BallPulse)
   }
 
 
   async ngOnInit() {
     await this.listProducts()
-    //this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
+    this.hideSpinner(SpinnerType.BallPulse)
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    //this.dataSource.paginator = this.paginator;
   }
 
   async changePage() {

@@ -8,15 +8,20 @@ import { ListObject } from 'app/contracts/common/list_object';
 import { CategoryService } from 'app/services/common/modals/category.service';
 import { DeleteDialogComponent } from '../control/dialogs/delete-dialog/delete-dialog.component';
 import { UpdateDialogComponent } from '../control/dialogs/update-dialog/update-dialog.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BaseComponent, SpinnerType } from 'app/base/base.component';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListComponent extends BaseComponent implements OnInit {
 
-  constructor(private categoryService:CategoryService,public dialog: MatDialog) { }
+  constructor(private categoryService:CategoryService,public dialog: MatDialog,spinner:NgxSpinnerService) {
+    super(spinner)
+    this.showSpinner(SpinnerType.BallPulse)
+   }
 
   displayedColumns: string[] = ['name','createdDate', 'action'];
   dataSource: MatTableDataSource<Category>;
@@ -26,10 +31,12 @@ export class ListComponent implements OnInit {
 
   async ngOnInit() {
     await this.listCategories();
+    this.dataSource.paginator = this.paginator;
+    this.hideSpinner(SpinnerType.BallPulse)
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    //this.dataSource.paginator = this.paginator;
   }
 
   async changePage() {

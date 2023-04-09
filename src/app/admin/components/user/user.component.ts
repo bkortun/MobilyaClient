@@ -2,18 +2,23 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { BaseComponent, SpinnerType } from 'app/base/base.component';
 import { ListObject } from 'app/contracts/common/list_object';
 import { UserDetail } from 'app/contracts/user/userDetails';
 import { UserService } from 'app/services/common/modals/user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
+export class UserComponent extends BaseComponent implements OnInit {
 
-  constructor(private userService:UserService) { }
+  constructor(private userService:UserService,spinner:NgxSpinnerService) {
+    super(spinner)
+    this.showSpinner(SpinnerType.BallPulse)
+   }
 
   displayedColumns: string[] = ['firstName','lastName','email','gender','dateOfBirth','phoneNumber'];
   dataSource: MatTableDataSource<UserDetail>;
@@ -23,11 +28,12 @@ export class UserComponent implements OnInit {
 
   async ngOnInit() {
     await this.listUsers()
-    //this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
+    this.hideSpinner(SpinnerType.BallPulse)
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    //this.dataSource.paginator = this.paginator;
   }
 
   async changePage() {
