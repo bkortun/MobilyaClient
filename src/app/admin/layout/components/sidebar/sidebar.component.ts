@@ -1,15 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { BaseComponent, SpinnerType } from 'app/base/base.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent extends BaseComponent implements OnInit {
 
-  constructor() { }
+  constructor(spinner:NgxSpinnerService) {
+    super(spinner)
+   }
 
-  //todo sidenav ın açılıp kapanmasını sağlayan butonu toolbardaki menu tuşuna ata
   ngOnInit(): void {
+  }
+
+  logOut() {
+    this.showSpinner(SpinnerType.BallClimbingDot)
+    localStorage.removeItem("token");
+    this.hideSpinner(SpinnerType.BallClimbingDot);
   }
 }

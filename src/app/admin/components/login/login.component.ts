@@ -21,15 +21,14 @@ export class LoginComponent implements OnInit {
   }
 
   async login(email: string, password: string) {
-
-    await this.userService.login(email,password,()=>this.authService.checkToken(email))
+    await this.userService.login(email,password,()=>this.authService.checkToken())
 console.log(this.authService.decodeToken())
     this.activatedRoute.queryParams.subscribe(params => {
       const returnUrl: string = params["returnUrl"];
       if (returnUrl)
-        this.router.navigate([returnUrl])
+        this.router.navigateByUrl(returnUrl)
       else
-        this.router.navigate(["admin"])
+        this.router.navigateByUrl("/admin")
     });
   }
 }
