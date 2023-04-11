@@ -55,7 +55,7 @@ export class ProductsComponent extends BaseComponent implements OnInit {
       this.getByCategory(categoryId);
     else
       this.combineProductImages(this.page, this.size);
-
+    console.log(this.productImages)
     this.hideSpinner(SpinnerType.BallClimbingDot)
 
   }
@@ -77,6 +77,7 @@ export class ProductsComponent extends BaseComponent implements OnInit {
     images = list.items;
 
     for (let i = 0; i < products.length; i++) {
+      let counter=0;
       let entity: ProductImage = new ProductImage();
       let img: ListProductImage[] = new Array(list.count);
       let isFirst = true
@@ -86,29 +87,35 @@ export class ProductsComponent extends BaseComponent implements OnInit {
           images[j].isFirst = isFirst
           img.push(images[j]);
           isFirst = false
+          counter++;
         }
         else {
           img.push(null)
         }
       }
-      entity.images = img
+
+      const filter = array => array.flatMap(v => Array.isArray(v)
+        ? filter(v) : v === null ? [] : v)
+
+      let pureImg: ListProductImage[]=filter(img)
+
+      entity.images = pureImg
+      pureImg=[];
       this.productImages[i] = entity;
     }
     this.hideSpinner(SpinnerType.BallClimbingDot)
   }
 
   isContainsWithoutNull(array) {
+    //console.log(array.some(el => el !== null))
     return array.some(el => el !== null)
   }
-
-
 
   async getBaseUrl() {
     this.baseUrl = await this.settingService.getBaseStorageUrl()
   }
 
   onScroll() {
-    console.log(this.page)
     this.page = this.page + 1
     this.combineProductImages(this.page, this.size)
   }
