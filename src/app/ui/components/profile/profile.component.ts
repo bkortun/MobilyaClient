@@ -115,7 +115,11 @@ export class ProfileComponent extends BaseComponent implements OnInit {
 
   async saveUserInfos() {
     this.showSpinner(SpinnerType.BallClimbingDot)
-    var profilePhotoId: string = await this.uploadProfilePhoto(this.userDetail.userId);
+    try{
+      var profilePhotoId: string = await this.uploadProfilePhoto(this.userDetail.userId);
+    }
+    catch{
+    }
     if (this.profileForm.valid) {
       if (this.profileForm.value["gender"] == "Erkek")
         this.profileForm.value["gender"] = true
@@ -134,10 +138,10 @@ export class ProfileComponent extends BaseComponent implements OnInit {
       this.profileForm.value["id"] = this.userDetail.id;
       console.log(this.profileForm.value)
       await this.userService.updateDetails(this.profileForm.value, () => {
+        window.location.reload();
         this.toastrService.message("Bilgileriniz kaydedildi.",
           "Bilgilendirme", { messageType: ToastrMessageType.Info, position: ToastrPosition.BottomLeft });
         this.hideSpinner(SpinnerType.BallClimbingDot)
-        window.location.reload();
       });
     }
   }

@@ -159,6 +159,8 @@ export class ProductsComponent extends BaseComponent implements OnInit {
 
   useFilter(min: string, max: string, fieldName: string) {
     this.showSpinner(SpinnerType.BallClimbingDot)
+    if(max=="")
+      return null;
     let secondFilter: Filter = new Filter();
     let secondFilters: Filter[] = new Array();
     this.filter.field = fieldName;
