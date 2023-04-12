@@ -41,7 +41,8 @@
             Hesabım
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="/basket/{{userId}}">Sepet</a></li>
+            <li><a class="dropdown-item" routerLink="/basket/{{userId}}">Sepet <span class="badge text-bg-success">{{itemCount}}</span></a></li>
+            <li><a class="dropdown-item" routerLink="/order/{{userId}}">Siparişlerim</a></li>
             <li><a class="dropdown-item" routerLink="/profile/{{userId}}">Profil Ayarları</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="" (click)="logOut()">Çıkış Yap</a></li>

@@ -31,7 +31,8 @@ const routes: Routes = [
       {path:"contact",loadChildren:()=>import("./ui/components/contact/contact.module").then(module=>module.ContactModule)},
       {path:"campaign",loadChildren:()=>import("./ui/components/campaign/campaign.module").then(module=>module.CampaignModule)},
       {path:"about",loadChildren:()=>import("./ui/components/about/about.module").then(module=>module.AboutModule)},
-      {path:"",loadChildren:()=>import("./ui/components/basket/basket.module").then(module=>module.BasketModule)}
+      {path:"",loadChildren:()=>import("./ui/components/basket/basket.module").then(module=>module.BasketModule)},
+      {path:"",loadChildren:()=>import("./ui/components/order/order.module").then(module=>module.OrderModule)}
     ]
   },
   { path: "admin/login", component: LoginComponent }];

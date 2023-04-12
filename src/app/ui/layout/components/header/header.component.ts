@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BaseComponent, SpinnerType } from 'app/base/base.component';
 import { CategoryResponse } from 'app/contracts/category/category_response';
 import { AuthService } from 'app/services/common/modals/auth.service';
+import { BasketService } from 'app/services/common/modals/basket.service';
 import { CategoryService } from 'app/services/common/modals/category.service';
 import { CustomToastrService } from 'app/services/ui/custom-toastr.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -14,10 +15,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class HeaderComponent extends BaseComponent implements OnInit {
 
-  isAuth:boolean;
-
   constructor(public authService: AuthService, private categoryService: CategoryService,private router:Router,
-    private toastrService:CustomToastrService, spinner:NgxSpinnerService) {
+    private toastrService:CustomToastrService, spinner:NgxSpinnerService, private basketService:BasketService) {
       super(spinner)
       this.showSpinner(SpinnerType.BallClimbingDot)
     router.events.subscribe(()=>{
@@ -29,13 +28,16 @@ export class HeaderComponent extends BaseComponent implements OnInit {
     })
   }
 
+  isAuth:boolean;
+  itemCount:number;
   categories: CategoryResponse[] = [];
   userId: string
 
   ngOnInit(): void {
     this.getUserId();
-    this.listCategories()
-    this.hideSpinner(SpinnerType.BallClimbingDot)
+    this.listCategories();
+    this.getBasketItem();
+    this.hideSpinner(SpinnerType.BallClimbingDot);
   }
 
   logOut() {
@@ -53,6 +55,10 @@ export class HeaderComponent extends BaseComponent implements OnInit {
   getUserId() {
     if(this.isAuth)
       this.userId = this.authService.decodeToken().nameIdentifier;
+  }
+
+  async getBasketItem(){
+    this.itemCount=(await this.basketService.listBasket(this.userId)).totalProduct;
   }
 
 }
