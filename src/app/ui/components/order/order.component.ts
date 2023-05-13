@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent, SpinnerType } from 'app/base/base.component';
 import { ListBasketItem } from 'app/contracts/basketItem/list_basketItem';
+import { ListOrderByUser } from 'app/contracts/order/listByUser_order';
 import { ListOrder } from 'app/contracts/order/list_order';
+import { AuthService } from 'app/services/common/modals/auth.service';
 import { BasketService } from 'app/services/common/modals/basket.service';
 import { OrderService } from 'app/services/common/modals/order.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -13,13 +15,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class OrderComponent extends BaseComponent implements OnInit {
 
-  constructor(spinner:NgxSpinnerService, private orderService:OrderService,private basketService:BasketService) {
+  constructor(spinner:NgxSpinnerService, private orderService:OrderService,private basketService:BasketService,private authService:AuthService) {
     super(spinner)
     this.showSpinner(SpinnerType.BallClimbingDot)
   }
 
-  completedOrders:ListOrder[]=[];
-  livingOrders:ListOrder[]=[];
+  completedOrders:ListOrderByUser[]=[];
+  livingOrders:ListOrderByUser[]=[];
   basketItems:ListBasketItem[]
 
   ngOnInit(): void {
@@ -29,10 +31,9 @@ export class OrderComponent extends BaseComponent implements OnInit {
 
   panelOpenState = false;
 
-  //Todo
-  //bu tüm orderları getiriyor kullanıcının siparişleri getirtilecek
   async listOrders(){
-    const list=await this.orderService.list(0,50)
+    const userId = this.authService.decodeToken().nameIdentifier;
+    const list=await this.orderService.listByUserId(userId)
     for(let i=0;list.count;i++){
       if(list.items[i].isComplete || list.items[i].isCancel){
         this.completedOrders.push(list.items[i]);

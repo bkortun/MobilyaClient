@@ -117,6 +117,7 @@ export class ProfileComponent extends BaseComponent implements OnInit {
     this.showSpinner(SpinnerType.BallClimbingDot)
     try{
       var profilePhotoId: string = await this.uploadProfilePhoto(this.userDetail.userId);
+      console.log(profilePhotoId)
     }
     catch{
     }

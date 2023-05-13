@@ -38,8 +38,8 @@
         <p>Adres: {{order.address}}</p>
         <p>Tarih: {{order.createdDate}}</p>
         <button mat-raised-button color="accent" (click)="getBasketItems(order.basketId)">Ürünleri Gör</button>
-        <button mat-raised-button color="warn"  *ngIf="order.isCancel">Siparişi İptal Edilmiştir</button>
-        <button mat-raised-button color="primary" *ngIf="order.isComplete">Siparişi Tamamlanmıştır</button>
+        <button mat-raised-button color="warn"  *ngIf="order.isCanceled">Siparişi İptal Edilmiştir</button>
+        <button mat-raised-button color="primary" *ngIf="order.isCompleted">Siparişi Tamamlanmıştır</button>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
