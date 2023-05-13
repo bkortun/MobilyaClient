@@ -36,10 +36,14 @@ export class OrderComponent extends BaseComponent implements OnInit {
   async listOrders(){
     const list=await this.orderService.list(0,50)
     for(let i=0;list.count;i++){
-      if(list.items[i].isComplete || list.items[i].isCancel){
+      console.log(list.items[i])
+      if(list.items[i].isCompleted || list.items[i].isCanceled){
+        console.log(list.items[i])
         this.completedOrders.push(list.items[i]);
       }
       else{
+        console.log(list.items[i])
+
         this.livingOrders.push(list.items[i]);
       }
     }

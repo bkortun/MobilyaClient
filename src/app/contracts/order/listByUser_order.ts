@@ -1,8 +1,6 @@
-export class ListOrder{
+export class ListOrderByUser{
   id: string;
   basketId: string;
-  firstName: string;
-  lastName: string;
   address: string;
   totalPrice: number;
   totalProduct: number;

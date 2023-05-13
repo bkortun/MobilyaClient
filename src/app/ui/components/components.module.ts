@@ -12,6 +12,7 @@ import { ProductDetailsModule } from './product-details/product-details.module';
 import { CampaignModule } from './campaign/campaign.module';
 import { FormsModule } from '@angular/forms';
 import { BasketModule } from './basket/basket.module';
+import { OrderModule } from './order/order.module';
 
 
 
@@ -28,7 +29,8 @@ import { BasketModule } from './basket/basket.module';
     ProfileModule,
     ContactModule,
     AboutModule,
-    BasketModule
+    BasketModule,
+    OrderModule
   ]
 })
 export class ComponentsModule { }
