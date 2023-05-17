@@ -71,10 +71,10 @@ export class ProductsComponent extends BaseComponent implements OnInit {
       listProduct = await this.productService.listDynamic(this.dynamicBody, page, size);
 
     let products: Product[] = listProduct.items
-    console.log(products)
     let list: ListObject = await this.imageService.listByShowcaseProductImage();
     let images: ListProductImage[] = new Array(list.count);
     images = list.items;
+
 
     for (let i = 0; i < products.length; i++) {
       let counter=0;
@@ -102,6 +102,7 @@ export class ProductsComponent extends BaseComponent implements OnInit {
       entity.images = pureImg
       pureImg=[];
       this.productImages[i] = entity;
+      console.log(this.productImages)
     }
     this.hideSpinner(SpinnerType.BallClimbingDot)
   }

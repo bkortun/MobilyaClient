@@ -27,7 +27,7 @@
 
         <ng-container matColumnDef="price">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Fiyat </th>
-          <td mat-cell *matCellDef="let row"> {{row.price | currency}} </td>
+          <td mat-cell *matCellDef="let row"> {{row.price | currency:'':''}}₺ </td>
         </ng-container>
 
         <ng-container matColumnDef="stock">

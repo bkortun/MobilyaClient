@@ -58,7 +58,8 @@ export class HeaderComponent extends BaseComponent implements OnInit {
   }
 
   async getBasketItem(){
-    this.itemCount=(await this.basketService.listBasket(this.userId)).totalProduct;
+    if(this.userId)
+      this.itemCount=(await this.basketService.listBasket(this.userId)).totalProduct;
   }
 
 }
